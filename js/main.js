@@ -14,3 +14,6 @@ getRandomInt();
 // const createMock = () => ({
 
 // });
+
+const mapClass = document.querySelector(`.map`);
+mapClass.classList.remove(`map--faded`);
