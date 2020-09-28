@@ -10,6 +10,10 @@ const MIM_NUMBER_OF_USERS = 1;
 // ];
 const STATIC_POINT_X = 600;
 const STATIC_POINT_Y = 350;
+const PRICE_FROM = 500;
+const PRICE_TO = 10000;
+const NOT_FOR_GUESTS = 0;
+const NUMBER_OF_GUESTS = 4;
 
 // The value is no lower min and is less than (but not equal to) max.
 const getRandomInt = (min = 0, max = 100) => {
@@ -17,8 +21,6 @@ const getRandomInt = (min = 0, max = 100) => {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
-
-// getRandomInt();
 
 const getLocationX = (x) => {
   const realNumber = getRandomInt(-6, 6) * getRandomInt();
@@ -47,10 +49,10 @@ const createPost = (quantity = NUMBER_OF_POSTS) => {
       offer: {
         title: ``,
         address: ``,
-        price: ``,
+        price: getRandomInt(PRICE_FROM, PRICE_TO),
         type: ``,
         rooms: ``,
-        guests: ``,
+        guests: getRandomInt(NOT_FOR_GUESTS, NUMBER_OF_GUESTS),
         checkin: ``,
         checkout: ``,
         features: ``,
