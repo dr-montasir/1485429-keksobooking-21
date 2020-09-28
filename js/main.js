@@ -20,18 +20,18 @@ const getRandomInt = (min = 0, max = 100) => {
 
 // getRandomInt();
 
-const getLocationX = (r, x) => {
-  r = getRandomInt(-6, 6) * getRandomInt();
+const getLocationX = (x) => {
+  const realNumber = getRandomInt(-6, 6) * getRandomInt();
   x = STATIC_POINT_X;
-  const LOCATION_X = x + r;
+  const LOCATION_X = x + realNumber;
 
   return LOCATION_X;
 };
 
-const getLocationY = (r, y) => {
-  r = getRandomInt(-3, 3) * getRandomInt();
+const getLocationY = (y) => {
+  const realNumber = getRandomInt(-3, 3) * getRandomInt();
   y = STATIC_POINT_Y;
-  const LOCATION_Y = y + r;
+  const LOCATION_Y = y + realNumber;
 
   return LOCATION_Y;
 };
