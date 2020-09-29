@@ -46,7 +46,7 @@ const getTitleAndType = (arr1, arr2) => {
   arr1 = POST_TITLES;
   arr2 = TYPE_OF_HOUSE;
 
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < arr1.length; i++) {
     arr.push({title: arr1[i], type: arr2[i]});
   }
 
@@ -69,7 +69,7 @@ const getLocationY = (y) => {
 
 const locationXY = {x: getLocationX(), y: getLocationY()};
 
-const createPost = (quantity = NUMBER_OF_POSTS) => {
+const generatePost = (quantity = NUMBER_OF_POSTS) => {
   const postsArray = [];
 
   for (let i = 0; i < quantity; i++) {
@@ -99,7 +99,7 @@ const createPost = (quantity = NUMBER_OF_POSTS) => {
   return postsArray;
 };
 
-createPost();
+generatePost();
 
 const mapBlock = document.querySelector(`.map`);
 mapBlock.classList.remove(`map--faded`);
