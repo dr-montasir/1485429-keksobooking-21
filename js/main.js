@@ -9,7 +9,7 @@ const PRICE_FROM = 500;
 const PRICE_TO = 10000;
 const TYPE_OF_HOUSE = [`palace`, `flat`, `house`, `bungalow`];
 const NUMBER_OF_ROOMS = [1, 2, 3, 100];
-const NUMBER_OF_GUESTS = 3;
+const NUMBER_OF_GUESTS = [3, 2, 1, 0];
 const CHECKIN = [`12:00`, `13:00`, `14:00`];
 const CHECKOUT = [`12:00`, `13:00`, `14:00`];
 const FEATURES = [
@@ -56,33 +56,18 @@ const getTitleAndType = (arr1, arr2) => {
 const getLocationX = (x) => {
   const realNumber = getRandomInt(-6, 6) * getRandomInt();
   x = STATIC_POINT_X;
-  const LOCATION_X = x + realNumber;
 
-  return LOCATION_X;
+  return x + realNumber;
 };
 
 const getLocationY = (y) => {
   const realNumber = getRandomInt(-3, 3) * getRandomInt();
   y = STATIC_POINT_Y;
-  const LOCATION_Y = y + realNumber;
 
-  return LOCATION_Y;
+  return y + realNumber;
 };
 
 const locationXY = {x: getLocationX(), y: getLocationY()};
-
-const createNumberOfGuests = (quantity = NUMBER_OF_GUESTS) => {
-  const arr = [];
-
-  for (let i = quantity; i >= 0; i--) {
-    arr.push(i);
-  }
-
-  return arr;
-};
-
-const notForGuests = createNumberOfGuests().slice(-1).pop();
-const guestsQuantity = getMaxIndex(createNumberOfGuests());
 
 const createPost = (quantity = NUMBER_OF_POSTS) => {
   const postsArray = [];
@@ -100,7 +85,7 @@ const createPost = (quantity = NUMBER_OF_POSTS) => {
         price: getRandomInt(PRICE_FROM, PRICE_TO),
         type: titleAndType.type,
         rooms: NUMBER_OF_ROOMS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_ROOMS))],
-        guests: getRandomInt(notForGuests, guestsQuantity),
+        guests: NUMBER_OF_GUESTS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_GUESTS))],
         checkin: CHECKIN[getRandomInt(minIndex, getMaxIndex(CHECKIN))],
         checkout: CHECKOUT[getRandomInt(minIndex, getMaxIndex(CHECKOUT))],
         features: FEATURES[getRandomInt(minIndex, getMaxIndex(FEATURES))],
@@ -116,5 +101,5 @@ const createPost = (quantity = NUMBER_OF_POSTS) => {
 
 createPost();
 
-const mapClass = document.querySelector(`.map`);
-mapClass.classList.remove(`map--faded`);
+const mapBlock = document.querySelector(`.map`);
+mapBlock.classList.remove(`map--faded`);
