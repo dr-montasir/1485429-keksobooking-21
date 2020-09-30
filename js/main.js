@@ -64,34 +64,38 @@ const getlocationXY = () => {
 };
 
 const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
-  const offersArray = [];
+  const offers = [];
 
   for (let i = 0; i < quantity; i++) {
     const titleAndType = getTitleAndType()[getRandomInt(minIndex, getMaxIndex(getTitleAndType()))];
     const locationXY = getlocationXY()[getRandomInt(minIndex, getMaxIndex(getlocationXY()))];
 
-    offersArray.push({
-      author: {
-        avatar: `img/avatars/user0${getRandomInt(MIM_NUMBER_OF_USERS, NUMBER_OF_OFFERS)}.png`
-      },
-      offer: {
-        title: titleAndType.title,
-        address: `${locationXY.x}, ${locationXY.y}`,
-        price: getRandomInt(PRICE_FROM, PRICE_TO),
-        type: titleAndType.type,
-        rooms: NUMBER_OF_ROOMS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_ROOMS))],
-        guests: NUMBER_OF_GUESTS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_GUESTS))],
-        checkin: CHECKIN[getRandomInt(minIndex, getMaxIndex(CHECKIN))],
-        checkout: CHECKOUT[getRandomInt(minIndex, getMaxIndex(CHECKOUT))],
-        features: FEATURES[getRandomInt(minIndex, getMaxIndex(FEATURES))],
-        description: `Описание`,
-        photos: PHOTOS[getRandomInt(minIndex, getMaxIndex(PHOTOS))]
-      },
-      location: locationXY
-    });
+    const generateOffer = () => {
+      return {
+        author: {
+          avatar: `img/avatars/user0${getRandomInt(MIM_NUMBER_OF_USERS, NUMBER_OF_OFFERS)}.png`
+        },
+        offer: {
+          title: titleAndType.title,
+          address: `${locationXY.x}, ${locationXY.y}`,
+          price: getRandomInt(PRICE_FROM, PRICE_TO),
+          type: titleAndType.type,
+          rooms: NUMBER_OF_ROOMS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_ROOMS))],
+          guests: NUMBER_OF_GUESTS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_GUESTS))],
+          checkin: CHECKIN[getRandomInt(minIndex, getMaxIndex(CHECKIN))],
+          checkout: CHECKOUT[getRandomInt(minIndex, getMaxIndex(CHECKOUT))],
+          features: FEATURES[getRandomInt(minIndex, getMaxIndex(FEATURES))],
+          description: `Описание`,
+          photos: PHOTOS[getRandomInt(minIndex, getMaxIndex(PHOTOS))]
+        },
+        location: locationXY
+      };
+    };
+
+    offers.push(generateOffer());
   }
 
-  return offersArray;
+  return offers;
 };
 
 const mapBlock = document.querySelector(`.map`);
@@ -124,7 +128,6 @@ const renderPins = () => {
     createPinImage.alt = `${offers[i].offer.title}`;
     pinBlock.appendChild(createPin);
   }
-  return pinBlock;
 };
 
 renderPins();
