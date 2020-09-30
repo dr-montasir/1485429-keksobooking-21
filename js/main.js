@@ -3,8 +3,8 @@
 const NUMBER_OF_POSTS = 8;
 const MIM_NUMBER_OF_USERS = 1;
 const POST_TITLES = [`Дворец`, `Квартира`, `Дом`, `Бунгало`];
-const STATIC_POINT_X = 600;
-const STATIC_POINT_Y = 350;
+const STATIC_POINT_X = 570;
+const STATIC_POINT_Y = 375;
 const PRICE_FROM = 500;
 const PRICE_TO = 10000;
 const TYPE_OF_HOUSE = [`palace`, `flat`, `house`, `bungalow`];
@@ -57,15 +57,13 @@ const getlocationXY = () => {
   const locations = [];
 
   for (let i = 0; i < NUMBER_OF_POSTS; i++) {
-    const locationX = getRandomInt(-6, 6) * getRandomInt() + STATIC_POINT_X;
-    const locationY = getRandomInt(-3, 3) * getRandomInt() + STATIC_POINT_Y;
+    const locationX = getRandomInt(-5, 3) * getRandomInt() + STATIC_POINT_X;
+    const locationY = getRandomInt(-3, 2) * getRandomInt() + STATIC_POINT_Y;
     locations.push({x: locationX, y: locationY});
   }
 
   return locations;
 };
-
-getlocationXY();
 
 const generatePosts = (quantity = NUMBER_OF_POSTS) => {
   const postsArray = [];
@@ -98,7 +96,37 @@ const generatePosts = (quantity = NUMBER_OF_POSTS) => {
   return postsArray;
 };
 
-generatePosts();
-
 const mapBlock = document.querySelector(`.map`);
 mapBlock.classList.remove(`map--faded`);
+
+const pinBlock = document.querySelector(`.map__pins`);
+const pinTemplate = document.querySelector(`#pin`).content;
+const pin = pinBlock.querySelector(`.map__pin`);
+
+const getXaxisOffset = () => {
+  return pin.offsetWidth / 2;
+};
+
+const getYaxisOffset = () => {
+  return pin.offsetHeight;
+};
+
+const renderPins = (arr, xOffset, yOffset) => {
+  arr = generatePosts();
+  xOffset = getXaxisOffset();
+  yOffset = getYaxisOffset();
+
+  for (let i = 0; i < arr.length; i++) {
+    const createPin = pinTemplate.cloneNode(true);
+    const createPinImage = createPin.querySelector(`img`);
+    const createPinButton = createPin.querySelector(`button`);
+    createPinButton.style = `left:${arr[i].location.x + xOffset - STATIC_POINT_X}px;
+                            top:${arr[i].location.y + yOffset - STATIC_POINT_Y}px;`;
+    createPinImage.src = `${arr[i].author.avatar}`;
+    createPinImage.alt = `${arr[i].offer.title}`;
+    pin.appendChild(createPin);
+  }
+  return pin;
+};
+
+renderPins();
