@@ -53,27 +53,26 @@ const getTitleAndType = (arr1, arr2) => {
   return arr;
 };
 
-const getLocationX = (x) => {
-  const realNumber = getRandomInt(-6, 6) * getRandomInt();
-  x = STATIC_POINT_X;
+const getlocationXY = () => {
+  const locations = [];
 
-  return x + realNumber;
+  for (let i = 0; i < NUMBER_OF_POSTS; i++) {
+    const locationX = getRandomInt(-6, 6) * getRandomInt() + STATIC_POINT_X;
+    const locationY = getRandomInt(-3, 3) * getRandomInt() + STATIC_POINT_Y;
+    locations.push({x: locationX, y: locationY});
+  }
+
+  return locations;
 };
 
-const getLocationY = (y) => {
-  const realNumber = getRandomInt(-3, 3) * getRandomInt();
-  y = STATIC_POINT_Y;
+getlocationXY();
 
-  return y + realNumber;
-};
-
-const locationXY = {x: getLocationX(), y: getLocationY()};
-
-const generatePost = (quantity = NUMBER_OF_POSTS) => {
+const generatePosts = (quantity = NUMBER_OF_POSTS) => {
   const postsArray = [];
 
   for (let i = 0; i < quantity; i++) {
     const titleAndType = getTitleAndType()[getRandomInt(minIndex, getMaxIndex(getTitleAndType()))];
+    const locationXY = getlocationXY()[getRandomInt(minIndex, getMaxIndex(getlocationXY()))];
 
     postsArray.push({
       author: {
@@ -99,7 +98,7 @@ const generatePost = (quantity = NUMBER_OF_POSTS) => {
   return postsArray;
 };
 
-generatePost();
+generatePosts();
 
 const mapBlock = document.querySelector(`.map`);
 mapBlock.classList.remove(`map--faded`);
