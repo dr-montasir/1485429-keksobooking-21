@@ -1,6 +1,6 @@
 'use strict';
 
-const NUMBER_OF_POSTS = 8;
+const NUMBER_OF_OFFERS = 8;
 const MIM_NUMBER_OF_USERS = 1;
 const POST_TITLES = [`Дворец`, `Квартира`, `Дом`, `Бунгало`];
 const STATIC_POINT_X = 570;
@@ -34,9 +34,7 @@ const getRandomInt = (min = 0, max = 100) => {
 };
 
 const getMaxIndex = (arr) => {
-  const maxIndex = arr.length - 1;
-
-  return maxIndex;
+  return arr.length - 1;
 };
 
 const minIndex = 0;
@@ -56,7 +54,7 @@ const getTitleAndType = (arr1, arr2) => {
 const getlocationXY = () => {
   const locations = [];
 
-  for (let i = 0; i < NUMBER_OF_POSTS; i++) {
+  for (let i = 0; i < NUMBER_OF_OFFERS; i++) {
     const locationX = getRandomInt(-5, 3) * getRandomInt() + STATIC_POINT_X;
     const locationY = getRandomInt(-3, 2) * getRandomInt() + STATIC_POINT_Y;
     locations.push({x: locationX, y: locationY});
@@ -65,16 +63,16 @@ const getlocationXY = () => {
   return locations;
 };
 
-const generatePosts = (quantity = NUMBER_OF_POSTS) => {
-  const postsArray = [];
+const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
+  const offersArray = [];
 
   for (let i = 0; i < quantity; i++) {
     const titleAndType = getTitleAndType()[getRandomInt(minIndex, getMaxIndex(getTitleAndType()))];
     const locationXY = getlocationXY()[getRandomInt(minIndex, getMaxIndex(getlocationXY()))];
 
-    postsArray.push({
+    offersArray.push({
       author: {
-        avatar: `img/avatars/user0${getRandomInt(MIM_NUMBER_OF_USERS, NUMBER_OF_POSTS)}.png`
+        avatar: `img/avatars/user0${getRandomInt(MIM_NUMBER_OF_USERS, NUMBER_OF_OFFERS)}.png`
       },
       offer: {
         title: titleAndType.title,
@@ -93,7 +91,7 @@ const generatePosts = (quantity = NUMBER_OF_POSTS) => {
     });
   }
 
-  return postsArray;
+  return offersArray;
 };
 
 const mapBlock = document.querySelector(`.map`);
@@ -101,7 +99,7 @@ mapBlock.classList.remove(`map--faded`);
 
 const pinBlock = document.querySelector(`.map__pins`);
 const pinTemplate = document.querySelector(`#pin`).content;
-const pin = pinBlock.querySelector(`.map__pin`);
+const pin = document.querySelector(`.map__pin`);
 
 const getXaxisOffset = () => {
   return pin.offsetWidth / 2;
@@ -111,22 +109,22 @@ const getYaxisOffset = () => {
   return pin.offsetHeight;
 };
 
-const renderPins = (arr, xOffset, yOffset) => {
-  arr = generatePosts();
-  xOffset = getXaxisOffset();
-  yOffset = getYaxisOffset();
+const renderPins = () => {
+  const offers = generateOffers();
+  const xOffset = getXaxisOffset();
+  const yOffset = getYaxisOffset();
 
-  for (let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < offers.length; i++) {
     const createPin = pinTemplate.cloneNode(true);
     const createPinImage = createPin.querySelector(`img`);
     const createPinButton = createPin.querySelector(`button`);
-    createPinButton.style = `left:${arr[i].location.x + xOffset - STATIC_POINT_X}px;
-                            top:${arr[i].location.y + yOffset - STATIC_POINT_Y}px;`;
-    createPinImage.src = `${arr[i].author.avatar}`;
-    createPinImage.alt = `${arr[i].offer.title}`;
-    pin.appendChild(createPin);
+    createPinButton.style = `left:${offers[i].location.x + xOffset}px;
+                            top:${offers[i].location.y + yOffset}px;`;
+    createPinImage.src = `${offers[i].author.avatar}`;
+    createPinImage.alt = `${offers[i].offer.title}`;
+    pinBlock.appendChild(createPin);
   }
-  return pin;
+  return pinBlock;
 };
 
 renderPins();
