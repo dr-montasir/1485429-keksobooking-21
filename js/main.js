@@ -84,9 +84,13 @@ const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
           guests: NUMBER_OF_GUESTS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_GUESTS))],
           checkin: CHECKIN[getRandomInt(minIndex, getMaxIndex(CHECKIN))],
           checkout: CHECKOUT[getRandomInt(minIndex, getMaxIndex(CHECKOUT))],
-          features: FEATURES[getRandomInt(minIndex, getMaxIndex(FEATURES))],
+          features: {
+            [i]: FEATURES[getRandomInt(minIndex, getMaxIndex(FEATURES))]
+          },
           description: `Описание`,
-          photos: PHOTOS[getRandomInt(minIndex, getMaxIndex(PHOTOS))]
+          photos: {
+            [i]: PHOTOS[getRandomInt(minIndex, getMaxIndex(PHOTOS))]
+          }
         },
         location: locationXY
       };
