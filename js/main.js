@@ -3,8 +3,6 @@
 const NUMBER_OF_OFFERS = 8;
 const MIM_NUMBER_OF_USERS = 1;
 const POST_TITLES = [`Дворец`, `Квартира`, `Дом`, `Бунгало`];
-const STATIC_POINT_X = 570;
-const STATIC_POINT_Y = 375;
 const PRICE_FROM = 500;
 const PRICE_TO = 10000;
 const TYPE_OF_HOUSE = [`palace`, `flat`, `house`, `bungalow`];
@@ -39,6 +37,20 @@ const getMaxIndex = (arr) => {
 
 const minIndex = 0;
 
+const shuffle = (arr) => {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+};
+
+const getRandomArray = (arr) => {
+  const newArray = arr.slice();
+  shuffle(newArray);
+
+  return newArray.slice(0, getRandomInt(1, newArray.length));
+};
+
 const getTitleAndType = (arr1, arr2) => {
   const arr = [];
   arr1 = POST_TITLES;
@@ -55,8 +67,8 @@ const getlocationXY = () => {
   const locations = [];
 
   for (let i = 0; i < NUMBER_OF_OFFERS; i++) {
-    const locationX = getRandomInt(-5, 3) * getRandomInt() + STATIC_POINT_X;
-    const locationY = getRandomInt(-3, 2) * getRandomInt() + STATIC_POINT_Y;
+    const locationX = getRandomInt(0, 1200);
+    const locationY = getRandomInt(130, 630);
     locations.push({x: locationX, y: locationY});
   }
 
@@ -84,13 +96,9 @@ const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
           guests: NUMBER_OF_GUESTS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_GUESTS))],
           checkin: CHECKIN[getRandomInt(minIndex, getMaxIndex(CHECKIN))],
           checkout: CHECKOUT[getRandomInt(minIndex, getMaxIndex(CHECKOUT))],
-          features: {
-            [i]: FEATURES[getRandomInt(minIndex, getMaxIndex(FEATURES))]
-          },
+          features: getRandomArray(FEATURES),
           description: `Описание`,
-          photos: {
-            [i]: PHOTOS[getRandomInt(minIndex, getMaxIndex(PHOTOS))]
-          }
+          photos: getRandomArray(PHOTOS)
         },
         location: locationXY
       };
@@ -122,16 +130,20 @@ const renderPins = () => {
   const xOffset = getXaxisOffset();
   const yOffset = getYaxisOffset();
 
+  const fragment = document.createDocumentFragment();
+
   for (let i = 0; i < offers.length; i++) {
     const createPin = pinTemplate.cloneNode(true);
     const createPinImage = createPin.querySelector(`img`);
     const createPinButton = createPin.querySelector(`button`);
-    createPinButton.style = `left:${offers[i].location.x + xOffset}px;
-                            top:${offers[i].location.y + yOffset}px;`;
+    createPinButton.style = `left:${offers[i].location.x - xOffset}px;
+                            top:${offers[i].location.y - yOffset}px;`;
     createPinImage.src = `${offers[i].author.avatar}`;
     createPinImage.alt = `${offers[i].offer.title}`;
-    pinBlock.appendChild(createPin);
+    fragment.appendChild(createPin);
   }
+
+  return fragment;
 };
 
-renderPins();
+pinBlock.appendChild(renderPins());
