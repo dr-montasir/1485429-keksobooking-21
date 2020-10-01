@@ -24,6 +24,11 @@ const PHOTOS = [
   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
 ];
 
+const START_POINT_X = 0;
+const END_POINT_X = 1200;
+const START_POINT_Y = 130;
+const END_POINT_Y = 630;
+
 // The value is no lower min and is less than (but not equal to) max.
 const getRandomInt = (min = 0, max = 100) => {
   min = Math.ceil(min);
@@ -67,8 +72,8 @@ const getlocationXY = () => {
   const locations = [];
 
   for (let i = 0; i < NUMBER_OF_OFFERS; i++) {
-    const locationX = getRandomInt(0, 1200);
-    const locationY = getRandomInt(130, 630);
+    const locationX = getRandomInt(START_POINT_X, END_POINT_X);
+    const locationY = getRandomInt(START_POINT_Y, END_POINT_Y);
     locations.push({x: locationX, y: locationY});
   }
 
@@ -115,32 +120,23 @@ mapBlock.classList.remove(`map--faded`);
 
 const pinBlock = document.querySelector(`.map__pins`);
 const pinTemplate = document.querySelector(`#pin`).content;
-const pin = document.querySelector(`.map__pin`);
-
-const getXaxisOffset = () => {
-  return pin.offsetWidth / 2;
-};
-
-const getYaxisOffset = () => {
-  return pin.offsetHeight;
-};
 
 const renderPins = () => {
   const offers = generateOffers();
-  const xOffset = getXaxisOffset();
-  const yOffset = getYaxisOffset();
+  const xOffset = 25;
+  const yOffset = 50;
 
   const fragment = document.createDocumentFragment();
 
   for (let i = 0; i < offers.length; i++) {
-    const createPin = pinTemplate.cloneNode(true);
-    const createPinImage = createPin.querySelector(`img`);
-    const createPinButton = createPin.querySelector(`button`);
-    createPinButton.style = `left:${offers[i].location.x - xOffset}px;
+    const pin = pinTemplate.cloneNode(true);
+    const pinImage = pin.querySelector(`img`);
+    const pinButton = pin.querySelector(`button`);
+    pinButton.style = `left:${offers[i].location.x - xOffset}px;
                             top:${offers[i].location.y - yOffset}px;`;
-    createPinImage.src = `${offers[i].author.avatar}`;
-    createPinImage.alt = `${offers[i].offer.title}`;
-    fragment.appendChild(createPin);
+    pinImage.src = `${offers[i].author.avatar}`;
+    pinImage.alt = `${offers[i].offer.title}`;
+    fragment.appendChild(pin);
   }
 
   return fragment;
