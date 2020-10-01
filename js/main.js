@@ -27,6 +27,8 @@ const START_POINT_X = 0;
 const END_POINT_X = 1200;
 const START_POINT_Y = 130;
 const END_POINT_Y = 630;
+const XOFFSET = 25;
+const YOFFSET = 50;
 
 // The value is no lower min and is less than (but not equal to) max.
 const getRandomInt = (min = 0, max = 100) => {
@@ -122,8 +124,6 @@ const pinTemplate = document.querySelector(`#pin`).content;
 
 const renderPins = () => {
   const offers = generateOffers();
-  const xOffset = 25;
-  const yOffset = 50;
 
   const fragment = document.createDocumentFragment();
 
@@ -131,8 +131,8 @@ const renderPins = () => {
     const pin = pinTemplate.cloneNode(true);
     const pinImage = pin.querySelector(`img`);
     const pinButton = pin.querySelector(`button`);
-    pinButton.style = `left:${offers[i].location.x - xOffset}px;
-                            top:${offers[i].location.y - yOffset}px;`;
+    pinButton.style = `left:${offers[i].location.x - XOFFSET}px;
+                       top:${offers[i].location.y - YOFFSET}px;`;
     pinImage.src = `${offers[i].author.avatar}`;
     pinImage.alt = `${offers[i].offer.title}`;
     fragment.appendChild(pin);
