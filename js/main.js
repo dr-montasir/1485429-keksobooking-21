@@ -23,7 +23,6 @@ const PHOTOS = [
   `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
 ];
-
 const START_POINT_X = 0;
 const END_POINT_X = 1200;
 const START_POINT_Y = 130;
