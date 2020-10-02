@@ -138,3 +138,6 @@ const renderPins = () => {
 };
 
 pinBlock.appendChild(renderPins());
+
+const cardTemplate = document.querySelector(`#card`).content;
+window.console.log(cardTemplate);
