@@ -23,12 +23,8 @@ const PHOTOS = [
   `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
 ];
-const START_POINT_X = 0;
-const END_POINT_X = 1200;
-const START_POINT_Y = 130;
-const END_POINT_Y = 630;
-const X_OFFSET = 25;
-const Y_OFFSET = 50;
+const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
+const XY_OFFSET = Object.freeze({x: 25, y: 50});
 
 // The value is no lower min and is less than (but not equal to) max.
 const getRandomInt = (min = 0, max = 100) => {
@@ -73,8 +69,8 @@ const getlocationXY = () => {
   const locations = [];
 
   for (let i = 0; i < NUMBER_OF_OFFERS; i++) {
-    const locationX = getRandomInt(START_POINT_X, END_POINT_X);
-    const locationY = getRandomInt(START_POINT_Y, END_POINT_Y);
+    const locationX = getRandomInt(STATIC_POINTS.x1, STATIC_POINTS.x2);
+    const locationY = getRandomInt(STATIC_POINTS.y1, STATIC_POINTS.y2);
     locations.push({x: locationX, y: locationY});
   }
 
@@ -131,8 +127,8 @@ const renderPins = () => {
     const pin = pinTemplate.cloneNode(true);
     const pinImage = pin.querySelector(`img`);
     const pinButton = pin.querySelector(`button`);
-    pinButton.style = `left:${offers[i].location.x - X_OFFSET}px;
-                       top:${offers[i].location.y - Y_OFFSET}px;`;
+    pinButton.style = `left:${offers[i].location.x - XY_OFFSET.x}px;
+                       top:${offers[i].location.y - XY_OFFSET.y}px;`;
     pinImage.src = `${offers[i].author.avatar}`;
     pinImage.alt = `${offers[i].offer.title}`;
     fragment.appendChild(pin);
