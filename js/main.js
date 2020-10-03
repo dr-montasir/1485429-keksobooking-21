@@ -149,7 +149,7 @@ const createOfferCard = (index = 0) => {
   const offerHouseType = offerCard.querySelector(`.popup__type`);
   const offerRoomsAndGuests = offerCard.querySelector(`.popup__text--capacity`);
   const offerTimes = offerCard.querySelector(`.popup__text--time`);
-  const offerFeatures = offerCard.querySelector(`.popup__features`);
+  const offerFeatures = offerCard.querySelector(`.popup__feature`);
   const offerDescription = offerCard.querySelector(`.popup__description`);
   const offerPhotos = offerCard.querySelector(`.popup__photo`);
   const offerAvatar = offerCard.querySelector(`.popup__avatar`);
@@ -160,10 +160,11 @@ const createOfferCard = (index = 0) => {
   offerHouseType.textContent = generateOffers()[index].offer.type;
   offerRoomsAndGuests.textContent = `${generateOffers()[index].offer.rooms} комнаты для ${generateOffers()[0].offer.guests} гостей.`;
   offerTimes.textContent = `Заезд после ${generateOffers()[index].offer.checkin}, выезд до ${generateOffers()[0].offer.checkout}.`;
-  offerFeatures.textContent = generateOffers()[index].offer.features.toString();
+  offerFeatures.classList = `popup__feature popup__feature--${generateOffers()[index].offer.features[0]}`;
   offerDescription.textContent = generateOffers()[index].offer.description;
   offerPhotos.src = `${generateOffers()[index].offer.photos[0]}`;
   offerAvatar.src = `${generateOffers()[index].author.avatar}`;
+
   return offerCard;
 };
 
