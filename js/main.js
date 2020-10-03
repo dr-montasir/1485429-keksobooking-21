@@ -34,18 +34,6 @@ const fragment = document.createDocumentFragment();
 
 const cardTemplate = document.querySelector(`#card`).content;
 const mapCard = cardTemplate.querySelector(`.map__card`);
-const offerCard = mapCard.cloneNode(true);
-const offerTitle = offerCard.querySelector(`.popup__title`);
-const offerAddress = offerCard.querySelector(`.popup__text--address`);
-const offerPrice = offerCard.querySelector(`.popup__text--price`);
-const offerHouseType = offerCard.querySelector(`.popup__type`);
-const offerRoomsAndGuests = offerCard.querySelector(`.popup__text--capacity`);
-const offerTimes = offerCard.querySelector(`.popup__text--time`);
-const offerFeatures = offerCard.querySelector(`.popup__features`);
-const offerDescription = offerCard.querySelector(`.popup__description`);
-const offerPhotos = offerCard.querySelector(`.popup__photos`);
-const offerPhoto = offerPhotos.querySelector(`img`);
-const offerAvatar = offerCard.querySelector(`.popup__avatar`);
 
 // The value is no lower min and is less than (but not equal to) max.
 const getRandomInt = (min = 0, max = 100) => {
@@ -152,40 +140,52 @@ const renderPins = () => {
 
 pinBlock.appendChild(renderPins());
 
-const renderOfferFeatures = (features) => {
-  offerFeatures.innerHTML = ``;
-
-  if (!features || features.length === 0) {
-    offerFeatures.hidden = true;
-  }
-
-  features.forEach((feature) => {
-    const featureItem = document.createElement(`li`);
-    const featureItemClasses = [`popup__feature`, `popup__feature--${feature}`];
-    featureItem.classList.add(...featureItemClasses);
-    fragment.appendChild(featureItem);
-  });
-
-  offerFeatures.appendChild(fragment);
-};
-
-const renderOfferPhotos = (photos) => {
-  offerPhotos.innerHTML = ``;
-
-  if (!photos || photos.length === 0) {
-    offerPhotos.hidden = true;
-  }
-
-  photos.forEach((photo) => {
-    let offerCardPhoto = offerPhoto.cloneNode();
-    offerCardPhoto.src = photo;
-    fragment.appendChild(offerCardPhoto);
-  });
-
-  return offerPhotos.appendChild(fragment);
-};
-
 const createOfferCard = (index = 0) => {
+  const offerCard = mapCard.cloneNode(true);
+  const offerTitle = offerCard.querySelector(`.popup__title`);
+  const offerAddress = offerCard.querySelector(`.popup__text--address`);
+  const offerPrice = offerCard.querySelector(`.popup__text--price`);
+  const offerHouseType = offerCard.querySelector(`.popup__type`);
+  const offerRoomsAndGuests = offerCard.querySelector(`.popup__text--capacity`);
+  const offerTimes = offerCard.querySelector(`.popup__text--time`);
+  const offerFeatures = offerCard.querySelector(`.popup__features`);
+  const offerDescription = offerCard.querySelector(`.popup__description`);
+  const offerPhotos = offerCard.querySelector(`.popup__photos`);
+  const offerPhoto = offerPhotos.querySelector(`img`);
+  const offerAvatar = offerCard.querySelector(`.popup__avatar`);
+
+  const renderOfferFeatures = (features) => {
+    offerFeatures.innerHTML = ``;
+
+    if (!features || features.length === 0) {
+      offerFeatures.addClass(`hidden`);
+    }
+
+    features.forEach((feature) => {
+      const featureItem = document.createElement(`li`);
+      featureItem.classList.add(`popup__feature`, `popup__feature--${feature}`);
+      fragment.appendChild(featureItem);
+    });
+
+    offerFeatures.appendChild(fragment);
+  };
+
+  const renderOfferPhotos = (photos) => {
+    offerPhotos.innerHTML = ``;
+
+    if (!photos || photos.length === 0) {
+      offerPhotos.hidden = true;
+    }
+
+    photos.forEach((photo) => {
+      let offerCardPhoto = offerPhoto.cloneNode();
+      offerCardPhoto.src = photo;
+      fragment.appendChild(offerCardPhoto);
+    });
+
+    return offerPhotos.appendChild(fragment);
+  };
+
   offerTitle.textContent = generateOffers()[index].offer.title;
   offerAddress.textContent = generateOffers()[index].offer.address;
   offerPrice.textContent = `${generateOffers()[index].offer.price}₽/ночь`;
