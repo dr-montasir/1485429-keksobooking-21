@@ -174,7 +174,7 @@ const createOfferCard = (index = 0) => {
     offerPhotos.innerHTML = ``;
 
     if (!photos || photos.length === 0) {
-      offerPhotos.hidden = true;
+      offerPhotos.addClass(`hidden`);
     }
 
     photos.forEach((photo) => {
