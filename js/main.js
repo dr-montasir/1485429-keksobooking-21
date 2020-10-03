@@ -26,6 +26,27 @@ const PHOTOS = [
 const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
 const XY_OFFSET = Object.freeze({x: 25, y: 50});
 
+const mapBlock = document.querySelector(`.map`);
+mapBlock.classList.remove(`map--faded`);
+const pinBlock = document.querySelector(`.map__pins`);
+const pinTemplate = document.querySelector(`#pin`).content;
+const fragment = document.createDocumentFragment();
+
+const cardTemplate = document.querySelector(`#card`).content;
+const mapCard = cardTemplate.querySelector(`.map__card`);
+const offerCard = mapCard.cloneNode(true);
+const offerTitle = offerCard.querySelector(`.popup__title`);
+const offerAddress = offerCard.querySelector(`.popup__text--address`);
+const offerPrice = offerCard.querySelector(`.popup__text--price`);
+const offerHouseType = offerCard.querySelector(`.popup__type`);
+const offerRoomsAndGuests = offerCard.querySelector(`.popup__text--capacity`);
+const offerTimes = offerCard.querySelector(`.popup__text--time`);
+const offerFeatures = offerCard.querySelector(`.popup__feature`);
+const offerDescription = offerCard.querySelector(`.popup__description`);
+const offerPhotos = offerCard.querySelector(`.popup__photos`);
+const offerPhoto = offerPhotos.querySelector(`img`);
+const offerAvatar = offerCard.querySelector(`.popup__avatar`);
+
 // The value is no lower min and is less than (but not equal to) max.
 const getRandomInt = (min = 0, max = 100) => {
   min = Math.ceil(min);
@@ -112,13 +133,6 @@ const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
   return offers;
 };
 
-const mapBlock = document.querySelector(`.map`);
-mapBlock.classList.remove(`map--faded`);
-
-const pinBlock = document.querySelector(`.map__pins`);
-const pinTemplate = document.querySelector(`#pin`).content;
-const fragment = document.createDocumentFragment();
-
 const renderPins = () => {
   const offers = generateOffers();
 
@@ -138,31 +152,33 @@ const renderPins = () => {
 
 pinBlock.appendChild(renderPins());
 
-const cardTemplate = document.querySelector(`#card`).content;
-const mapCard = cardTemplate.querySelector(`.map__card`);
+const renderOfferPhotos = (photos) => {
+  offerPhotos.innerHTML = ``;
+
+  if (!photos || photos.length === 0) {
+    offerPhotos.hidden = true;
+  }
+
+  photos.forEach((photo) => {
+    let offerCardPhoto = offerPhoto.cloneNode();
+    offerCardPhoto.src = photo;
+    fragment.appendChild(offerCardPhoto);
+  });
+
+  return offerPhotos.appendChild(fragment);
+};
 
 const createOfferCard = (index = 0) => {
-  const offerCard = mapCard.cloneNode(true);
-  const offerTitle = offerCard.querySelector(`.popup__title`);
-  const offerAddress = offerCard.querySelector(`.popup__text--address`);
-  const offerPrice = offerCard.querySelector(`.popup__text--price`);
-  const offerHouseType = offerCard.querySelector(`.popup__type`);
-  const offerRoomsAndGuests = offerCard.querySelector(`.popup__text--capacity`);
-  const offerTimes = offerCard.querySelector(`.popup__text--time`);
-  const offerFeatures = offerCard.querySelector(`.popup__feature`);
-  const offerDescription = offerCard.querySelector(`.popup__description`);
-  const offerPhotos = offerCard.querySelector(`.popup__photo`);
-  const offerAvatar = offerCard.querySelector(`.popup__avatar`);
-
   offerTitle.textContent = generateOffers()[index].offer.title;
   offerAddress.textContent = generateOffers()[index].offer.address;
   offerPrice.textContent = `${generateOffers()[index].offer.price}₽/ночь`;
   offerHouseType.textContent = generateOffers()[index].offer.type;
-  offerRoomsAndGuests.textContent = `${generateOffers()[index].offer.rooms} комнаты для ${generateOffers()[0].offer.guests} гостей.`;
-  offerTimes.textContent = `Заезд после ${generateOffers()[index].offer.checkin}, выезд до ${generateOffers()[0].offer.checkout}.`;
+  offerRoomsAndGuests.textContent = `${generateOffers()[index].offer.rooms} комнаты для ${generateOffers()[index].offer.guests} гостей.`;
+  offerTimes.textContent = `Заезд после ${generateOffers()[index].offer.checkin}, выезд до ${generateOffers()[index].offer.checkout}.`;
   offerFeatures.classList = `popup__feature popup__feature--${generateOffers()[index].offer.features[0]}`;
   offerDescription.textContent = generateOffers()[index].offer.description;
   offerPhotos.src = `${generateOffers()[index].offer.photos[0]}`;
+  renderOfferPhotos(generateOffers()[index].offer.photos);
   offerAvatar.src = `${generateOffers()[index].author.avatar}`;
 
   return offerCard;
