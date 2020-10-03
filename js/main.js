@@ -117,11 +117,10 @@ mapBlock.classList.remove(`map--faded`);
 
 const pinBlock = document.querySelector(`.map__pins`);
 const pinTemplate = document.querySelector(`#pin`).content;
+const fragment = document.createDocumentFragment();
 
 const renderPins = () => {
   const offers = generateOffers();
-
-  const fragment = document.createDocumentFragment();
 
   for (let i = 0; i < offers.length; i++) {
     const pin = pinTemplate.cloneNode(true);
@@ -140,4 +139,33 @@ const renderPins = () => {
 pinBlock.appendChild(renderPins());
 
 const cardTemplate = document.querySelector(`#card`).content;
-window.console.log(cardTemplate);
+const mapCard = cardTemplate.querySelector(`.map__card`);
+
+const createOfferCard = (index = 0) => {
+  const offerCard = mapCard.cloneNode(true);
+  const offerTitle = offerCard.querySelector(`.popup__title`);
+  const offerAddress = offerCard.querySelector(`.popup__text--address`);
+  const offerPrice = offerCard.querySelector(`.popup__text--price`);
+  const offerHouseType = offerCard.querySelector(`.popup__type`);
+  const offerRoomsAndGuests = offerCard.querySelector(`.popup__text--capacity`);
+  const offerTimes = offerCard.querySelector(`.popup__text--time`);
+  const offerFeatures = offerCard.querySelector(`.popup__features`);
+  const offerDescription = offerCard.querySelector(`.popup__description`);
+  const offerPhotos = offerCard.querySelector(`.popup__photo`);
+  const offerAvatar = offerCard.querySelector(`.popup__avatar`);
+
+  offerTitle.textContent = generateOffers()[index].offer.title;
+  offerAddress.textContent = generateOffers()[index].offer.address;
+  offerPrice.textContent = `${generateOffers()[index].offer.price}₽/ночь`;
+  offerHouseType.textContent = generateOffers()[index].offer.type;
+  offerRoomsAndGuests.textContent = `${generateOffers()[index].offer.rooms} комнаты для ${generateOffers()[0].offer.guests} гостей.`;
+  offerTimes.textContent = `Заезд после ${generateOffers()[index].offer.checkin}, выезд до ${generateOffers()[0].offer.checkout}.`;
+  offerFeatures.textContent = generateOffers()[index].offer.features.toString();
+  offerDescription.textContent = generateOffers()[index].offer.description;
+  offerPhotos.src = `${generateOffers()[index].offer.photos[0]}`;
+  offerAvatar.src = `${generateOffers()[index].author.avatar}`;
+  return offerCard;
+};
+
+fragment.append(createOfferCard());
+pinBlock.append(fragment);
