@@ -41,7 +41,7 @@ const offerPrice = offerCard.querySelector(`.popup__text--price`);
 const offerHouseType = offerCard.querySelector(`.popup__type`);
 const offerRoomsAndGuests = offerCard.querySelector(`.popup__text--capacity`);
 const offerTimes = offerCard.querySelector(`.popup__text--time`);
-const offerFeatures = offerCard.querySelector(`.popup__feature`);
+const offerFeatures = offerCard.querySelector(`.popup__features`);
 const offerDescription = offerCard.querySelector(`.popup__description`);
 const offerPhotos = offerCard.querySelector(`.popup__photos`);
 const offerPhoto = offerPhotos.querySelector(`img`);
@@ -152,6 +152,23 @@ const renderPins = () => {
 
 pinBlock.appendChild(renderPins());
 
+const renderOfferFeatures = (features) => {
+  offerFeatures.innerHTML = ``;
+
+  if (!features || features.length === 0) {
+    offerFeatures.hidden = true;
+  }
+
+  features.forEach((feature) => {
+    const featureItem = document.createElement(`li`);
+    const featureItemClasses = [`popup__feature`, `popup__feature--${feature}`];
+    featureItem.classList.add(...featureItemClasses);
+    fragment.appendChild(featureItem);
+  });
+
+  offerFeatures.appendChild(fragment);
+};
+
 const renderOfferPhotos = (photos) => {
   offerPhotos.innerHTML = ``;
 
@@ -175,7 +192,7 @@ const createOfferCard = (index = 0) => {
   offerHouseType.textContent = generateOffers()[index].offer.type;
   offerRoomsAndGuests.textContent = `${generateOffers()[index].offer.rooms} комнаты для ${generateOffers()[index].offer.guests} гостей.`;
   offerTimes.textContent = `Заезд после ${generateOffers()[index].offer.checkin}, выезд до ${generateOffers()[index].offer.checkout}.`;
-  offerFeatures.classList = `popup__feature popup__feature--${generateOffers()[index].offer.features[0]}`;
+  renderOfferFeatures(generateOffers()[index].offer.features);
   offerDescription.textContent = generateOffers()[index].offer.description;
   offerPhotos.src = `${generateOffers()[index].offer.photos[0]}`;
   renderOfferPhotos(generateOffers()[index].offer.photos);
