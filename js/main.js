@@ -154,7 +154,7 @@ const renderOfferFeatures = (features) => {
   offerFeatures.innerHTML = ``;
 
   if (!features || features.length === 0) {
-    offerFeatures.add(`hidden`);
+    offerFeatures.classList.add(`hidden`);
   }
 
   features.forEach((feature) => {
@@ -172,7 +172,7 @@ const renderOfferPhotos = (photos) => {
   offerPhotos.innerHTML = ``;
 
   if (!photos || photos.length === 0) {
-    offerPhotos.add(`hidden`);
+    offerPhotos.classList.add(`hidden`);
   }
 
   photos.forEach((photo) => {
