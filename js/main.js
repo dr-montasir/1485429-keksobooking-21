@@ -212,4 +212,4 @@ const createOfferCard = (offer) => {
   pinBlock.append(offerCard);
 };
 
-mapCard.appendChild(createOfferCard(generateOffers()[0]));
+mapCard.append(createOfferCard(generateOffers()[0]));
