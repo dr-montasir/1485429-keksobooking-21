@@ -26,14 +26,16 @@ const PHOTOS = [
 const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
 const XY_OFFSET = Object.freeze({x: 25, y: 50});
 
-const mapBlock = document.querySelector(`.map`);
-mapBlock.classList.remove(`map--faded`);
 const pinBlock = document.querySelector(`.map__pins`);
-const pinTemplate = document.querySelector(`#pin`).content;
-const fragment = document.createDocumentFragment();
-
 const cardTemplate = document.querySelector(`#card`).content;
 const mapCard = cardTemplate.querySelector(`.map__card`);
+
+const removeMapFaded = () => {
+  const mapBlock = document.querySelector(`.map`);
+  return mapBlock.classList.remove(`map--faded`);
+};
+
+removeMapFaded();
 
 // The value is no lower min and is less than (but not equal to) max.
 const getRandomInt = (min = 0, max = 100) => {
@@ -121,19 +123,29 @@ const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
   return offers;
 };
 
-const renderPins = () => {
-  const offers = generateOffers();
+const offers = generateOffers();
 
-  for (let i = 0; i < offers.length; i++) {
-    const pin = pinTemplate.cloneNode(true);
-    const pinImage = pin.querySelector(`img`);
-    const pinButton = pin.querySelector(`button`);
-    pinButton.style = `left:${offers[i].location.x - XY_OFFSET.x}px;
-                       top:${offers[i].location.y - XY_OFFSET.y}px;`;
-    pinImage.src = `${offers[i].author.avatar}`;
-    pinImage.alt = `${offers[i].offer.title}`;
-    fragment.appendChild(pin);
-  }
+const renderPins = () => {
+  const pinTemplate = document.querySelector(`#pin`).content;
+
+  const generatePins = [];
+
+  const fragment = document.createDocumentFragment();
+
+  const getGeneratePins = () => {
+    for (let i = 0; i < offers.length; i++) {
+      const pin = pinTemplate.cloneNode(true);
+      const pinImage = pin.querySelector(`img`);
+      const pinButton = pin.querySelector(`button`);
+      pinButton.style = `left:${offers[i].location.x - XY_OFFSET.x}px;
+                         top:${offers[i].location.y - XY_OFFSET.y}px;`;
+      pinImage.src = `${offers[i].author.avatar}`;
+      pinImage.alt = `${offers[i].offer.title}`;
+      fragment.appendChild(pin);
+    }
+  };
+
+  generatePins.push(getGeneratePins());
 
   return fragment;
 };
@@ -147,7 +159,7 @@ const renderOfferFeatures = (features) => {
   offerFeatures.innerHTML = ``;
 
   if (!features || features.length === 0) {
-    offerFeatures.addClass(`hidden`);
+    offerFeatures.add(`hidden`);
   }
 
   features.forEach((feature) => {
@@ -200,6 +212,8 @@ const createOfferCard = (index = 0) => {
 
   return offerCard;
 };
+
+const fragment = document.createDocumentFragment();
 
 fragment.append(createOfferCard());
 pinBlock.append(fragment);
