@@ -155,6 +155,7 @@ pinBlock.appendChild(renderPins());
 const offerCard = mapCard.cloneNode(true);
 
 const renderOfferFeatures = (features) => {
+  // const offerCard = mapCard.cloneNode(true);
   const offerFeatures = offerCard.querySelector(`.popup__features`);
   offerFeatures.innerHTML = ``;
 
@@ -172,12 +173,13 @@ const renderOfferFeatures = (features) => {
 };
 
 const renderOfferPhotos = (photos) => {
+  // const offerCard = mapCard.cloneNode(true);
   const offerPhotos = offerCard.querySelector(`.popup__photos`);
   const offerPhoto = offerPhotos.querySelector(`img`);
   offerPhotos.innerHTML = ``;
 
   if (!photos || photos.length === 0) {
-    offerPhotos.addClass(`hidden`);
+    offerPhotos.add(`hidden`);
   }
 
   photos.forEach((photo) => {
@@ -190,6 +192,7 @@ const renderOfferPhotos = (photos) => {
 };
 
 const createOfferCard = (index = 0) => {
+  // const offerCard = mapCard.cloneNode(true);
   const offerTitle = offerCard.querySelector(`.popup__title`);
   const offerAddress = offerCard.querySelector(`.popup__text--address`);
   const offerPrice = offerCard.querySelector(`.popup__text--price`);
