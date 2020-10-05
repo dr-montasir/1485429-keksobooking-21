@@ -27,7 +27,7 @@ const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
 const XY_OFFSET = Object.freeze({x: 25, y: 50});
 
 const pinBlock = document.querySelector(`.map__pins`);
-const fragment = document.createDocumentFragment();
+// const fragment = document.createDocumentFragment();
 
 const removeMapFaded = () => {
   const mapBlock = document.querySelector(`.map`);
@@ -129,6 +129,8 @@ const renderPins = () => {
 
   const generatePins = [];
 
+  const fragment = document.createDocumentFragment();
+
   const getGeneratePins = () => {
     for (let i = 0; i < offers.length; i++) {
       const pin = pinTemplate.cloneNode(true);
@@ -157,6 +159,8 @@ const renderOfferFeatures = (features) => {
     offerFeatures.classList.add(`hidden`);
   }
 
+  const fragment = document.createDocumentFragment();
+
   features.forEach((feature) => {
     const featureItem = document.createElement(`li`);
     featureItem.classList.add(`popup__feature`, `popup__feature--${feature}`);
@@ -175,8 +179,10 @@ const renderOfferPhotos = (photos) => {
     offerPhotos.classList.add(`hidden`);
   }
 
+  const fragment = document.createDocumentFragment();
+
   photos.forEach((photo) => {
-    let offerCardPhoto = offerPhoto.cloneNode();
+    const offerCardPhoto = offerPhoto.cloneNode();
     offerCardPhoto.src = photo;
     fragment.appendChild(offerCardPhoto);
   });
