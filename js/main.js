@@ -27,14 +27,11 @@ const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
 const XY_OFFSET = Object.freeze({x: 25, y: 50});
 
 const pinBlock = document.querySelector(`.map__pins`);
-// const fragment = document.createDocumentFragment();
 
 const removeMapFaded = () => {
   const mapBlock = document.querySelector(`.map`);
   return mapBlock.classList.remove(`map--faded`);
 };
-
-removeMapFaded();
 
 // The value is no lower min and is less than (but not equal to) max.
 const getRandomInt = (min = 0, max = 100) => {
@@ -122,14 +119,15 @@ const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
   return offers;
 };
 
-const offers = generateOffers();
+const renderPins = (offers) => {
+  removeMapFaded();
 
-const renderPins = () => {
   const pinTemplate = document.querySelector(`#pin`).content;
-
   const generatePins = [];
 
   const fragment = document.createDocumentFragment();
+
+  offers = generateOffers();
 
   const getGeneratePins = () => {
     for (let i = 0; i < offers.length; i++) {
@@ -146,10 +144,8 @@ const renderPins = () => {
 
   generatePins.push(getGeneratePins());
 
-  return fragment;
+  pinBlock.appendChild(fragment);
 };
-
-pinBlock.appendChild(renderPins());
 
 const renderOfferFeatures = (features) => {
   const offerFeatures = offerCard.querySelector(`.popup__features`);
@@ -190,6 +186,8 @@ const renderOfferPhotos = (photos) => {
   return offerPhotos.appendChild(fragment);
 };
 
+renderPins();
+
 const cardTemplate = document.querySelector(`#card`).content;
 const mapCard = cardTemplate.querySelector(`.map__card`);
 const offerCard = mapCard.cloneNode(true);
@@ -218,4 +216,5 @@ const createOfferCard = (offer) => {
   pinBlock.append(offerCard);
 };
 
-mapCard.append(createOfferCard(generateOffers()[0]));
+const offers = generateOffers();
+createOfferCard(offers[0]);
