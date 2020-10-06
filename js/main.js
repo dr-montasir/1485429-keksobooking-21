@@ -5,11 +5,11 @@ const MIM_NUMBER_OF_USERS = 1;
 const POST_TITLES = [`Дворец`, `Квартира`, `Дом`, `Бунгало`];
 const PRICE_FROM = 500;
 const PRICE_TO = 10000;
-const TYPE_OF_HOUSE = [`palace`, `flat`, `house`, `bungalow`];
+const TYPE_OF_HOUSES = [`palace`, `flat`, `house`, `bungalow`];
 const NUMBER_OF_ROOMS = [1, 2, 3, 100];
 const NUMBER_OF_GUESTS = [3, 2, 1, 0];
-const CHECKIN = [`12:00`, `13:00`, `14:00`];
-const CHECKOUT = [`12:00`, `13:00`, `14:00`];
+const CHECKINS = [`12:00`, `13:00`, `14:00`];
+const CHECKOUTS = [`12:00`, `13:00`, `14:00`];
 const FEATURES = [
   `wifi`,
   `dishwasher`,
@@ -66,7 +66,7 @@ const getRandomArray = (randomElements) => {
 const getTitleAndType = (titles, types) => {
   const elements = [];
   titles = POST_TITLES;
-  types = TYPE_OF_HOUSE;
+  types = TYPE_OF_HOUSES;
 
   for (let i = 0; i < titles.length; i++) {
     elements.push({title: titles[i], type: types[i]});
@@ -106,8 +106,8 @@ const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
           type: titleAndType.type,
           rooms: NUMBER_OF_ROOMS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_ROOMS))],
           guests: NUMBER_OF_GUESTS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_GUESTS))],
-          checkin: CHECKIN[getRandomInt(minIndex, getMaxIndex(CHECKIN))],
-          checkout: CHECKOUT[getRandomInt(minIndex, getMaxIndex(CHECKOUT))],
+          checkin: CHECKINS[getRandomInt(minIndex, getMaxIndex(CHECKINS))],
+          checkout: CHECKOUTS[getRandomInt(minIndex, getMaxIndex(CHECKOUTS))],
           features: getRandomArray(FEATURES),
           description: `Описание`,
           photos: getRandomArray(PHOTOS)
