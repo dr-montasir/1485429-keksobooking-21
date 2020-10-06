@@ -40,36 +40,39 @@ const getRandomInt = (min = 0, max = 100) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-const getMaxIndex = (arr) => {
-  return arr.length - 1;
+const getMaxIndex = (array) => {
+  return array.length - 1;
 };
 
 const minIndex = 0;
 
-const shuffle = (arr) => {
-  for (let i = arr.length - 1; i > 0; i--) {
+const shuffle = (elements) => {
+  const shuffledElements = elements.slice();
+
+  for (let i = shuffledElements.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-};
-
-const getRandomArray = (arr) => {
-  const newArray = arr.slice();
-  shuffle(newArray);
-
-  return newArray.slice(0, getRandomInt(1, newArray.length));
-};
-
-const getTitleAndType = (arr1, arr2) => {
-  const arr = [];
-  arr1 = POST_TITLES;
-  arr2 = TYPE_OF_HOUSE;
-
-  for (let i = 0; i < arr1.length; i++) {
-    arr.push({title: arr1[i], type: arr2[i]});
+    [shuffledElements[i], shuffledElements[j]] = [shuffledElements[j], shuffledElements[i]];
   }
 
-  return arr;
+  return shuffledElements;
+};
+
+const getRandomArray = (randomElements) => {
+  const newArray = shuffle(randomElements.slice());
+
+  return newArray.slice(0, getRandomInt(0, newArray.length));
+};
+
+const getTitleAndType = (titles, types) => {
+  const elements = [];
+  titles = POST_TITLES;
+  types = TYPE_OF_HOUSE;
+
+  for (let i = 0; i < titles.length; i++) {
+    elements.push({title: titles[i], type: types[i]});
+  }
+
+  return elements;
 };
 
 const getlocationXY = () => {
@@ -119,35 +122,30 @@ const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
   return offers;
 };
 
-const renderPins = (offers) => {
-  removeMapFaded();
-
+const renderPin = (offer) => {
   const pinTemplate = document.querySelector(`#pin`).content;
-  const generatePins = [];
+  const pin = pinTemplate.cloneNode(true);
+  const pinImage = pin.querySelector(`img`);
+  const pinButton = pin.querySelector(`button`);
+  pinButton.style = `left:${offer.location.x - XY_OFFSET.x}px;
+                     top:${offer.location.y - XY_OFFSET.y}px;`;
+  pinImage.src = `${offer.author.avatar}`;
+  pinImage.alt = `${offer.offer.title}`;
 
+  return pin;
+};
+
+const renderPins = (offers) => {
   const fragment = document.createDocumentFragment();
 
-  offers = generateOffers();
-
-  const getGeneratePins = () => {
-    for (let i = 0; i < offers.length; i++) {
-      const pin = pinTemplate.cloneNode(true);
-      const pinImage = pin.querySelector(`img`);
-      const pinButton = pin.querySelector(`button`);
-      pinButton.style = `left:${offers[i].location.x - XY_OFFSET.x}px;
-                         top:${offers[i].location.y - XY_OFFSET.y}px;`;
-      pinImage.src = `${offers[i].author.avatar}`;
-      pinImage.alt = `${offers[i].offer.title}`;
-      fragment.appendChild(pin);
-    }
-  };
-
-  generatePins.push(getGeneratePins());
+  offers.forEach((offer) => {
+    fragment.appendChild(renderPin(offer));
+  });
 
   pinBlock.appendChild(fragment);
 };
 
-const renderOfferFeatures = (features) => {
+const renderOfferFeatures = (offerCard, features) => {
   const offerFeatures = offerCard.querySelector(`.popup__features`);
   offerFeatures.innerHTML = ``;
 
@@ -166,7 +164,7 @@ const renderOfferFeatures = (features) => {
   offerFeatures.appendChild(fragment);
 };
 
-const renderOfferPhotos = (photos) => {
+const renderOfferPhotos = (offerCard, photos) => {
   const offerPhotos = offerCard.querySelector(`.popup__photos`);
   const offerPhoto = offerPhotos.querySelector(`img`);
   offerPhotos.innerHTML = ``;
@@ -186,13 +184,10 @@ const renderOfferPhotos = (photos) => {
   return offerPhotos.appendChild(fragment);
 };
 
-renderPins();
-
-const cardTemplate = document.querySelector(`#card`).content;
-const mapCard = cardTemplate.querySelector(`.map__card`);
-const offerCard = mapCard.cloneNode(true);
-
 const createOfferCard = (offer) => {
+  const cardTemplate = document.querySelector(`#card`).content;
+  const mapCard = cardTemplate.querySelector(`.map__card`);
+  const offerCard = mapCard.cloneNode(true);
   const offerTitle = offerCard.querySelector(`.popup__title`);
   const offerAddress = offerCard.querySelector(`.popup__text--address`);
   const offerPrice = offerCard.querySelector(`.popup__text--price`);
@@ -208,13 +203,15 @@ const createOfferCard = (offer) => {
   offerHouseType.textContent = offer.offer.type;
   offerRoomsAndGuests.textContent = `${offer.offer.rooms} комнаты для ${offer.offer.guests} гостей.`;
   offerTimes.textContent = `Заезд после ${offer.offer.checkin}, выезд до ${offer.offer.checkout}.`;
-  renderOfferFeatures(offer.offer.features);
+  renderOfferFeatures(offerCard, offer.offer.features);
   offerDescription.textContent = offer.offer.description;
-  renderOfferPhotos(offer.offer.photos);
+  renderOfferPhotos(offerCard, offer.offer.photos);
   offerAvatar.src = `${offer.author.avatar}`;
 
   pinBlock.append(offerCard);
 };
 
+removeMapFaded();
 const offers = generateOffers();
+renderPins(offers);
 createOfferCard(offers[0]);
