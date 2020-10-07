@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Монтасир  Миргхани](https://up.htmlacademy.ru/javascript/21/user/1485429).
-* Наставник: [Алексей Хапов](https://htmlacademy.ru/profile/id118459).
+* Наставник: [Магомед Кандаев](https://htmlacademy.ru/profile/magomedkandaev).
 
 ---
 
