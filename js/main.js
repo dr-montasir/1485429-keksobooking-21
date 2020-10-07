@@ -215,3 +215,6 @@ removeMapFaded();
 const offers = generateOffers();
 renderPins(offers);
 createOfferCard(offers[0]);
+
+// module4-task1
+// переключение режимов страницы между неактивным и активным
