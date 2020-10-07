@@ -27,10 +27,13 @@ const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
 const XY_OFFSET = Object.freeze({x: 25, y: 50});
 
 const mapBlock = document.querySelector(`.map`);
-const pinBlock = document.querySelector(`.map__pins`);
+const pinBlock = mapBlock.querySelector(`.map__pins`);
+const adForm = document.querySelector(`.ad-form`);
 
+// Активация cтраницы Кексобукинга (форма и карта)
 const activateBookingPage = () => {
-  return mapBlock.classList.remove(`map--faded`);
+  mapBlock.classList.remove(`map--faded`);
+  adForm.classList.remove(`ad-form--disabled`);
 };
 
 // The value is no lower min and is less than (but not equal to) max.
