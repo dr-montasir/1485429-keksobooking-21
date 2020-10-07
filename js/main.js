@@ -26,10 +26,10 @@ const PHOTOS = [
 const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
 const XY_OFFSET = Object.freeze({x: 25, y: 50});
 
+const mapBlock = document.querySelector(`.map`);
 const pinBlock = document.querySelector(`.map__pins`);
 
-const activateCard = () => {
-  const mapBlock = document.querySelector(`.map`);
+const activateBookingPage = () => {
   return mapBlock.classList.remove(`map--faded`);
 };
 
@@ -211,7 +211,7 @@ const renderPins = (offers) => {
 //   pinBlock.append(offerCard);
 // };
 
-activateCard();
+activateBookingPage();
 const offers = generateOffers();
 renderPins(offers);
 // createOfferCard(offers[0]);
