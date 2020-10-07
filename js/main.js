@@ -28,7 +28,7 @@ const XY_OFFSET = Object.freeze({x: 25, y: 50});
 
 const pinBlock = document.querySelector(`.map__pins`);
 
-const removeMapFaded = () => {
+const activateMap = () => {
   const mapBlock = document.querySelector(`.map`);
   return mapBlock.classList.remove(`map--faded`);
 };
@@ -211,7 +211,7 @@ const createOfferCard = (offer) => {
   pinBlock.append(offerCard);
 };
 
-removeMapFaded();
+activateMap();
 const offers = generateOffers();
 renderPins(offers);
 createOfferCard(offers[0]);
