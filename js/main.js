@@ -28,7 +28,7 @@ const XY_OFFSET = Object.freeze({x: 25, y: 50});
 
 const pinBlock = document.querySelector(`.map__pins`);
 
-const activateMap = () => {
+const activateCard = () => {
   const mapBlock = document.querySelector(`.map`);
   return mapBlock.classList.remove(`map--faded`);
 };
@@ -211,10 +211,7 @@ const renderPins = (offers) => {
 //   pinBlock.append(offerCard);
 // };
 
-activateMap();
+activateCard();
 const offers = generateOffers();
 renderPins(offers);
 // createOfferCard(offers[0]);
-
-// module4-task1
-// переключение режимов страницы между неактивным и активным
