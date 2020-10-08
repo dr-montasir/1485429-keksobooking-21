@@ -36,6 +36,12 @@ const activateBookingPage = () => {
   adForm.classList.remove(`ad-form--disabled`);
 };
 
+// Деактивация cтраницы Кексобукинга (форма и карта)
+const deactivateBookingPage = () => {
+  mapBlock.classList.add(`map--faded`);
+  adForm.classList.add(`ad-form--disabled`);
+};
+
 // The value is no lower min and is less than (but not equal to) max.
 const getRandomInt = (min = 0, max = 100) => {
   min = Math.ceil(min);
@@ -215,6 +221,7 @@ const renderPins = (offers) => {
 // };
 
 activateBookingPage();
+deactivateBookingPage();
 const offers = generateOffers();
 renderPins(offers);
 // createOfferCard(offers[0]);
