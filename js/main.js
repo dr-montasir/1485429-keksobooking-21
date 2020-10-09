@@ -25,11 +25,14 @@ const PHOTOS = [
 ];
 const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
 const XY_OFFSET = Object.freeze({x: 25, y: 50});
+const FORM_TITLE_LENGTH = Object.freeze({min: 30, max: 100});
 
 const mapBlock = document.querySelector(`.map`);
 const mapPinMain = document.querySelector(`.map__pin--main`);
 const pinBlock = mapBlock.querySelector(`.map__pins`);
 const adForm = document.querySelector(`.ad-form`);
+const adFormFieldset = adForm.querySelectorAll(`fieldset`);
+const adFormTitleField = adForm.querySelector(`#title`);
 
 // Активация cтраницы Кексобукинга (форма и карта)
 const activateBookingPage = () => {
@@ -221,6 +224,8 @@ const renderPins = (offers) => {
 //   pinBlock.append(offerCard);
 // };
 
+// Module4-task1
+
 mapPinMain.addEventListener(`mousedown`, (evt) => {
   if (evt.button === 0) {
     if (mapBlock.classList.contains(`map--faded`)) {
@@ -240,6 +245,42 @@ mapPinMain.addEventListener(`keydown`, (evt) => {
     }
   }
 });
+
+// Валидация цвет поля в случае неуспеха
+
+const validateUnsuccessColor = (field) => {
+  field.style = `border-color: #ffaa99; box-shadow: 0 0 2px 2px #ff6547;`;
+};
+
+// Валидация цвет поля в случае успеха
+
+const validateSuccessColor = (field) => {
+  field.style = `border-color: green; box-shadow: 0 0 2px 2px green;`;
+};
+
+// Валидация заголовка объявления
+
+const validateTitleField = () => {
+  const titleLength = adFormTitleField.value.length;
+
+  if (titleLength === 0) {
+    adFormTitleField.setCustomValidity(`Пожалуйста, заполните это поле`);
+  } else if (titleLength >= FORM_TITLE_LENGTH.min && titleLength <= FORM_TITLE_LENGTH.max) {
+    validateSuccessColor(adFormTitleField);
+    adFormTitleField.setCustomValidity(``);
+  } else {
+    validateUnsuccessColor(adFormTitleField);
+    adFormTitleField.setCustomValidity(`должно быть от ${FORM_TITLE_LENGTH.min} до ${FORM_TITLE_LENGTH.max} символов`);
+  }
+};
+
+const validateAdForm = () => {
+  adFormTitleField.addEventListener(`input`, () => {
+    validateTitleField();
+  });
+};
+
+validateAdForm();
 
 // deactivateBookingPage();
 // const offers = generateOffers();
