@@ -3,9 +3,9 @@
 const NUMBER_OF_OFFERS = 8;
 const MIM_NUMBER_OF_USERS = 1;
 const POST_TITLES = [`Дворец`, `Квартира`, `Дом`, `Бунгало`];
-const PRICE_FROM = 500;
-const PRICE_TO = 10000;
-const TYPE_OF_HOUSES = [`palace`, `flat`, `house`, `bungalow`];
+const PRICE_FROM = 0;
+const PRICE_TO = 20000;
+const TYPE_OF_HOUSES = [`palace`, `flat`, `house`, `bungalo`];
 const NUMBER_OF_ROOMS = [1, 2, 3, 100];
 const NUMBER_OF_GUESTS = [3, 2, 1, 0];
 const CHECKINS = [`12:00`, `13:00`, `14:00`];
@@ -26,12 +26,19 @@ const PHOTOS = [
 const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
 const XY_OFFSET = Object.freeze({x: 25, y: 50});
 const FORM_TITLE_LENGTH = Object.freeze({min: 30, max: 100});
+const PRICE_BY_HOUSE_TYPE = {
+  bungalo: {min: 0, max: 500},
+  flat: {min: 1000, max: 2000},
+  house: {min: 5000, max: 10000},
+  palace: {min: 10000, max: 20000}
+};
 
 const mapBlock = document.querySelector(`.map`);
 const mapPinMain = document.querySelector(`.map__pin--main`);
 const pinBlock = mapBlock.querySelector(`.map__pins`);
 const adForm = document.querySelector(`.ad-form`);
 const adFormTitleField = adForm.querySelector(`#title`);
+const adFormTypeField = adForm.querySelector(`#type`);
 const adFormPriceField = adForm.querySelector(`#price`);
 
 // Активация cтраницы Кексобукинга (форма и карта)
@@ -261,37 +268,65 @@ const validateSuccessColor = (field) => {
 // Валидация заголовка объявления
 
 const validateTitleField = () => {
-  const titleLength = adFormTitleField.value.length;
+  const titleValue = adFormTitleField.value;
 
-  if (titleLength === 0) {
-    validateUnsuccessColor(adFormTitleField);
-    adFormTitleField.setCustomValidity(`Пожалуйста, заполните это поле`);
-  } else if (titleLength >= FORM_TITLE_LENGTH.min && titleLength <= FORM_TITLE_LENGTH.max) {
+  if (titleValue.length >= FORM_TITLE_LENGTH.min && titleValue.length <= FORM_TITLE_LENGTH.max) {
     validateSuccessColor(adFormTitleField);
     adFormTitleField.setCustomValidity(``);
+  } else if (titleValue.length === 0) {
+    validateUnsuccessColor(adFormTitleField);
+    adFormTitleField.setCustomValidity(`Пожалуйста, заполните это поле`);
   } else {
     validateUnsuccessColor(adFormTitleField);
     adFormTitleField.setCustomValidity(`должно быть от ${FORM_TITLE_LENGTH.min} до ${FORM_TITLE_LENGTH.max} символов`);
   }
 };
 
+// Устанавливать минимальную и максимальную цену по типу жилья
+
+const setPriceByHouseType = (minPrice, maxPrice) => {
+  minPrice = PRICE_BY_HOUSE_TYPE[adFormTypeField.value].min;
+  maxPrice = PRICE_BY_HOUSE_TYPE[adFormTypeField.value].max;
+  adFormPriceField.placeholder = minPrice;
+  adFormPriceField.setAttribute(`min`, minPrice);
+  adFormPriceField.setAttribute(`max`, maxPrice);
+  return {
+    min: minPrice,
+    max: maxPrice
+  };
+};
+
 // Валидация цены за ночь
 
-const validatePriceField = () => {
-  const priceValue = adFormPriceField.value;
+const validatePriceField = (minValue, maxValue) => {
+  minValue  = setPriceByHouseType().min;
+  maxValue  = setPriceByHouseType().max;
 
-  if (priceValue >= PRICE_FROM && priceValue <= PRICE_TO) {
+  const priceValue = adFormPriceField.value;
+  if (priceValue >= minValue && priceValue <= maxValue) {
     validateSuccessColor(adFormPriceField);
     adFormPriceField.setCustomValidity(``);
+  } else if (priceValue.length === 0) {
+    validateUnsuccessColor(adFormPriceField);
+    adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
+  } else if (priceValue > maxValue) {
+    validateUnsuccessColor(adFormPriceField);
+    adFormPriceField.setCustomValidity(`Цена данной тип жилья максимум до ${maxValue} руб.`);
   } else {
     validateUnsuccessColor(adFormPriceField);
-    adFormPriceField.setCustomValidity(`Цена от ${PRICE_FROM} до ${PRICE_TO} руб.`);
+    adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
   }
 };
+
+// Валидация формы
 
 const validateAdForm = () => {
   adFormTitleField.addEventListener(`input`, () => {
     validateTitleField();
+  });
+
+  adFormTypeField.addEventListener(`input`, () => {
+    setPriceByHouseType();
   });
 
   adFormPriceField.addEventListener(`input`, () => {
