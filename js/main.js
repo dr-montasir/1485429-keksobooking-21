@@ -299,8 +299,8 @@ const setPriceByHouseType = (minPrice, maxPrice) => {
 // Валидация цены за ночь
 
 const validatePriceField = (minValue, maxValue) => {
-  minValue  = setPriceByHouseType().min;
-  maxValue  = setPriceByHouseType().max;
+  minValue = setPriceByHouseType().min;
+  maxValue = setPriceByHouseType().max;
 
   const priceValue = adFormPriceField.value;
   if (priceValue >= minValue && priceValue <= maxValue) {
