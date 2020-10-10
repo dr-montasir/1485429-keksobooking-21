@@ -31,8 +31,8 @@ const mapBlock = document.querySelector(`.map`);
 const mapPinMain = document.querySelector(`.map__pin--main`);
 const pinBlock = mapBlock.querySelector(`.map__pins`);
 const adForm = document.querySelector(`.ad-form`);
-const adFormFieldset = adForm.querySelectorAll(`fieldset`);
 const adFormTitleField = adForm.querySelector(`#title`);
+const adFormPriceField = adForm.querySelector(`#price`);
 
 // Активация cтраницы Кексобукинга (форма и карта)
 const activateBookingPage = () => {
@@ -249,13 +249,13 @@ mapPinMain.addEventListener(`keydown`, (evt) => {
 // Валидация цвет поля в случае неуспеха
 
 const validateUnsuccessColor = (field) => {
-  field.style = `border-color: #ffaa99; box-shadow: 0 0 2px 2px #ff6547;`;
+  field.style = `border-color: orange; box-shadow: 0 0 2px 2px orange;`;
 };
 
 // Валидация цвет поля в случае успеха
 
 const validateSuccessColor = (field) => {
-  field.style = `border-color: green; box-shadow: 0 0 2px 2px green;`;
+  field.style = `border-color: #ffaa99; box-shadow: 0 0 2px 2px #ff6547;`;
 };
 
 // Валидация заголовка объявления
@@ -264,6 +264,7 @@ const validateTitleField = () => {
   const titleLength = adFormTitleField.value.length;
 
   if (titleLength === 0) {
+    validateUnsuccessColor(adFormTitleField);
     adFormTitleField.setCustomValidity(`Пожалуйста, заполните это поле`);
   } else if (titleLength >= FORM_TITLE_LENGTH.min && titleLength <= FORM_TITLE_LENGTH.max) {
     validateSuccessColor(adFormTitleField);
@@ -274,9 +275,27 @@ const validateTitleField = () => {
   }
 };
 
+// Валидация цены за ночь
+
+const validatePriceField = () => {
+  const priceValue = adFormPriceField.value;
+
+  if (priceValue >= PRICE_FROM && priceValue <= PRICE_TO) {
+    validateSuccessColor(adFormPriceField);
+    adFormPriceField.setCustomValidity(``);
+  } else {
+    validateUnsuccessColor(adFormPriceField);
+    adFormPriceField.setCustomValidity(`Цена от ${PRICE_FROM} до ${PRICE_TO} руб.`);
+  }
+};
+
 const validateAdForm = () => {
   adFormTitleField.addEventListener(`input`, () => {
     validateTitleField();
+  });
+
+  adFormPriceField.addEventListener(`input`, () => {
+    validatePriceField();
   });
 };
 
