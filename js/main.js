@@ -38,6 +38,7 @@ const mapPinMain = document.querySelector(`.map__pin--main`);
 const pinBlock = mapBlock.querySelector(`.map__pins`);
 const adForm = document.querySelector(`.ad-form`);
 const adFormTitleField = adForm.querySelector(`#title`);
+const adFormAddressField = adForm.querySelector(`#address`);
 const adFormTypeField = adForm.querySelector(`#type`);
 const adFormPriceField = adForm.querySelector(`#price`);
 
@@ -253,15 +254,15 @@ mapPinMain.addEventListener(`keydown`, (evt) => {
   }
 });
 
-// Валидация цвет поля в случае неуспеха
+// Устанавливать цвет поля в случае неуспеха
 
-const validateUnsuccessColor = (field) => {
+const setUnsuccessColor = (field) => {
   field.style = `border-color: orange; box-shadow: 0 0 2px 2px orange;`;
 };
 
-// Валидация цвет поля в случае успеха
+// Устанавливать цвет поля в случае успеха
 
-const validateSuccessColor = (field) => {
+const setSuccessColor = (field) => {
   field.style = `border-color: #ffaa99; box-shadow: 0 0 2px 2px #ff6547;`;
 };
 
@@ -271,16 +272,26 @@ const validateTitleField = () => {
   const titleValue = adFormTitleField.value;
 
   if (titleValue.length >= FORM_TITLE_LENGTH.min && titleValue.length <= FORM_TITLE_LENGTH.max) {
-    validateSuccessColor(adFormTitleField);
+    setSuccessColor(adFormTitleField);
     adFormTitleField.setCustomValidity(``);
   } else if (titleValue.length === 0) {
-    validateUnsuccessColor(adFormTitleField);
+    setUnsuccessColor(adFormTitleField);
     adFormTitleField.setCustomValidity(`Пожалуйста, заполните это поле`);
   } else {
-    validateUnsuccessColor(adFormTitleField);
+    setUnsuccessColor(adFormTitleField);
     adFormTitleField.setCustomValidity(`должно быть от ${FORM_TITLE_LENGTH.min} до ${FORM_TITLE_LENGTH.max} символов`);
   }
 };
+
+// Устанавливать адрес объявления
+
+const setAddressField = (pointX, pointY) => {
+  pointX = mapPinMain.offsetLeft + XY_OFFSET.x;
+  pointY = mapPinMain.offsetTop + XY_OFFSET.y;
+  adFormAddressField.setAttribute(`value`, `${pointX}, ${pointY}`);
+};
+
+setAddressField();
 
 // Устанавливать минимальную и максимальную цену по типу жилья
 
@@ -304,16 +315,16 @@ const validatePriceField = (minValue, maxValue) => {
 
   const priceValue = adFormPriceField.value;
   if (priceValue >= minValue && priceValue <= maxValue) {
-    validateSuccessColor(adFormPriceField);
+    setSuccessColor(adFormPriceField);
     adFormPriceField.setCustomValidity(``);
   } else if (priceValue.length === 0) {
-    validateUnsuccessColor(adFormPriceField);
+    setUnsuccessColor(adFormPriceField);
     adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
   } else if (priceValue > maxValue) {
-    validateUnsuccessColor(adFormPriceField);
+    setUnsuccessColor(adFormPriceField);
     adFormPriceField.setCustomValidity(`Цена данной тип жилья максимум до ${maxValue} руб.`);
   } else {
-    validateUnsuccessColor(adFormPriceField);
+    setUnsuccessColor(adFormPriceField);
     adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
   }
 };
@@ -323,6 +334,10 @@ const validatePriceField = (minValue, maxValue) => {
 const validateAdForm = () => {
   adFormTitleField.addEventListener(`input`, () => {
     validateTitleField();
+  });
+
+  adFormAddressField.addEventListener(`input`, () => {
+    setAddressField();
   });
 
   adFormTypeField.addEventListener(`input`, () => {
