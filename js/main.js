@@ -41,6 +41,10 @@ const adFormTitleField = adForm.querySelector(`#title`);
 const adFormAddressField = adForm.querySelector(`#address`);
 const adFormTypeField = adForm.querySelector(`#type`);
 const adFormPriceField = adForm.querySelector(`#price`);
+const adFormCheckinField = adForm.querySelector(`#timein`);
+const adFormCheckoutField = adForm.querySelector(`#timeout`);
+const adFormGuestsField = adForm.querySelector(`#capacity`);
+const adFormRoomsField = adForm.querySelector(`#room_number`);
 
 // Активация cтраницы Кексобукинга (форма и карта)
 const activateBookingPage = () => {
@@ -329,6 +333,43 @@ const validatePriceField = (minValue, maxValue) => {
   }
 };
 
+// Валидация Time CheckIn
+
+const validateTimeCheckIn = () => {
+  const timeOuts = adFormCheckoutField.querySelectorAll(`option`);
+
+  for (let i = 0; i < timeOuts.length; i++) {
+    timeOuts[i].removeAttribute(`selected`);
+  }
+  timeOuts[adFormCheckinField.selectedIndex].setAttribute(`selected`, true);
+};
+
+// Валидация Time CheckOut
+
+const validateTimeCheckOut = () => {
+  const timeIns = adFormCheckinField.querySelectorAll(`option`);
+
+  for (let i = 0; i < timeIns.length; i++) {
+    timeIns[i].removeAttribute(`selected`);
+  }
+  timeIns[adFormCheckoutField.selectedIndex].setAttribute(`selected`, true);
+};
+
+// Валидация Guests And Rooms
+
+const validateGuestsAndRooms = () => {
+  if (Number(adFormGuestsField.value) !== 0 && Number(adFormRoomsField.value) === 100) {
+    adFormGuestsField.setCustomValidity(`Не для гостей. Пожалуйста, выберите другой вариант.`);
+  } else if (Number(adFormGuestsField.value) === 0 && Number(adFormRoomsField.value) !== 100) {
+    adFormRoomsField.setCustomValidity(`Для выбора (не для гостей). Пожалуйста, выберите максимальное количество комнат.`);
+  } else if (Number(adFormGuestsField.value) > Number(adFormRoomsField.value)) {
+    adFormRoomsField.setCustomValidity(`Слишком много гостей для данного выбора комнат. Пожалуйста, выберите больше комнат.`);
+  } else {
+    adFormGuestsField.setCustomValidity(``);
+    adFormRoomsField.setCustomValidity(``);
+  }
+};
+
 // Валидация формы
 
 const validateAdForm = () => {
@@ -346,6 +387,22 @@ const validateAdForm = () => {
 
   adFormPriceField.addEventListener(`input`, () => {
     validatePriceField();
+  });
+
+  adFormCheckinField.addEventListener(`change`, () => {
+    validateTimeCheckIn();
+  });
+
+  adFormCheckoutField.addEventListener(`change`, () => {
+    validateTimeCheckOut();
+  });
+
+  adFormGuestsField.addEventListener(`change`, () => {
+    validateGuestsAndRooms();
+  });
+
+  adFormRoomsField.addEventListener(`change`, () => {
+    validateGuestsAndRooms();
   });
 };
 
