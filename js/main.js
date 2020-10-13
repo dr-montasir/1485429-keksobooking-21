@@ -32,6 +32,7 @@ const PRICE_BY_HOUSE_TYPE = {
   house: {min: 5000, max: 10000},
   palace: {min: 10000, max: 20000}
 };
+const HEIGHT_MAPPINMAIN_AFTER = 22;
 
 const mapBlock = document.querySelector(`.map`);
 const mapPinMain = document.querySelector(`.map__pin--main`);
@@ -50,13 +51,20 @@ const adFormRoomsField = adForm.querySelector(`#room_number`);
 const activateBookingPage = () => {
   mapBlock.classList.remove(`map--faded`);
   adForm.classList.remove(`ad-form--disabled`);
+  renderPins(offers);
+
+  mapPinMain.removeEventListener(`mousedown`, onMainPinMousedown);
+  mapPinMain.removeEventListener(`keydown`, onMainPinKeydown);
 };
 
 // Деактивация cтраницы Кексобукинга (форма и карта)
-// const deactivateBookingPage = () => {
-//   mapBlock.classList.add(`map--faded`);
-//   adForm.classList.add(`ad-form--disabled`);
-// };
+const deactivateBookingPage = () => {
+  mapBlock.classList.add(`map--faded`);
+  adForm.classList.add(`ad-form--disabled`);
+
+  mapPinMain.addEventListener(`mousedown`, onMainPinMousedown);
+  mapPinMain.addEventListener(`keydown`, onMainPinKeydown);
+};
 
 // The value is no lower min and is less than (but not equal to) max.
 const getRandomInt = (min = 0, max = 100) => {
@@ -238,25 +246,21 @@ const renderPins = (offers) => {
 
 // Module4-task1
 
-mapPinMain.addEventListener(`mousedown`, (evt) => {
+const onMainPinMousedown = (evt) => {
   if (evt.button === 0) {
     if (mapBlock.classList.contains(`map--faded`)) {
       activateBookingPage();
-      const offers = generateOffers();
-      renderPins(offers);
     }
   }
-});
+};
 
-mapPinMain.addEventListener(`keydown`, (evt) => {
+const onMainPinKeydown = (evt) => {
   if (evt.key === `Enter`) {
     if (mapBlock.classList.contains(`map--faded`)) {
       activateBookingPage();
-      const offers = generateOffers();
-      renderPins(offers);
     }
   }
-});
+};
 
 // Устанавливать цвет поля в случае неуспеха
 
@@ -290,8 +294,8 @@ const validateTitleField = () => {
 // Устанавливать адрес объявления
 
 const setAddressField = (pointX, pointY) => {
-  pointX = mapPinMain.offsetLeft + XY_OFFSET.x;
-  pointY = mapPinMain.offsetTop + XY_OFFSET.y;
+  pointX = mapPinMain.offsetLeft + Math.round(mapPinMain.offsetWidth / 2);
+  pointY = mapPinMain.offsetTop + mapPinMain.offsetHeight + HEIGHT_MAPPINMAIN_AFTER;
   adFormAddressField.setAttribute(`value`, `${pointX}, ${pointY}`);
 };
 
@@ -357,16 +361,18 @@ const validateTimeCheckOut = () => {
 
 // Валидация Guests And Rooms
 
-const validateGuestsAndRooms = () => {
-  if (Number(adFormGuestsField.value) !== 0 && Number(adFormRoomsField.value) === 100) {
-    adFormGuestsField.setCustomValidity(`Не для гостей. Пожалуйста, выберите другой вариант.`);
-  } else if (Number(adFormGuestsField.value) === 0 && Number(adFormRoomsField.value) !== 100) {
-    adFormRoomsField.setCustomValidity(`Для выбора (не для гостей). Пожалуйста, выберите максимальное количество комнат.`);
-  } else if (Number(adFormGuestsField.value) > Number(adFormRoomsField.value)) {
-    adFormRoomsField.setCustomValidity(`Слишком много гостей для данного выбора комнат. Пожалуйста, выберите больше комнат.`);
+const validateGuestsAndRooms = (target) => {
+  const guestsValue = Number(adFormGuestsField.value);
+  const roomsValue = Number(adFormRoomsField.value);
+
+  if (guestsValue !== 0 && roomsValue === 100) {
+    target.setCustomValidity(`Не для гостей. Пожалуйста, выберите другой вариант.`);
+  } else if (guestsValue === 0 && roomsValue !== 100) {
+    target.setCustomValidity(`Для выбора (не для гостей). Пожалуйста, выберите максимальное количество комнат.`);
+  } else if (guestsValue > roomsValue) {
+    target.setCustomValidity(`Слишком много гостей для данного выбора комнат. Пожалуйста, выберите больше комнат.`);
   } else {
-    adFormGuestsField.setCustomValidity(``);
-    adFormRoomsField.setCustomValidity(``);
+    target.setCustomValidity(``);
   }
 };
 
@@ -398,17 +404,17 @@ const validateAdForm = () => {
   });
 
   adFormGuestsField.addEventListener(`change`, () => {
-    validateGuestsAndRooms();
+    validateGuestsAndRooms(adFormGuestsField);
   });
 
   adFormRoomsField.addEventListener(`change`, () => {
-    validateGuestsAndRooms();
+    validateGuestsAndRooms(adFormRoomsField);
   });
 };
 
 validateAdForm();
 
-// deactivateBookingPage();
-// const offers = generateOffers();
+deactivateBookingPage();
+const offers = generateOffers();
 // renderPins(offers);
 // createOfferCard(offers[0]);
