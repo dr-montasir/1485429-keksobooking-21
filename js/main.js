@@ -37,7 +37,11 @@ const HEIGHT_MAPPINMAIN_AFTER = 22;
 const mapBlock = document.querySelector(`.map`);
 const mapPinMain = document.querySelector(`.map__pin--main`);
 const pinBlock = mapBlock.querySelector(`.map__pins`);
+const formFilters = document.querySelector(`.map__filters`);
+const allFiltersSelect = formFilters.querySelectorAll(`select`);
+const allFiltersInput = formFilters.querySelectorAll(`input`);
 const adForm = document.querySelector(`.ad-form`);
+const adFormAllFieldset = adForm.querySelectorAll(`fieldset`);
 const adFormTitleField = adForm.querySelector(`#title`);
 const adFormAddressField = adForm.querySelector(`#address`);
 const adFormTypeField = adForm.querySelector(`#type`);
@@ -53,6 +57,18 @@ const activateBookingPage = () => {
   adForm.classList.remove(`ad-form--disabled`);
   renderPins(offers);
 
+  allFiltersSelect.forEach((element) => {
+    element.disabled = false;
+  });
+
+  allFiltersInput.forEach((element) => {
+    element.disabled = false;
+  });
+
+  adFormAllFieldset.forEach((element) => {
+    element.disabled = false;
+  });
+
   mapPinMain.removeEventListener(`mousedown`, onMainPinMousedown);
   mapPinMain.removeEventListener(`keydown`, onMainPinKeydown);
 };
@@ -61,6 +77,18 @@ const activateBookingPage = () => {
 const deactivateBookingPage = () => {
   mapBlock.classList.add(`map--faded`);
   adForm.classList.add(`ad-form--disabled`);
+
+  allFiltersSelect.forEach((element) => {
+    element.disabled = true;
+  });
+
+  allFiltersInput.forEach((element) => {
+    element.disabled = true;
+  });
+
+  adFormAllFieldset.forEach((element) => {
+    element.disabled = true;
+  });
 
   mapPinMain.addEventListener(`mousedown`, onMainPinMousedown);
   mapPinMain.addEventListener(`keydown`, onMainPinKeydown);
@@ -296,7 +324,7 @@ const validateTitleField = () => {
 const setAddressField = (pointX, pointY) => {
   pointX = mapPinMain.offsetLeft + Math.round(mapPinMain.offsetWidth / 2);
   pointY = mapPinMain.offsetTop + mapPinMain.offsetHeight + HEIGHT_MAPPINMAIN_AFTER;
-  adFormAddressField.setAttribute(`value`, `${pointX}, ${pointY}`);
+  adFormAddressField.value = `${pointX}, ${pointY}`;
 };
 
 setAddressField();
@@ -307,8 +335,8 @@ const setPriceByHouseType = (minPrice, maxPrice) => {
   minPrice = PRICE_BY_HOUSE_TYPE[adFormTypeField.value].min;
   maxPrice = PRICE_BY_HOUSE_TYPE[adFormTypeField.value].max;
   adFormPriceField.placeholder = minPrice;
-  adFormPriceField.setAttribute(`min`, minPrice);
-  adFormPriceField.setAttribute(`max`, maxPrice);
+  adFormPriceField.min = minPrice;
+  adFormPriceField.max = maxPrice;
   return {
     min: minPrice,
     max: maxPrice
@@ -340,23 +368,13 @@ const validatePriceField = (minValue, maxValue) => {
 // Валидация Time CheckIn
 
 const validateTimeCheckIn = () => {
-  const timeOuts = adFormCheckoutField.querySelectorAll(`option`);
-
-  for (let i = 0; i < timeOuts.length; i++) {
-    timeOuts[i].removeAttribute(`selected`);
-  }
-  timeOuts[adFormCheckinField.selectedIndex].setAttribute(`selected`, true);
+  adFormCheckoutField.value = adFormCheckinField.value;
 };
 
 // Валидация Time CheckOut
 
 const validateTimeCheckOut = () => {
-  const timeIns = adFormCheckinField.querySelectorAll(`option`);
-
-  for (let i = 0; i < timeIns.length; i++) {
-    timeIns[i].removeAttribute(`selected`);
-  }
-  timeIns[adFormCheckoutField.selectedIndex].setAttribute(`selected`, true);
+  adFormCheckinField.value = adFormCheckoutField.value;
 };
 
 // Валидация Guests And Rooms
