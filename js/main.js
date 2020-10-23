@@ -173,7 +173,8 @@ const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
           description: `Описание`,
           photos: getRandomArray(PHOTOS)
         },
-        location: locationXY
+        location: locationXY,
+        value: i
       };
     };
 
@@ -188,6 +189,7 @@ const renderPin = (offer) => {
   const pin = pinTemplate.cloneNode(true);
   const pinImage = pin.querySelector(`img`);
   const pinButton = pin.querySelector(`button`);
+  pinButton.value = offer.value;
   pinButton.style = `left:${offer.location.x - XY_OFFSET.x}px;
                      top:${offer.location.y - XY_OFFSET.y}px;`;
   pinImage.src = `${offer.author.avatar}`;
@@ -327,8 +329,6 @@ const setAddressField = (pointX, pointY) => {
   adFormAddressField.value = `${pointX}, ${pointY}`;
 };
 
-setAddressField();
-
 // Устанавливать минимальную и максимальную цену по типу жилья
 
 const setPriceByHouseType = (minPrice, maxPrice) => {
@@ -430,9 +430,10 @@ const validateAdForm = () => {
   });
 };
 
-validateAdForm();
-
 deactivateBookingPage();
 const offers = generateOffers();
+setAddressField();
+validateAdForm();
+
 // renderPins(offers);
 // createOfferCard(offers[0]);
