@@ -71,6 +71,8 @@ const activateBookingPage = () => {
 
   mapPinMain.removeEventListener(`mousedown`, onMainPinMousedown);
   mapPinMain.removeEventListener(`keydown`, onMainPinKeydown);
+
+  renderOfferCard();
 };
 
 // Деактивация cтраницы Кексобукинга (форма и карта)
@@ -208,71 +210,75 @@ const renderPins = (offers) => {
   pinBlock.appendChild(fragment);
 };
 
-// const renderOfferFeatures = (offerCard, features) => {
-//   const offerFeatures = offerCard.querySelector(`.popup__features`);
-//   offerFeatures.innerHTML = ``;
+// эта часть была закомментирована в модуле 4 задача 1 //
 
-//   if (!features || features.length === 0) {
-//     offerFeatures.classList.add(`hidden`);
-//   }
+const renderOfferFeatures = (offerCard, features) => {
+  const offerFeatures = offerCard.querySelector(`.popup__features`);
+  offerFeatures.innerHTML = ``;
 
-//   const fragment = document.createDocumentFragment();
+  if (!features || features.length === 0) {
+    offerFeatures.classList.add(`hidden`);
+  }
 
-//   features.forEach((feature) => {
-//     const featureItem = document.createElement(`li`);
-//     featureItem.classList.add(`popup__feature`, `popup__feature--${feature}`);
-//     fragment.appendChild(featureItem);
-//   });
+  const fragment = document.createDocumentFragment();
 
-//   offerFeatures.appendChild(fragment);
-// };
+  features.forEach((feature) => {
+    const featureItem = document.createElement(`li`);
+    featureItem.classList.add(`popup__feature`, `popup__feature--${feature}`);
+    fragment.appendChild(featureItem);
+  });
 
-// const renderOfferPhotos = (offerCard, photos) => {
-//   const offerPhotos = offerCard.querySelector(`.popup__photos`);
-//   const offerPhoto = offerPhotos.querySelector(`img`);
-//   offerPhotos.innerHTML = ``;
+  offerFeatures.appendChild(fragment);
+};
 
-//   if (!photos || photos.length === 0) {
-//     offerPhotos.classList.add(`hidden`);
-//   }
+const renderOfferPhotos = (offerCard, photos) => {
+  const offerPhotos = offerCard.querySelector(`.popup__photos`);
+  const offerPhoto = offerPhotos.querySelector(`img`);
+  offerPhotos.innerHTML = ``;
 
-//   const fragment = document.createDocumentFragment();
+  if (!photos || photos.length === 0) {
+    offerPhotos.classList.add(`hidden`);
+  }
 
-//   photos.forEach((photo) => {
-//     const offerCardPhoto = offerPhoto.cloneNode();
-//     offerCardPhoto.src = photo;
-//     fragment.appendChild(offerCardPhoto);
-//   });
+  const fragment = document.createDocumentFragment();
 
-//   return offerPhotos.appendChild(fragment);
-// };
+  photos.forEach((photo) => {
+    const offerCardPhoto = offerPhoto.cloneNode();
+    offerCardPhoto.src = photo;
+    fragment.appendChild(offerCardPhoto);
+  });
 
-// const createOfferCard = (offer) => {
-//   const cardTemplate = document.querySelector(`#card`).content;
-//   const mapCard = cardTemplate.querySelector(`.map__card`);
-//   const offerCard = mapCard.cloneNode(true);
-//   const offerTitle = offerCard.querySelector(`.popup__title`);
-//   const offerAddress = offerCard.querySelector(`.popup__text--address`);
-//   const offerPrice = offerCard.querySelector(`.popup__text--price`);
-//   const offerHouseType = offerCard.querySelector(`.popup__type`);
-//   const offerRoomsAndGuests = offerCard.querySelector(`.popup__text--capacity`);
-//   const offerTimes = offerCard.querySelector(`.popup__text--time`);
-//   const offerDescription = offerCard.querySelector(`.popup__description`);
-//   const offerAvatar = offerCard.querySelector(`.popup__avatar`);
+  return offerPhotos.appendChild(fragment);
+};
 
-//   offerTitle.textContent = offer.offer.title;
-//   offerAddress.textContent = offer.offer.address;
-//   offerPrice.textContent = `${offer.offer.price}₽/ночь`;
-//   offerHouseType.textContent = offer.offer.type;
-//   offerRoomsAndGuests.textContent = `${offer.offer.rooms} комнаты для ${offer.offer.guests} гостей.`;
-//   offerTimes.textContent = `Заезд после ${offer.offer.checkin}, выезд до ${offer.offer.checkout}.`;
-//   renderOfferFeatures(offerCard, offer.offer.features);
-//   offerDescription.textContent = offer.offer.description;
-//   renderOfferPhotos(offerCard, offer.offer.photos);
-//   offerAvatar.src = `${offer.author.avatar}`;
+const createOfferCard = (offer) => {
+  const cardTemplate = document.querySelector(`#card`).content;
+  const mapCard = cardTemplate.querySelector(`.map__card`);
+  const offerCard = mapCard.cloneNode(true);
+  const offerTitle = offerCard.querySelector(`.popup__title`);
+  const offerAddress = offerCard.querySelector(`.popup__text--address`);
+  const offerPrice = offerCard.querySelector(`.popup__text--price`);
+  const offerHouseType = offerCard.querySelector(`.popup__type`);
+  const offerRoomsAndGuests = offerCard.querySelector(`.popup__text--capacity`);
+  const offerTimes = offerCard.querySelector(`.popup__text--time`);
+  const offerDescription = offerCard.querySelector(`.popup__description`);
+  const offerAvatar = offerCard.querySelector(`.popup__avatar`);
 
-//   pinBlock.append(offerCard);
-// };
+  offerTitle.textContent = offer.offer.title;
+  offerAddress.textContent = offer.offer.address;
+  offerPrice.textContent = `${offer.offer.price}₽/ночь`;
+  offerHouseType.textContent = offer.offer.type;
+  offerRoomsAndGuests.textContent = `${offer.offer.rooms} комнаты для ${offer.offer.guests} гостей.`;
+  offerTimes.textContent = `Заезд после ${offer.offer.checkin}, выезд до ${offer.offer.checkout}.`;
+  renderOfferFeatures(offerCard, offer.offer.features);
+  offerDescription.textContent = offer.offer.description;
+  renderOfferPhotos(offerCard, offer.offer.photos);
+  offerAvatar.src = `${offer.author.avatar}`;
+
+  pinBlock.append(offerCard);
+};
+
+// конец закомментированой части в модуле 4 задача 1//
 
 // Module4-task1
 
@@ -428,6 +434,12 @@ const validateAdForm = () => {
   adFormRoomsField.addEventListener(`change`, () => {
     validateGuestsAndRooms(adFormRoomsField);
   });
+};
+
+// Код функцию показа карточки объявления
+
+const renderOfferCard = () => {
+  createOfferCard(offers[0]);
 };
 
 deactivateBookingPage();
