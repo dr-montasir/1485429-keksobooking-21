@@ -2,10 +2,8 @@
 
 const NUMBER_OF_OFFERS = 8;
 const MIM_NUMBER_OF_USERS = 1;
-// const POST_TITLES = [`Дворец`, `Квартира`, `Дом`, `Бунгало`];
 const PRICE_FROM = 0;
 const PRICE_TO = 20000;
-// const TYPE_OF_HOUSES = [`palace`, `flat`, `house`, `bungalo`];
 const NUMBER_OF_ROOMS = [1, 2, 3, 100];
 const NUMBER_OF_GUESTS = [3, 2, 1, 0];
 const CHECKINS = [`12:00`, `13:00`, `14:00`];
@@ -26,12 +24,6 @@ const PHOTOS = [
 const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
 const XY_OFFSET = Object.freeze({x: 25, y: 50});
 const FORM_TITLE_LENGTH = Object.freeze({min: 30, max: 100});
-// const TITLES_AND_TYPES = {
-//   palace: `Дворец`,
-//   flat: `Квартира`,
-//   house: `Дом`,
-//   bungalo: `Бунгало`
-// };
 const HOUSES = [
   {type: `Дворец`, title: `Великолепный дворец`},
   {type: `Квартира`, title: `Квартира известного писателя Харуки Мураками`},
@@ -135,18 +127,6 @@ const getRandomArray = (randomElements) => {
 
   return newArray.slice(0, getRandomInt(0, newArray.length));
 };
-
-// const getTitleAndType = (titles, types) => {
-//   const elements = [];
-//   titles = POST_TITLES;
-//   types = TYPE_OF_HOUSES;
-
-//   for (let i = 0; i < titles.length; i++) {
-//     elements.push({title: titles[i], type: types[i]});
-//   }
-
-//   return elements;
-// };
 
 const getlocationXY = () => {
   const locations = [];
@@ -276,8 +256,8 @@ const renderOfferPhotos = (offerCard, photos) => {
   return offerPhotos.appendChild(fragment);
 };
 
-const onPopupEscClose = (key) => {
-  if (key === `Escape`) {
+const onPopupEscClose = (evt) => {
+  if (evt.key === `Escape`) {
     onPopupClose();
   }
 };
