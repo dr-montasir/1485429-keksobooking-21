@@ -98,44 +98,44 @@ const deactivateBookingPage = () => {
   mapPinMain.addEventListener(`keydown`, onMainPinKeydown);
 };
 
-// Здесь я пишу код для рандомного номера
-// The value is no lower min and is less than (but not equal to) max.
-const getRandomInt = (min = 0, max = 100) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
+// Здесь я пишу код для рандомного номера  (utils.js)
+// // The value is no lower min and is less than (but not equal to) max.
+// const getRandomInt = (min = 0, max = 100) => {
+//   min = Math.ceil(min);
+//   max = Math.floor(max);
+//   return Math.floor(Math.random() * (max - min + 1) + min);
+// };
 
-const getMaxIndex = (array) => {
-  return array.length - 1;
-};
+// const getMaxIndex = (array) => {
+//   return array.length - 1;
+// };
 
-const minIndex = 0;
+// const minIndex = 0;
 
-const shuffle = (elements) => {
-  const shuffledElements = elements.slice();
+// const shuffle = (elements) => {
+//   const shuffledElements = elements.slice();
 
-  for (let i = shuffledElements.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [shuffledElements[i], shuffledElements[j]] = [shuffledElements[j], shuffledElements[i]];
-  }
+//   for (let i = shuffledElements.length - 1; i > 0; i--) {
+//     let j = Math.floor(Math.random() * (i + 1));
+//     [shuffledElements[i], shuffledElements[j]] = [shuffledElements[j], shuffledElements[i]];
+//   }
 
-  return shuffledElements;
-};
+//   return shuffledElements;
+// };
 
-const getRandomArray = (randomElements) => {
-  const newArray = shuffle(randomElements.slice());
+// const getRandomArray = (randomElements) => {
+//   const newArray = shuffle(randomElements.slice());
 
-  return newArray.slice(0, getRandomInt(0, newArray.length));
-};
+//   return newArray.slice(0, getRandomInt(0, newArray.length));
+// };
 
 // Здесь я пишу код для определения локации пинов и их границ
 const getlocationXY = () => {
   const locations = [];
 
   for (let i = 0; i < NUMBER_OF_OFFERS; i++) {
-    const locationX = getRandomInt(STATIC_POINTS.x1, STATIC_POINTS.x2);
-    const locationY = getRandomInt(STATIC_POINTS.y1, STATIC_POINTS.y2);
+    const locationX = window.utils.getRandomInt(STATIC_POINTS.x1, STATIC_POINTS.x2);
+    const locationY = window.utils.getRandomInt(STATIC_POINTS.y1, STATIC_POINTS.y2);
     locations.push({x: locationX, y: locationY});
   }
 
@@ -146,26 +146,26 @@ const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
   const offers = [];
 
   for (let i = 0; i < quantity; i++) {
-    const house = HOUSES[getRandomInt(minIndex, getMaxIndex(HOUSES))];
-    const locationXY = getlocationXY()[getRandomInt(minIndex, getMaxIndex(getlocationXY()))];
+    const house = HOUSES[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(HOUSES))];
+    const locationXY = getlocationXY()[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(getlocationXY()))];
 
     const generateOffer = () => {
       return {
         author: {
-          avatar: `img/avatars/user0${getRandomInt(MIM_NUMBER_OF_USERS, NUMBER_OF_OFFERS)}.png`
+          avatar: `img/avatars/user0${window.utils.getRandomInt(MIM_NUMBER_OF_USERS, NUMBER_OF_OFFERS)}.png`
         },
         offer: {
           title: house.title,
           address: `${locationXY.x}, ${locationXY.y}`,
-          price: getRandomInt(PRICE_FROM, PRICE_TO),
+          price: window.utils.getRandomInt(PRICE_FROM, PRICE_TO),
           type: house.type,
-          rooms: NUMBER_OF_ROOMS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_ROOMS))],
-          guests: NUMBER_OF_GUESTS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_GUESTS))],
-          checkin: CHECKINS[getRandomInt(minIndex, getMaxIndex(CHECKINS))],
-          checkout: CHECKOUTS[getRandomInt(minIndex, getMaxIndex(CHECKOUTS))],
-          features: getRandomArray(FEATURES),
+          rooms: NUMBER_OF_ROOMS[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(NUMBER_OF_ROOMS))],
+          guests: NUMBER_OF_GUESTS[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(NUMBER_OF_GUESTS))],
+          checkin: CHECKINS[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(CHECKINS))],
+          checkout: CHECKOUTS[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(CHECKOUTS))],
+          features: window.utils.getRandomArray(FEATURES),
           description: `Описание`,
-          photos: getRandomArray(PHOTOS)
+          photos: window.utils.getRandomArray(PHOTOS)
         },
         location: locationXY
       };
