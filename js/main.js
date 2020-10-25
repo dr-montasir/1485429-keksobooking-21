@@ -98,37 +98,6 @@ const deactivateBookingPage = () => {
   mapPinMain.addEventListener(`keydown`, onMainPinKeydown);
 };
 
-// Здесь я пишу код для рандомного номера  (utils.js)
-// // The value is no lower min and is less than (but not equal to) max.
-// const getRandomInt = (min = 0, max = 100) => {
-//   min = Math.ceil(min);
-//   max = Math.floor(max);
-//   return Math.floor(Math.random() * (max - min + 1) + min);
-// };
-
-// const getMaxIndex = (array) => {
-//   return array.length - 1;
-// };
-
-// const minIndex = 0;
-
-// const shuffle = (elements) => {
-//   const shuffledElements = elements.slice();
-
-//   for (let i = shuffledElements.length - 1; i > 0; i--) {
-//     let j = Math.floor(Math.random() * (i + 1));
-//     [shuffledElements[i], shuffledElements[j]] = [shuffledElements[j], shuffledElements[i]];
-//   }
-
-//   return shuffledElements;
-// };
-
-// const getRandomArray = (randomElements) => {
-//   const newArray = shuffle(randomElements.slice());
-
-//   return newArray.slice(0, getRandomInt(0, newArray.length));
-// };
-
 // Здесь я пишу код для определения локации пинов и их границ
 const getlocationXY = () => {
   const locations = [];
@@ -258,30 +227,6 @@ const renderOfferPhotos = (offerCard, photos) => {
   return offerPhotos.appendChild(fragment);
 };
 
-// Здесь я пишу код popup (popup.js)
-const onPopupEscClose = (evt) => {
-  if (evt.key === `Escape`) {
-    onPopupClose();
-  }
-};
-
-// закрыть всплывающую карточку объявления
-const onPopupClose = () => {
-  const mapCard = mapBlock.querySelector(`.map__card`);
-
-  mapCard.remove();
-
-  const activePin = mapBlock.querySelector(`.map__pin--active`);
-
-  if (activePin) {
-    activePin.classList.remove(`map__pin--active`);
-  }
-
-  const popupButton = mapCard.querySelector(`.popup__close`);
-  popupButton.removeEventListener(`click`, onPopupClose);
-  document.removeEventListener(`keydown`, onPopupEscClose);
-};
-
 const createOfferCard = (offer) => {
   const cardTemplate = document.querySelector(`#card`).content;
   const mapCard = cardTemplate.querySelector(`.map__card`);
@@ -310,8 +255,8 @@ const createOfferCard = (offer) => {
 
   // popupButton для закрытия всплывающей карточки объявления
   const popupButton = offerCard.querySelector(`.popup__close`);
-  popupButton.addEventListener(`click`, onPopupClose);
-  document.addEventListener(`keydown`, onPopupEscClose);
+  popupButton.addEventListener(`click`, window.popup.onPopupClose);
+  document.addEventListener(`keydown`, window.popup.onPopupEscClose);
 };
 
 // конец закомментированой части в модуле 4 задача 1//
