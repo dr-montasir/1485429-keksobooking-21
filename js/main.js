@@ -2,10 +2,10 @@
 
 const NUMBER_OF_OFFERS = 8;
 const MIM_NUMBER_OF_USERS = 1;
-const POST_TITLES = [`Дворец`, `Квартира`, `Дом`, `Бунгало`];
+// const POST_TITLES = [`Дворец`, `Квартира`, `Дом`, `Бунгало`];
 const PRICE_FROM = 0;
 const PRICE_TO = 20000;
-const TYPE_OF_HOUSES = [`palace`, `flat`, `house`, `bungalo`];
+// const TYPE_OF_HOUSES = [`palace`, `flat`, `house`, `bungalo`];
 const NUMBER_OF_ROOMS = [1, 2, 3, 100];
 const NUMBER_OF_GUESTS = [3, 2, 1, 0];
 const CHECKINS = [`12:00`, `13:00`, `14:00`];
@@ -26,6 +26,18 @@ const PHOTOS = [
 const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
 const XY_OFFSET = Object.freeze({x: 25, y: 50});
 const FORM_TITLE_LENGTH = Object.freeze({min: 30, max: 100});
+// const TITLES_AND_TYPES = {
+//   palace: `Дворец`,
+//   flat: `Квартира`,
+//   house: `Дом`,
+//   bungalo: `Бунгало`
+// };
+const HOUSES = [
+  {type: `Дворец`, title: `Великолепный дворец`},
+  {type: `Квартира`, title: `Квартира известного писателя Харуки Мураками`},
+  {type: `Дом`, title: `Дом известного писателя Дзюнъитиро Танидзаки`},
+  {type: `Бунгало`, title: `Бунгало, все необходимое и подарки`}
+];
 const PRICE_BY_HOUSE_TYPE = {
   bungalo: {min: 0, max: 500},
   flat: {min: 1000, max: 2000},
@@ -124,17 +136,17 @@ const getRandomArray = (randomElements) => {
   return newArray.slice(0, getRandomInt(0, newArray.length));
 };
 
-const getTitleAndType = (titles, types) => {
-  const elements = [];
-  titles = POST_TITLES;
-  types = TYPE_OF_HOUSES;
+// const getTitleAndType = (titles, types) => {
+//   const elements = [];
+//   titles = POST_TITLES;
+//   types = TYPE_OF_HOUSES;
 
-  for (let i = 0; i < titles.length; i++) {
-    elements.push({title: titles[i], type: types[i]});
-  }
+//   for (let i = 0; i < titles.length; i++) {
+//     elements.push({title: titles[i], type: types[i]});
+//   }
 
-  return elements;
-};
+//   return elements;
+// };
 
 const getlocationXY = () => {
   const locations = [];
@@ -152,7 +164,7 @@ const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
   const offers = [];
 
   for (let i = 0; i < quantity; i++) {
-    const titleAndType = getTitleAndType()[getRandomInt(minIndex, getMaxIndex(getTitleAndType()))];
+    const house = HOUSES[getRandomInt(minIndex, getMaxIndex(HOUSES))];
     const locationXY = getlocationXY()[getRandomInt(minIndex, getMaxIndex(getlocationXY()))];
 
     const generateOffer = () => {
@@ -161,10 +173,10 @@ const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
           avatar: `img/avatars/user0${getRandomInt(MIM_NUMBER_OF_USERS, NUMBER_OF_OFFERS)}.png`
         },
         offer: {
-          title: titleAndType.title,
+          title: house.title,
           address: `${locationXY.x}, ${locationXY.y}`,
           price: getRandomInt(PRICE_FROM, PRICE_TO),
-          type: titleAndType.type,
+          type: house.type,
           rooms: NUMBER_OF_ROOMS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_ROOMS))],
           guests: NUMBER_OF_GUESTS[getRandomInt(minIndex, getMaxIndex(NUMBER_OF_GUESTS))],
           checkin: CHECKINS[getRandomInt(minIndex, getMaxIndex(CHECKINS))],
@@ -193,6 +205,23 @@ const renderPin = (offer) => {
   pinImage.src = `${offer.author.avatar}`;
   pinImage.alt = `${offer.offer.title}`;
 
+  pinButton.addEventListener(`click`, () => {
+    const oldCard = mapBlock.querySelector(`.map__card`);
+    const activePin = mapBlock.querySelector(`.map__pin--active`);
+
+    if (activePin) {
+      activePin.classList.remove(`map__pin--active`);
+    }
+
+    if (oldCard) {
+      oldCard.remove();
+    }
+
+    createOfferCard(offer);
+
+    pinButton.classList.add(`map__pin--active`);
+  });
+
   return pin;
 };
 
@@ -206,73 +235,103 @@ const renderPins = (offers) => {
   pinBlock.appendChild(fragment);
 };
 
-// const renderOfferFeatures = (offerCard, features) => {
-//   const offerFeatures = offerCard.querySelector(`.popup__features`);
-//   offerFeatures.innerHTML = ``;
+// эта часть была закомментирована в модуле 4 задача 1 //
 
-//   if (!features || features.length === 0) {
-//     offerFeatures.classList.add(`hidden`);
-//   }
+const renderOfferFeatures = (offerCard, features) => {
+  const offerFeatures = offerCard.querySelector(`.popup__features`);
+  offerFeatures.innerHTML = ``;
 
-//   const fragment = document.createDocumentFragment();
+  if (!features || features.length === 0) {
+    offerFeatures.classList.add(`hidden`);
+  }
 
-//   features.forEach((feature) => {
-//     const featureItem = document.createElement(`li`);
-//     featureItem.classList.add(`popup__feature`, `popup__feature--${feature}`);
-//     fragment.appendChild(featureItem);
-//   });
+  const fragment = document.createDocumentFragment();
 
-//   offerFeatures.appendChild(fragment);
-// };
+  features.forEach((feature) => {
+    const featureItem = document.createElement(`li`);
+    featureItem.classList.add(`popup__feature`, `popup__feature--${feature}`);
+    fragment.appendChild(featureItem);
+  });
 
-// const renderOfferPhotos = (offerCard, photos) => {
-//   const offerPhotos = offerCard.querySelector(`.popup__photos`);
-//   const offerPhoto = offerPhotos.querySelector(`img`);
-//   offerPhotos.innerHTML = ``;
+  offerFeatures.appendChild(fragment);
+};
 
-//   if (!photos || photos.length === 0) {
-//     offerPhotos.classList.add(`hidden`);
-//   }
+const renderOfferPhotos = (offerCard, photos) => {
+  const offerPhotos = offerCard.querySelector(`.popup__photos`);
+  const offerPhoto = offerPhotos.querySelector(`img`);
+  offerPhotos.innerHTML = ``;
 
-//   const fragment = document.createDocumentFragment();
+  if (!photos || photos.length === 0) {
+    offerPhotos.classList.add(`hidden`);
+  }
 
-//   photos.forEach((photo) => {
-//     const offerCardPhoto = offerPhoto.cloneNode();
-//     offerCardPhoto.src = photo;
-//     fragment.appendChild(offerCardPhoto);
-//   });
+  const fragment = document.createDocumentFragment();
 
-//   return offerPhotos.appendChild(fragment);
-// };
+  photos.forEach((photo) => {
+    const offerCardPhoto = offerPhoto.cloneNode();
+    offerCardPhoto.src = photo;
+    fragment.appendChild(offerCardPhoto);
+  });
 
-// const createOfferCard = (offer) => {
-//   const cardTemplate = document.querySelector(`#card`).content;
-//   const mapCard = cardTemplate.querySelector(`.map__card`);
-//   const offerCard = mapCard.cloneNode(true);
-//   const offerTitle = offerCard.querySelector(`.popup__title`);
-//   const offerAddress = offerCard.querySelector(`.popup__text--address`);
-//   const offerPrice = offerCard.querySelector(`.popup__text--price`);
-//   const offerHouseType = offerCard.querySelector(`.popup__type`);
-//   const offerRoomsAndGuests = offerCard.querySelector(`.popup__text--capacity`);
-//   const offerTimes = offerCard.querySelector(`.popup__text--time`);
-//   const offerDescription = offerCard.querySelector(`.popup__description`);
-//   const offerAvatar = offerCard.querySelector(`.popup__avatar`);
+  return offerPhotos.appendChild(fragment);
+};
 
-//   offerTitle.textContent = offer.offer.title;
-//   offerAddress.textContent = offer.offer.address;
-//   offerPrice.textContent = `${offer.offer.price}₽/ночь`;
-//   offerHouseType.textContent = offer.offer.type;
-//   offerRoomsAndGuests.textContent = `${offer.offer.rooms} комнаты для ${offer.offer.guests} гостей.`;
-//   offerTimes.textContent = `Заезд после ${offer.offer.checkin}, выезд до ${offer.offer.checkout}.`;
-//   renderOfferFeatures(offerCard, offer.offer.features);
-//   offerDescription.textContent = offer.offer.description;
-//   renderOfferPhotos(offerCard, offer.offer.photos);
-//   offerAvatar.src = `${offer.author.avatar}`;
+const onPopupEscClose = (key) => {
+  if (key === `Escape`) {
+    onPopupClose();
+  }
+};
 
-//   pinBlock.append(offerCard);
-// };
+// закрыть всплывающую карточку объявления
+const onPopupClose = () => {
+  const mapCard = mapBlock.querySelector(`.map__card`);
 
-// Module4-task1
+  mapCard.remove();
+
+  const activePin = mapBlock.querySelector(`.map__pin--active`);
+
+  if (activePin) {
+    activePin.classList.remove(`map__pin--active`);
+  }
+
+  const popupButton = mapCard.querySelector(`.popup__close`);
+  popupButton.removeEventListener(`click`, onPopupClose);
+  document.removeEventListener(`keydown`, onPopupEscClose);
+};
+
+const createOfferCard = (offer) => {
+  const cardTemplate = document.querySelector(`#card`).content;
+  const mapCard = cardTemplate.querySelector(`.map__card`);
+  const offerCard = mapCard.cloneNode(true);
+  const offerTitle = offerCard.querySelector(`.popup__title`);
+  const offerAddress = offerCard.querySelector(`.popup__text--address`);
+  const offerPrice = offerCard.querySelector(`.popup__text--price`);
+  const offerHouseType = offerCard.querySelector(`.popup__type`);
+  const offerRoomsAndGuests = offerCard.querySelector(`.popup__text--capacity`);
+  const offerTimes = offerCard.querySelector(`.popup__text--time`);
+  const offerDescription = offerCard.querySelector(`.popup__description`);
+  const offerAvatar = offerCard.querySelector(`.popup__avatar`);
+
+  offerTitle.textContent = offer.offer.title;
+  offerAddress.textContent = offer.offer.address;
+  offerPrice.textContent = `${offer.offer.price} ₽/ночь`;
+  offerHouseType.textContent = offer.offer.type;
+  offerRoomsAndGuests.textContent = `${offer.offer.rooms} комнаты для ${offer.offer.guests} гостей.`;
+  offerTimes.textContent = `Заезд после ${offer.offer.checkin}, выезд до ${offer.offer.checkout}.`;
+  renderOfferFeatures(offerCard, offer.offer.features);
+  offerDescription.textContent = offer.offer.description;
+  renderOfferPhotos(offerCard, offer.offer.photos);
+  offerAvatar.src = `${offer.author.avatar}`;
+
+  pinBlock.append(offerCard);
+
+  // popupButton для закрытия всплывающей карточки объявления
+  const popupButton = offerCard.querySelector(`.popup__close`);
+  popupButton.addEventListener(`click`, onPopupClose);
+  document.addEventListener(`keydown`, onPopupEscClose);
+};
+
+// конец закомментированой части в модуле 4 задача 1//
 
 const onMainPinMousedown = (evt) => {
   if (evt.button === 0) {
@@ -326,8 +385,6 @@ const setAddressField = (pointX, pointY) => {
   pointY = mapPinMain.offsetTop + mapPinMain.offsetHeight + HEIGHT_MAPPINMAIN_AFTER;
   adFormAddressField.value = `${pointX}, ${pointY}`;
 };
-
-setAddressField();
 
 // Устанавливать минимальную и максимальную цену по типу жилья
 
@@ -430,9 +487,7 @@ const validateAdForm = () => {
   });
 };
 
-validateAdForm();
-
 deactivateBookingPage();
 const offers = generateOffers();
-// renderPins(offers);
-// createOfferCard(offers[0]);
+setAddressField();
+validateAdForm();
