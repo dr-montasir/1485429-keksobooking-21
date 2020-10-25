@@ -1,42 +1,42 @@
 'use strict';
 
-const NUMBER_OF_OFFERS = 8;
-const MIM_NUMBER_OF_USERS = 1;
-const PRICE_FROM = 0;
-const PRICE_TO = 20000;
-const NUMBER_OF_ROOMS = [1, 2, 3, 100];
-const NUMBER_OF_GUESTS = [3, 2, 1, 0];
-const CHECKINS = [`12:00`, `13:00`, `14:00`];
-const CHECKOUTS = [`12:00`, `13:00`, `14:00`];
-const FEATURES = [
-  `wifi`,
-  `dishwasher`,
-  `parking`,
-  `washer`,
-  `elevator`,
-  `conditioner`
-];
-const PHOTOS = [
-  `http://o0.github.io/assets/images/tokyo/hotel1.jpg`,
-  `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
-  `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
-];
-const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
-const XY_OFFSET = Object.freeze({x: 25, y: 50});
-const FORM_TITLE_LENGTH = Object.freeze({min: 30, max: 100});
-const HOUSES = [
-  {type: `Дворец`, title: `Великолепный дворец`},
-  {type: `Квартира`, title: `Квартира известного писателя Харуки Мураками`},
-  {type: `Дом`, title: `Дом известного писателя Дзюнъитиро Танидзаки`},
-  {type: `Бунгало`, title: `Бунгало, все необходимое и подарки`}
-];
-const PRICE_BY_HOUSE_TYPE = {
-  bungalo: {min: 0, max: 500},
-  flat: {min: 1000, max: 2000},
-  house: {min: 5000, max: 10000},
-  palace: {min: 10000, max: 20000}
-};
-const HEIGHT_MAPPINMAIN_AFTER = 22;
+// const NUMBER_OF_OFFERS = 8;
+// const MIM_NUMBER_OF_USERS = 1;
+// const PRICE_FROM = 0;
+// const PRICE_TO = 20000;
+// const NUMBER_OF_ROOMS = [1, 2, 3, 100];
+// const NUMBER_OF_GUESTS = [3, 2, 1, 0];
+// const CHECKINS = [`12:00`, `13:00`, `14:00`];
+// const CHECKOUTS = [`12:00`, `13:00`, `14:00`];
+// const FEATURES = [
+//   `wifi`,
+//   `dishwasher`,
+//   `parking`,
+//   `washer`,
+//   `elevator`,
+//   `conditioner`
+// ];
+// const PHOTOS = [
+//   `http://o0.github.io/assets/images/tokyo/hotel1.jpg`,
+//   `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
+//   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
+// ];
+// const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
+// const XY_OFFSET = Object.freeze({x: 25, y: 50});
+// const FORM_TITLE_LENGTH = Object.freeze({min: 30, max: 100});
+// const HOUSES = [
+//   {type: `Дворец`, title: `Великолепный дворец`},
+//   {type: `Квартира`, title: `Квартира известного писателя Харуки Мураками`},
+//   {type: `Дом`, title: `Дом известного писателя Дзюнъитиро Танидзаки`},
+//   {type: `Бунгало`, title: `Бунгало, все необходимое и подарки`}
+// ];
+// const PRICE_BY_HOUSE_TYPE = {
+//   bungalo: {min: 0, max: 500},
+//   flat: {min: 1000, max: 2000},
+//   house: {min: 5000, max: 10000},
+//   palace: {min: 10000, max: 20000}
+// };
+// const HEIGHT_MAPPINMAIN_AFTER = 22;
 
 const mapBlock = document.querySelector(`.map`);
 const mapPinMain = document.querySelector(`.map__pin--main`);
@@ -44,16 +44,17 @@ const pinBlock = mapBlock.querySelector(`.map__pins`);
 const formFilters = document.querySelector(`.map__filters`);
 const allFiltersSelect = formFilters.querySelectorAll(`select`);
 const allFiltersInput = formFilters.querySelectorAll(`input`);
+
 const adForm = document.querySelector(`.ad-form`);
 const adFormAllFieldset = adForm.querySelectorAll(`fieldset`);
-const adFormTitleField = adForm.querySelector(`#title`);
-const adFormAddressField = adForm.querySelector(`#address`);
-const adFormTypeField = adForm.querySelector(`#type`);
-const adFormPriceField = adForm.querySelector(`#price`);
-const adFormCheckinField = adForm.querySelector(`#timein`);
-const adFormCheckoutField = adForm.querySelector(`#timeout`);
-const adFormGuestsField = adForm.querySelector(`#capacity`);
-const adFormRoomsField = adForm.querySelector(`#room_number`);
+// const adFormTitleField = adForm.querySelector(`#title`);
+// const adFormAddressField = adForm.querySelector(`#address`);
+// const adFormTypeField = adForm.querySelector(`#type`);
+// const adFormPriceField = adForm.querySelector(`#price`);
+// const adFormCheckinField = adForm.querySelector(`#timein`);
+// const adFormCheckoutField = adForm.querySelector(`#timeout`);
+// const adFormGuestsField = adForm.querySelector(`#capacity`);
+// const adFormRoomsField = adForm.querySelector(`#room_number`);
 
 // Здесь я пишу код активации cтраницы Кексобукинга (форма и карта)
 const activateBookingPage = () => {
@@ -102,39 +103,39 @@ const deactivateBookingPage = () => {
 const getlocationXY = () => {
   const locations = [];
 
-  for (let i = 0; i < NUMBER_OF_OFFERS; i++) {
-    const locationX = window.utils.getRandomInt(STATIC_POINTS.x1, STATIC_POINTS.x2);
-    const locationY = window.utils.getRandomInt(STATIC_POINTS.y1, STATIC_POINTS.y2);
+  for (let i = 0; i < window.consts.NUMBER_OF_OFFERS; i++) {
+    const locationX = window.utils.getRandomInt(window.consts.STATIC_POINTS.x1, window.consts.STATIC_POINTS.x2);
+    const locationY = window.utils.getRandomInt(window.consts.STATIC_POINTS.y1, window.consts.STATIC_POINTS.y2);
     locations.push({x: locationX, y: locationY});
   }
 
   return locations;
 };
 
-const generateOffers = (quantity = NUMBER_OF_OFFERS) => {
+const generateOffers = (quantity = window.consts.NUMBER_OF_OFFERS) => {
   const offers = [];
 
   for (let i = 0; i < quantity; i++) {
-    const house = HOUSES[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(HOUSES))];
+    const house = window.consts.HOUSES[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(window.consts.HOUSES))];
     const locationXY = getlocationXY()[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(getlocationXY()))];
 
     const generateOffer = () => {
       return {
         author: {
-          avatar: `img/avatars/user0${window.utils.getRandomInt(MIM_NUMBER_OF_USERS, NUMBER_OF_OFFERS)}.png`
+          avatar: `img/avatars/user0${window.utils.getRandomInt(window.consts.MIM_NUMBER_OF_USERS, window.consts.NUMBER_OF_OFFERS)}.png`
         },
         offer: {
           title: house.title,
           address: `${locationXY.x}, ${locationXY.y}`,
-          price: window.utils.getRandomInt(PRICE_FROM, PRICE_TO),
+          price: window.utils.getRandomInt(window.consts.PRICE_FROM, window.consts.PRICE_TO),
           type: house.type,
-          rooms: NUMBER_OF_ROOMS[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(NUMBER_OF_ROOMS))],
-          guests: NUMBER_OF_GUESTS[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(NUMBER_OF_GUESTS))],
-          checkin: CHECKINS[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(CHECKINS))],
-          checkout: CHECKOUTS[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(CHECKOUTS))],
-          features: window.utils.getRandomArray(FEATURES),
+          rooms: window.consts.NUMBER_OF_ROOMS[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(window.consts.NUMBER_OF_ROOMS))],
+          guests: window.consts.NUMBER_OF_GUESTS[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(window.consts.NUMBER_OF_GUESTS))],
+          checkin: window.consts.CHECKINS[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(window.consts.CHECKINS))],
+          checkout: window.consts.CHECKOUTS[window.utils.getRandomInt(window.utils.minIndex, window.utils.getMaxIndex(window.consts.CHECKOUTS))],
+          features: window.utils.getRandomArray(window.consts.FEATURES),
           description: `Описание`,
-          photos: window.utils.getRandomArray(PHOTOS)
+          photos: window.utils.getRandomArray(window.consts.PHOTOS)
         },
         location: locationXY
       };
@@ -151,8 +152,8 @@ const renderPin = (offer) => {
   const pin = pinTemplate.cloneNode(true);
   const pinImage = pin.querySelector(`img`);
   const pinButton = pin.querySelector(`button`);
-  pinButton.style = `left:${offer.location.x - XY_OFFSET.x}px;
-                     top:${offer.location.y - XY_OFFSET.y}px;`;
+  pinButton.style = `left:${offer.location.x - window.consts.XY_OFFSET.x}px;
+                     top:${offer.location.y - window.consts.XY_OFFSET.y}px;`;
   pinImage.src = `${offer.author.avatar}`;
   pinImage.alt = `${offer.offer.title}`;
 
@@ -277,145 +278,145 @@ const onMainPinKeydown = (evt) => {
   }
 };
 
-// Устанавливать цвет поля в случае неуспеха
+// // Устанавливать цвет поля в случае неуспеха  (form.js)
 
-const setUnsuccessColor = (field) => {
-  field.style = `border-color: orange; box-shadow: 0 0 2px 2px orange;`;
-};
+// const setUnsuccessColor = (field) => {
+//   field.style = `border-color: orange; box-shadow: 0 0 2px 2px orange;`;
+// };
 
-// Устанавливать цвет поля в случае успеха
+// // Устанавливать цвет поля в случае успеха
 
-const setSuccessColor = (field) => {
-  field.style = `border-color: #ffaa99; box-shadow: 0 0 2px 2px #ff6547;`;
-};
+// const setSuccessColor = (field) => {
+//   field.style = `border-color: #ffaa99; box-shadow: 0 0 2px 2px #ff6547;`;
+// };
 
-// Валидация заголовка объявления
+// // Валидация заголовка объявления
 
-const validateTitleField = () => {
-  const titleValue = adFormTitleField.value;
+// const validateTitleField = () => {
+//   const titleValue = adFormTitleField.value;
 
-  if (titleValue.length >= FORM_TITLE_LENGTH.min && titleValue.length <= FORM_TITLE_LENGTH.max) {
-    setSuccessColor(adFormTitleField);
-    adFormTitleField.setCustomValidity(``);
-  } else if (titleValue.length === 0) {
-    setUnsuccessColor(adFormTitleField);
-    adFormTitleField.setCustomValidity(`Пожалуйста, заполните это поле`);
-  } else {
-    setUnsuccessColor(adFormTitleField);
-    adFormTitleField.setCustomValidity(`должно быть от ${FORM_TITLE_LENGTH.min} до ${FORM_TITLE_LENGTH.max} символов`);
-  }
-};
+//   if (titleValue.length >= FORM_TITLE_LENGTH.min && titleValue.length <= FORM_TITLE_LENGTH.max) {
+//     setSuccessColor(adFormTitleField);
+//     adFormTitleField.setCustomValidity(``);
+//   } else if (titleValue.length === 0) {
+//     setUnsuccessColor(adFormTitleField);
+//     adFormTitleField.setCustomValidity(`Пожалуйста, заполните это поле`);
+//   } else {
+//     setUnsuccessColor(adFormTitleField);
+//     adFormTitleField.setCustomValidity(`должно быть от ${FORM_TITLE_LENGTH.min} до ${FORM_TITLE_LENGTH.max} символов`);
+//   }
+// };
 
-// Устанавливать адрес объявления
+// // Устанавливать адрес объявления
 
-const setAddressField = (pointX, pointY) => {
-  pointX = mapPinMain.offsetLeft + Math.round(mapPinMain.offsetWidth / 2);
-  pointY = mapPinMain.offsetTop + mapPinMain.offsetHeight + HEIGHT_MAPPINMAIN_AFTER;
-  adFormAddressField.value = `${pointX}, ${pointY}`;
-};
+// const setAddressField = (pointX, pointY) => {
+//   pointX = mapPinMain.offsetLeft + Math.round(mapPinMain.offsetWidth / 2);
+//   pointY = mapPinMain.offsetTop + mapPinMain.offsetHeight + HEIGHT_MAPPINMAIN_AFTER;
+//   adFormAddressField.value = `${pointX}, ${pointY}`;
+// };
 
-// Устанавливать минимальную и максимальную цену по типу жилья
+// // Устанавливать минимальную и максимальную цену по типу жилья
 
-const setPriceByHouseType = (minPrice, maxPrice) => {
-  minPrice = PRICE_BY_HOUSE_TYPE[adFormTypeField.value].min;
-  maxPrice = PRICE_BY_HOUSE_TYPE[adFormTypeField.value].max;
-  adFormPriceField.placeholder = minPrice;
-  adFormPriceField.min = minPrice;
-  adFormPriceField.max = maxPrice;
-  return {
-    min: minPrice,
-    max: maxPrice
-  };
-};
+// const setPriceByHouseType = (minPrice, maxPrice) => {
+//   minPrice = PRICE_BY_HOUSE_TYPE[adFormTypeField.value].min;
+//   maxPrice = PRICE_BY_HOUSE_TYPE[adFormTypeField.value].max;
+//   adFormPriceField.placeholder = minPrice;
+//   adFormPriceField.min = minPrice;
+//   adFormPriceField.max = maxPrice;
+//   return {
+//     min: minPrice,
+//     max: maxPrice
+//   };
+// };
 
-// Валидация цены за ночь
+// // Валидация цены за ночь
 
-const validatePriceField = (minValue, maxValue) => {
-  minValue = setPriceByHouseType().min;
-  maxValue = setPriceByHouseType().max;
+// const validatePriceField = (minValue, maxValue) => {
+//   minValue = setPriceByHouseType().min;
+//   maxValue = setPriceByHouseType().max;
 
-  const priceValue = adFormPriceField.value;
-  if (priceValue >= minValue && priceValue <= maxValue) {
-    setSuccessColor(adFormPriceField);
-    adFormPriceField.setCustomValidity(``);
-  } else if (priceValue.length === 0) {
-    setUnsuccessColor(adFormPriceField);
-    adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
-  } else if (priceValue > maxValue) {
-    setUnsuccessColor(adFormPriceField);
-    adFormPriceField.setCustomValidity(`Цена данной тип жилья максимум до ${maxValue} руб.`);
-  } else {
-    setUnsuccessColor(adFormPriceField);
-    adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
-  }
-};
+//   const priceValue = adFormPriceField.value;
+//   if (priceValue >= minValue && priceValue <= maxValue) {
+//     setSuccessColor(adFormPriceField);
+//     adFormPriceField.setCustomValidity(``);
+//   } else if (priceValue.length === 0) {
+//     setUnsuccessColor(adFormPriceField);
+//     adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
+//   } else if (priceValue > maxValue) {
+//     setUnsuccessColor(adFormPriceField);
+//     adFormPriceField.setCustomValidity(`Цена данной тип жилья максимум до ${maxValue} руб.`);
+//   } else {
+//     setUnsuccessColor(adFormPriceField);
+//     adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
+//   }
+// };
 
-// Валидация Time CheckIn
+// // Валидация Time CheckIn
 
-const validateTimeCheckIn = () => {
-  adFormCheckoutField.value = adFormCheckinField.value;
-};
+// const validateTimeCheckIn = () => {
+//   adFormCheckoutField.value = adFormCheckinField.value;
+// };
 
-// Валидация Time CheckOut
+// // Валидация Time CheckOut
 
-const validateTimeCheckOut = () => {
-  adFormCheckinField.value = adFormCheckoutField.value;
-};
+// const validateTimeCheckOut = () => {
+//   adFormCheckinField.value = adFormCheckoutField.value;
+// };
 
-// Валидация Guests And Rooms
+// // Валидация Guests And Rooms
 
-const validateGuestsAndRooms = (target) => {
-  const guestsValue = Number(adFormGuestsField.value);
-  const roomsValue = Number(adFormRoomsField.value);
+// const validateGuestsAndRooms = (target) => {
+//   const guestsValue = Number(adFormGuestsField.value);
+//   const roomsValue = Number(adFormRoomsField.value);
 
-  if (guestsValue !== 0 && roomsValue === 100) {
-    target.setCustomValidity(`Не для гостей. Пожалуйста, выберите другой вариант.`);
-  } else if (guestsValue === 0 && roomsValue !== 100) {
-    target.setCustomValidity(`Для выбора (не для гостей). Пожалуйста, выберите максимальное количество комнат.`);
-  } else if (guestsValue > roomsValue) {
-    target.setCustomValidity(`Слишком много гостей для данного выбора комнат. Пожалуйста, выберите больше комнат.`);
-  } else {
-    target.setCustomValidity(``);
-  }
-};
+//   if (guestsValue !== 0 && roomsValue === 100) {
+//     target.setCustomValidity(`Не для гостей. Пожалуйста, выберите другой вариант.`);
+//   } else if (guestsValue === 0 && roomsValue !== 100) {
+//     target.setCustomValidity(`Для выбора (не для гостей). Пожалуйста, выберите максимальное количество комнат.`);
+//   } else if (guestsValue > roomsValue) {
+//     target.setCustomValidity(`Слишком много гостей для данного выбора комнат. Пожалуйста, выберите больше комнат.`);
+//   } else {
+//     target.setCustomValidity(``);
+//   }
+// };
 
-// Валидация формы
+// // Валидация формы
 
-const validateAdForm = () => {
-  adFormTitleField.addEventListener(`input`, () => {
-    validateTitleField();
-  });
+// const validateAdForm = () => {
+//   adFormTitleField.addEventListener(`input`, () => {
+//     validateTitleField();
+//   });
 
-  adFormAddressField.addEventListener(`input`, () => {
-    setAddressField();
-  });
+//   adFormAddressField.addEventListener(`input`, () => {
+//     setAddressField();
+//   });
 
-  adFormTypeField.addEventListener(`input`, () => {
-    setPriceByHouseType();
-  });
+//   adFormTypeField.addEventListener(`input`, () => {
+//     setPriceByHouseType();
+//   });
 
-  adFormPriceField.addEventListener(`input`, () => {
-    validatePriceField();
-  });
+//   adFormPriceField.addEventListener(`input`, () => {
+//     validatePriceField();
+//   });
 
-  adFormCheckinField.addEventListener(`change`, () => {
-    validateTimeCheckIn();
-  });
+//   adFormCheckinField.addEventListener(`change`, () => {
+//     validateTimeCheckIn();
+//   });
 
-  adFormCheckoutField.addEventListener(`change`, () => {
-    validateTimeCheckOut();
-  });
+//   adFormCheckoutField.addEventListener(`change`, () => {
+//     validateTimeCheckOut();
+//   });
 
-  adFormGuestsField.addEventListener(`change`, () => {
-    validateGuestsAndRooms(adFormGuestsField);
-  });
+//   adFormGuestsField.addEventListener(`change`, () => {
+//     validateGuestsAndRooms(adFormGuestsField);
+//   });
 
-  adFormRoomsField.addEventListener(`change`, () => {
-    validateGuestsAndRooms(adFormRoomsField);
-  });
-};
+//   adFormRoomsField.addEventListener(`change`, () => {
+//     validateGuestsAndRooms(adFormRoomsField);
+//   });
+// };
 
 deactivateBookingPage();
 const offers = generateOffers();
-setAddressField();
-validateAdForm();
+window.form.setAddressField();
+window.form.validateAdForm();
