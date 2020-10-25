@@ -55,7 +55,7 @@ const adFormCheckoutField = adForm.querySelector(`#timeout`);
 const adFormGuestsField = adForm.querySelector(`#capacity`);
 const adFormRoomsField = adForm.querySelector(`#room_number`);
 
-// Активация cтраницы Кексобукинга (форма и карта)
+// Здесь я пишу код активации cтраницы Кексобукинга (форма и карта)
 const activateBookingPage = () => {
   mapBlock.classList.remove(`map--faded`);
   adForm.classList.remove(`ad-form--disabled`);
@@ -77,7 +77,7 @@ const activateBookingPage = () => {
   mapPinMain.removeEventListener(`keydown`, onMainPinKeydown);
 };
 
-// Деактивация cтраницы Кексобукинга (форма и карта)
+// Здесь я пишу код деактивации cтраницы Кексобукинга (форма и карта)
 const deactivateBookingPage = () => {
   mapBlock.classList.add(`map--faded`);
   adForm.classList.add(`ad-form--disabled`);
@@ -98,6 +98,7 @@ const deactivateBookingPage = () => {
   mapPinMain.addEventListener(`keydown`, onMainPinKeydown);
 };
 
+// Здесь я пишу код для рандомного номера
 // The value is no lower min and is less than (but not equal to) max.
 const getRandomInt = (min = 0, max = 100) => {
   min = Math.ceil(min);
@@ -128,6 +129,7 @@ const getRandomArray = (randomElements) => {
   return newArray.slice(0, getRandomInt(0, newArray.length));
 };
 
+// Здесь я пишу код для определения локации пинов и их границ
 const getlocationXY = () => {
   const locations = [];
 
@@ -256,6 +258,7 @@ const renderOfferPhotos = (offerCard, photos) => {
   return offerPhotos.appendChild(fragment);
 };
 
+// Здесь я пишу код popup (popup.js)
 const onPopupEscClose = (evt) => {
   if (evt.key === `Escape`) {
     onPopupClose();
