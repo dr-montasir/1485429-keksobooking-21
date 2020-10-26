@@ -37,6 +37,8 @@
     house: {min: 5000, max: 10000},
     palace: {min: 10000, max: 20000}
   };
+  // 65 / 2 = 32.5 px
+  const HALF_WIDTH_MAPPINMAIN = 32;
   const HEIGHT_MAPPINMAIN_AFTER = 22;
 
   window.consts = {
@@ -55,6 +57,7 @@
     FORM_TITLE_LENGTH,
     HOUSES,
     PRICE_BY_HOUSE_TYPE,
+    HALF_WIDTH_MAPPINMAIN,
     HEIGHT_MAPPINMAIN_AFTER
   };
 })();

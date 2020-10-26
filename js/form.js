@@ -2,7 +2,6 @@
 
 (() => {
   const adForm = document.querySelector(`.ad-form`);
-  // const adFormAllFieldset = adForm.querySelectorAll(`fieldset`);
   const adFormTitleField = adForm.querySelector(`#title`);
   const adFormAddressField = adForm.querySelector(`#address`);
   const adFormTypeField = adForm.querySelector(`#type`);
@@ -111,9 +110,9 @@
       validateTitleField();
     });
 
-    adFormAddressField.addEventListener(`input`, () => {
-      setAddressField();
-    });
+    // adFormAddressField.addEventListener(`input`, () => {
+    //   setAddressField();
+    // });
 
     adFormTypeField.addEventListener(`input`, () => {
       setPriceByHouseType();
@@ -150,6 +149,7 @@
     validateTimeCheckIn,
     validateTimeCheckOut,
     validateGuestsAndRooms,
-    validateAdForm
+    validateAdForm,
+    adFormAddressField
   };
 })();
