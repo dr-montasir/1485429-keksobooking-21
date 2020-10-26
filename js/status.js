@@ -76,6 +76,8 @@
     activateBookingPage,
     deactivateBookingPage,
     onMainPinMousedown,
-    onMainPinKeydown
+    onMainPinKeydown,
+    mapBlock,
+    mapPinMain
   };
 })();
