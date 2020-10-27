@@ -1,6 +1,14 @@
 'use strict';
 
 (() => {
+  const mapBlock = document.querySelector(`.map`);
+  const mapPinMain = mapBlock.querySelector(`.map__pin--main`);
+
+  const halfMainPin = {
+    width: Math.floor(mapPinMain.offsetWidth / 2),
+    height: Math.floor((mapPinMain.offsetHeight + window.consts.HIGHT_MAINPIN_TAIL) / 2)
+  };
+
   const getlocationXY = () => {
     const locations = [];
 
@@ -14,6 +22,9 @@
   };
 
   window.map = {
+    mapBlock,
+    mapPinMain,
+    halfMainPin,
     getlocationXY
   };
 })();

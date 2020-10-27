@@ -1,8 +1,11 @@
 'use strict';
 
 (() => {
-  const mapBlock = document.querySelector(`.map`);
-  const mapPinMain = mapBlock.querySelector(`.map__pin--main`);
+  const mapBlock = window.map.mapBlock;
+  const mapPinMain = window.map.mapPinMain;
+
+  const halfWidthMainPinButton = window.map.halfMainPin.width;
+  const halfHeightMainPinButton = window.map.halfMainPin.height;
 
   mapPinMain.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
@@ -25,22 +28,22 @@
         y: moveEvt.clientY
       };
 
-      const mapPinMainX = mapPinMain.offsetLeft + window.consts.HALF_WIDTH_MAPPINMAIN - shift.x;
+      const mapPinMainX = mapPinMain.offsetLeft + halfWidthMainPinButton - shift.x;
 
       if (mapPinMainX < 0) {
-        mapPinMain.style.left = (0 - window.consts.HALF_WIDTH_MAPPINMAIN) + `px`;
+        mapPinMain.style.left = (0 - halfWidthMainPinButton) + `px`;
       } else if (mapPinMainX > mapBlock.clientWidth) {
-        mapPinMain.style.left = (mapBlock.clientWidth - window.consts.HALF_WIDTH_MAPPINMAIN) + `px`;
+        mapPinMain.style.left = (mapBlock.clientWidth - halfWidthMainPinButton) + `px`;
       } else {
         mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + `px`;
       }
 
-      const mapPinMainY = mapPinMain.offsetTop + window.consts.HEIGHT_MAPPINMAIN_AFTER - shift.y;
+      const mapPinMainY = mapPinMain.offsetTop + halfHeightMainPinButton - shift.y;
 
       if (mapPinMainY < window.consts.STATIC_POINTS.y1) {
-        mapPinMain.style.top = (window.consts.STATIC_POINTS.y1 - window.consts.HEIGHT_MAPPINMAIN_AFTER) + `px`;
+        mapPinMain.style.top = (window.consts.STATIC_POINTS.y1 - halfHeightMainPinButton) + `px`;
       } else if (mapPinMainY > window.consts.STATIC_POINTS.y2) {
-        mapPinMain.style.top = (window.consts.STATIC_POINTS.y2 - window.consts.HEIGHT_MAPPINMAIN_AFTER) + `px`;
+        mapPinMain.style.top = (window.consts.STATIC_POINTS.y2 - halfHeightMainPinButton) + `px`;
       } else {
         mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + `px`;
       }
