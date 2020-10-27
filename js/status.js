@@ -1,7 +1,7 @@
 'use strict';
 
 (() => {
-  const offers = window.data.generateOffers();
+  const offers = window.data.receiveOffersData();
 
   const mapBlock = document.querySelector(`.map`);
   const mapPinMain = document.querySelector(`.map__pin--main`);
