@@ -48,7 +48,10 @@
         mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + `px`;
       }
 
-      window.form.adFormAddressField.value = window.form.setAddressField();
+      const pointX = mapPinMain.offsetLeft + window.map.halfMainPin.width;
+      const pointY = mapPinMain.offsetTop + window.map.halfMainPin.height;
+
+      window.form.adFormAddressField.value = `${pointX}, ${pointY}`;
     };
 
     const onMainPinMouseup = (upEvt) => {

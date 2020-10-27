@@ -11,7 +11,7 @@
   const adFormGuestsField = adForm.querySelector(`#capacity`);
   const adFormRoomsField = adForm.querySelector(`#room_number`);
   const mapPinMain = document.querySelector(`.map__pin--main`);
-  const imgPinMain = mapPinMain.querySelector(`img`);
+
   // Устанавливать цвет поля в случае неуспеха
   const setUnsuccessColor = (field) => {
     field.style = `border-color: orange; box-shadow: 0 0 2px 2px orange;`;
@@ -39,11 +39,8 @@
   };
 
   // Устанавливать адрес объявления
-  const setAddressField = (pointX, pointY, rightImgMargin) => {
-
-    rightImgMargin = Math.round((mapPinMain.offsetWidth - imgPinMain.offsetWidth) / 2);
-
-    pointX = mapPinMain.offsetLeft + window.map.halfMainPin.width - rightImgMargin;
+  const setAddressField = (pointX, pointY) => {
+    pointX = mapPinMain.offsetLeft + window.map.halfMainPin.width - window.map.shiftRightPinImg;
 
     pointY = mapPinMain.offsetTop + window.map.halfMainPin.height;
 
@@ -115,10 +112,6 @@
     adFormTitleField.addEventListener(`input`, () => {
       validateTitleField();
     });
-
-    // adFormAddressField.addEventListener(`input`, () => {
-    //   setAddressField();
-    // });
 
     adFormTypeField.addEventListener(`input`, () => {
       setPriceByHouseType();
