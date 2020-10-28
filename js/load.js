@@ -1,7 +1,7 @@
 'use strict';
 
 (() => {
-  const receiverURL = `https://21.javascript.pages.academy/keksobooking/data`;
+  const RECEIVER_URL = `https://21.javascript.pages.academy/keksobooking/data`;
 
   const StatusCode = {
     OK: 200
@@ -31,7 +31,7 @@
 
     xhr.timeout = TIMEOUT_IN_MS;
 
-    xhr.open(`GET`, receiverURL);
+    xhr.open(`GET`, RECEIVER_URL);
     xhr.send();
   };
 

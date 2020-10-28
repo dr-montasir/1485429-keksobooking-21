@@ -100,8 +100,8 @@
   window.popup = {
     onPopupEscClose,
     onPopupClose,
-    renderOfferFeatures,
-    renderOfferPhotos,
+    // renderOfferFeatures,
+    // renderOfferPhotos,
     createOfferCard
   };
 })();
