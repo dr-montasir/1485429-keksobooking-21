@@ -7,7 +7,7 @@
 
   const halfMainPin = {
     width: Math.floor(mapPinMain.offsetWidth / 2),
-    height: Math.floor((mapPinMain.offsetHeight + window.consts.HIGHT_MAINPIN_TAIL) / 2)
+    height: Math.floor((mapPinMain.offsetHeight + window.constants.HIGHT_MAINPIN_TAIL) / 2)
   };
 
   const shiftRightPinImg = Math.round((mapPinMain.offsetWidth - imgPinMain.offsetWidth) / 2);

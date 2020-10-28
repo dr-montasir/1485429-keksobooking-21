@@ -12,7 +12,7 @@
   };
   const HIGHT_MAINPIN_TAIL = 15;
 
-  window.consts = {
+  window.constants = {
     STATIC_POINTS,
     XY_OFFSET,
     FORM_TITLE_LENGTH,

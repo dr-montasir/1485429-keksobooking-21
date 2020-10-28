@@ -9,8 +9,8 @@
     const pin = pinTemplate.cloneNode(true);
     const pinImage = pin.querySelector(`img`);
     const pinButton = pin.querySelector(`button`);
-    pinButton.style = `left:${offer.location.x - window.consts.XY_OFFSET.x}px;
-                       top:${offer.location.y - window.consts.XY_OFFSET.y}px;`;
+    pinButton.style = `left:${offer.location.x - window.constants.XY_OFFSET.x}px;
+                       top:${offer.location.y - window.constants.XY_OFFSET.y}px;`;
     pinImage.src = `${offer.author.avatar}`;
     pinImage.alt = `${offer.offer.title}`;
 

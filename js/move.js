@@ -40,10 +40,10 @@
 
       const mapPinMainY = mapPinMain.offsetTop + halfHeightMainPinButton - shift.y;
 
-      if (mapPinMainY < window.consts.STATIC_POINTS.y1) {
-        mapPinMain.style.top = (window.consts.STATIC_POINTS.y1 - halfHeightMainPinButton) + `px`;
-      } else if (mapPinMainY > window.consts.STATIC_POINTS.y2) {
-        mapPinMain.style.top = (window.consts.STATIC_POINTS.y2 - halfHeightMainPinButton) + `px`;
+      if (mapPinMainY < window.constants.STATIC_POINTS.y1) {
+        mapPinMain.style.top = (window.constants.STATIC_POINTS.y1 - halfHeightMainPinButton) + `px`;
+      } else if (mapPinMainY > window.constants.STATIC_POINTS.y2) {
+        mapPinMain.style.top = (window.constants.STATIC_POINTS.y2 - halfHeightMainPinButton) + `px`;
       } else {
         mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + `px`;
       }
