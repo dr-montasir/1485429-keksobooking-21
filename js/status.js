@@ -1,8 +1,6 @@
 'use strict';
 
 (() => {
-  const offers = window.data.generateOffers();
-
   const mapBlock = document.querySelector(`.map`);
   const mapPinMain = document.querySelector(`.map__pin--main`);
 
@@ -13,10 +11,26 @@
   const adForm = document.querySelector(`.ad-form`);
   const adFormAllFieldset = adForm.querySelectorAll(`fieldset`);
 
+  const startPointX = mapPinMain.offsetLeft;
+  const startPointY = mapPinMain.offsetTop;
+
+  const onSuccess = (response) => {
+    const offers = [];
+
+    response.forEach((object) => {
+      offers.push(object);
+    });
+
+    window.pin.renderPins(offers);
+  };
+
+  const onError = window.errors.onError;
+
   const activateBookingPage = () => {
+    window.load.downloadData(onSuccess, onError);
+
     mapBlock.classList.remove(`map--faded`);
     adForm.classList.remove(`ad-form--disabled`);
-    window.pin.renderPins(offers);
 
     allFiltersSelect.forEach((element) => {
       element.disabled = false;
@@ -32,6 +46,11 @@
 
     mapPinMain.removeEventListener(`mousedown`, onMainPinMousedown);
     mapPinMain.removeEventListener(`keydown`, onMainPinKeydown);
+
+    mapPinMain.style.left = startPointX + `px`;
+    mapPinMain.style.top = startPointY + `px`;
+
+    window.form.setAddressField();
   };
 
   const deactivateBookingPage = () => {
@@ -72,10 +91,10 @@
 
   deactivateBookingPage();
 
-  window.status = {
-    activateBookingPage,
-    deactivateBookingPage,
-    onMainPinMousedown,
-    onMainPinKeydown
-  };
+  // window.status = {
+  //   // activateBookingPage,
+  //   // deactivateBookingPage,
+  //   // onMainPinMousedown,
+  //   // onMainPinKeydown
+  // };
 })();

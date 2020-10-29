@@ -26,7 +26,7 @@
   const validateTitleField = () => {
     const titleValue = adFormTitleField.value;
 
-    if (titleValue.length >= window.consts.FORM_TITLE_LENGTH.min && titleValue.length <= window.consts.FORM_TITLE_LENGTH.max) {
+    if (titleValue.length >= window.constants.FORM_TITLE_LENGTH.min && titleValue.length <= window.constants.FORM_TITLE_LENGTH.max) {
       setSuccessColor(adFormTitleField);
       adFormTitleField.setCustomValidity(``);
     } else if (titleValue.length === 0) {
@@ -34,7 +34,7 @@
       adFormTitleField.setCustomValidity(`Пожалуйста, заполните это поле`);
     } else {
       setUnsuccessColor(adFormTitleField);
-      adFormTitleField.setCustomValidity(`должно быть от ${window.consts.FORM_TITLE_LENGTH.min} до ${window.consts.FORM_TITLE_LENGTH.max} символов`);
+      adFormTitleField.setCustomValidity(`должно быть от ${window.constants.FORM_TITLE_LENGTH.min} до ${window.constants.FORM_TITLE_LENGTH.max} символов`);
     }
   };
 
@@ -49,8 +49,8 @@
 
   // Устанавливать минимальную и максимальную цену по типу жилья
   const setPriceByHouseType = (minPrice, maxPrice) => {
-    minPrice = window.consts.PRICE_BY_HOUSE_TYPE[adFormTypeField.value].min;
-    maxPrice = window.consts.PRICE_BY_HOUSE_TYPE[adFormTypeField.value].max;
+    minPrice = window.constants.PRICE_BY_HOUSE_TYPE[adFormTypeField.value].min;
+    maxPrice = window.constants.PRICE_BY_HOUSE_TYPE[adFormTypeField.value].max;
     adFormPriceField.placeholder = minPrice;
     adFormPriceField.min = minPrice;
     adFormPriceField.max = maxPrice;
@@ -108,47 +108,29 @@
   };
 
   // Валидация формы
-  const validateAdForm = () => {
-    adFormTitleField.addEventListener(`input`, () => {
-      validateTitleField();
-    });
 
-    adFormTypeField.addEventListener(`input`, () => {
-      setPriceByHouseType();
-    });
+  adFormTitleField.addEventListener(`input`, () => {
+    validateTitleField();
+  });
 
-    adFormPriceField.addEventListener(`input`, () => {
-      validatePriceField();
-    });
+  adFormPriceField.addEventListener(`input`, () => {
+    validatePriceField();
+  });
 
-    adFormCheckinField.addEventListener(`change`, () => {
-      validateTimeCheckIn();
-    });
+  adFormCheckinField.addEventListener(`change`, () => {
+    validateTimeCheckIn();
+  });
 
-    adFormCheckoutField.addEventListener(`change`, () => {
-      validateTimeCheckOut();
-    });
+  adFormCheckoutField.addEventListener(`change`, () => {
+    validateTimeCheckOut();
+  });
 
-    adFormGuestsField.addEventListener(`change`, () => {
-      validateGuestsAndRooms(adFormGuestsField);
-    });
-
-    adFormRoomsField.addEventListener(`change`, () => {
-      validateGuestsAndRooms(adFormRoomsField);
-    });
-  };
+  adFormGuestsField.addEventListener(`change`, () => {
+    validateGuestsAndRooms(adFormGuestsField);
+  });
 
   window.form = {
-    setUnsuccessColor,
-    setSuccessColor,
-    validateTitleField,
     setAddressField,
-    setPriceByHouseType,
-    validatePriceField,
-    validateTimeCheckIn,
-    validateTimeCheckOut,
-    validateGuestsAndRooms,
-    validateAdForm,
     adFormAddressField
   };
 })();
