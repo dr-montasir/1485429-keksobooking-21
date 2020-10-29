@@ -42,10 +42,10 @@
 
       mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + `px`;
       if (mapPinMainX < 0) {
-         mapPinMain.style.left = (0 - halfWidthMainPinButton) + `px`;
+        mapPinMain.style.left = (0 - halfWidthMainPinButton) + `px`;
       }
       if (mapPinMainX > mapBlock.clientWidth) {
-         mapPinMain.style.left = (mapBlock.clientWidth - halfWidthMainPinButton) + `px`;
+        mapPinMain.style.left = (mapBlock.clientWidth - halfWidthMainPinButton) + `px`;
       }
 
       const mapPinMainY = mapPinMain.offsetTop + halfHeightMainPinButton - shift.y;
