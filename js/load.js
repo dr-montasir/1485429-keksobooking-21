@@ -42,7 +42,7 @@
 
     xhr.addEventListener(`load`, () => {
       if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
+        onSuccess = window.success.onSuccess();
       } else {
         onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
       }

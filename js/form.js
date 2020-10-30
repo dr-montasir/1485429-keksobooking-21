@@ -129,6 +129,24 @@
     validateGuestsAndRooms(adFormGuestsField);
   });
 
+  // отправка формы
+  const submitAdForm = (evt) => {
+    evt.preventDefault();
+
+    window.load.uploadData(new FormData(adForm), window.success.onSuccess, window.errors.onError);
+  };
+
+  adForm.addEventListener(`submit`, submitAdForm);
+
+  // отправка формы
+  // adForm.addEventListener(`submit`, (evt) => {
+  //   window.load.uploadData(new FormData(adForm), (response) => {
+  //     // window.console.log(`форма отправлено`);
+  //     window.success.onSuccess
+  //   });
+  //   evt.preventDefault();
+  // });
+
   window.form = {
     setAddressField,
     adFormAddressField
