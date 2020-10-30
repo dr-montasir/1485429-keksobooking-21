@@ -133,7 +133,10 @@
   const submitAdForm = (evt) => {
     evt.preventDefault();
 
-    window.load.uploadData(new FormData(adForm), window.success.onSuccess, window.errors.onError);
+    const onSuccess = window.success.onSuccess;
+    const onError = window.errors.onError;
+
+    window.load.uploadData(new FormData(adForm), onSuccess, onError);
   };
 
   adForm.addEventListener(`submit`, submitAdForm);
