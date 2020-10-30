@@ -133,8 +133,8 @@
   const submitAdForm = (evt) => {
     evt.preventDefault();
 
-    const onSuccess = window.dialog.onSuccess;
-    const onError = window.dialog.onError;
+    const onSuccess = window.dialog.onSuccessUploadBlock;
+    const onError = window.dialog.onErrorUploadBlock;
 
     window.load.uploadData(new FormData(adForm), onSuccess, onError);
   };

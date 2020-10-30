@@ -24,7 +24,7 @@
     window.pin.renderPins(offers);
   };
 
-  const onError = window.errors.onError;
+  const onError = window.dialog.onErrorDownloadBlock;
 
   const activateBookingPage = () => {
     window.load.downloadData(onSuccess, onError);
