@@ -1,7 +1,8 @@
 'use strict';
 
 (() => {
-  const onErrorDownloadBlock = (errorMessage) => {
+  // onErrorDownloadDialog
+  const onErrorDownloadDialog = (errorMessage) => {
     const node = document.createElement(`div`);
 
     node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
@@ -14,17 +15,36 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
-  const onSuccessUploadBlock = () => {
-    window.console.log(`форма отправлено`);
+  // onSuccessUploadDialog
+  const onSuccessUploadDialog = () => {
+    const mainBlock = document.querySelector(`main`);
+
+    const createSuccessDialogTemplate = () => {
+      const successDialogTemplate = document.querySelector(`#success`).content;
+      const successDialogFragment = document.createDocumentFragment();
+
+      const clonedSuccessDialog = successDialogTemplate.cloneNode(true);
+      successDialogFragment.appendChild(clonedSuccessDialog);
+
+      return successDialogFragment;
+    };
+
+    const successDialogTemplate = createSuccessDialogTemplate();
+
+    mainBlock.insertBefore(successDialogTemplate, window.map.mapBlock);
+
+    // window.console.log(`форма отправлено`);
+    // window.console.log(successDialogTemplate);
   };
 
-  const onErrorUploadBlock = () => {
+  // onErrorUploadDialog
+  const onErrorUploadDialog = () => {
     window.console.log(`ошибка при отправки формы`);
   };
 
   window.dialog = {
-    onErrorDownloadBlock,
-    onSuccessUploadBlock,
-    onErrorUploadBlock
+    onErrorDownloadDialog,
+    onSuccessUploadDialog,
+    onErrorUploadDialog
   };
 })();

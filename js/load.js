@@ -42,9 +42,9 @@
 
     xhr.addEventListener(`load`, () => {
       if (xhr.status === StatusCode.OK) {
-        window.dialog.onSuccessUploadBlock();
+        window.dialog.onSuccessUploadDialog();
       } else {
-        window.dialog.onErrorUploadBlock();
+        window.dialog.onErrorUploadDialog();
       }
     });
 
