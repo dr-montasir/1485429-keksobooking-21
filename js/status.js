@@ -14,7 +14,7 @@
   const startPointX = mapPinMain.offsetLeft;
   const startPointY = mapPinMain.offsetTop;
 
-  const onSuccess = (response) => {
+  const onSuccessDownloadData = (response) => {
     const offers = [];
 
     response.forEach((object) => {
@@ -24,10 +24,10 @@
     window.pin.renderPins(offers);
   };
 
-  const onError = window.dialog.onErrorDownloadBlock;
+  const onErrorDownloadData = window.dialog.onErrorDownloadBlock;
 
   const activateBookingPage = () => {
-    window.load.downloadData(onSuccess, onError);
+    window.load.downloadData(onSuccessDownloadData, onErrorDownloadData);
 
     mapBlock.classList.remove(`map--faded`);
     adForm.classList.remove(`ad-form--disabled`);
