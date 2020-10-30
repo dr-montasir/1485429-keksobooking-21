@@ -60,6 +60,9 @@
     };
   };
 
+  // установить минимальное значение поля (price field), когда поле пустое
+  adFormPriceField.min = setPriceByHouseType().min;
+
   // Валидация цены за ночь
   const validatePriceField = (minValue, maxValue) => {
     minValue = setPriceByHouseType().min;
@@ -113,6 +116,10 @@
     validateTitleField();
   });
 
+  adFormTypeField.addEventListener(`input`, () => {
+    setPriceByHouseType();
+  });
+
   adFormPriceField.addEventListener(`input`, () => {
     validatePriceField();
   });
@@ -127,6 +134,10 @@
 
   adFormGuestsField.addEventListener(`change`, () => {
     validateGuestsAndRooms(adFormGuestsField);
+  });
+
+  adFormRoomsField.addEventListener(`change`, () => {
+    validateGuestsAndRooms(adFormRoomsField);
   });
 
   // отправка формы
