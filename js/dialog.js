@@ -54,10 +54,50 @@
     document.addEventListener(`keydown`, onSuccessEscClose);
   };
 
-  // onErrorUploadDialog
+  // onSuccessUploadDialog
   const onErrorUploadDialog = () => {
-    window.console.log(`ошибка при отправки формы`);
+    const mainBlock = document.querySelector(`main`);
+
+    const createErrorDialogTemplate = () => {
+      const errorDialogTemplate = document.querySelector(`#error`).content;
+      const errorDialogFragment = document.createDocumentFragment();
+
+      const clonedErrorDialog = errorDialogTemplate.cloneNode(true);
+      errorDialogFragment.appendChild(clonedErrorDialog);
+
+      return errorDialogFragment;
+    };
+
+    const errorDialogTemplate = createErrorDialogTemplate();
+
+    mainBlock.insertBefore(errorDialogTemplate, window.map.mapBlock);
+
+    const errorDialogContainer = document.querySelector(`.error`);
+    const errorDialog = document.querySelector(`.error__message`);
+    const errorButton = document.querySelector(`.error__button`);
+
+    const onErrorMouseClose = errorDialogContainer.addEventListener(`click`, (evt) => {
+      if (evt.target === errorDialogContainer || evt.target === errorDialog || evt.target === errorButton) {
+        errorDialogContainer.remove();
+        document.removeEventListener(`mousedown`, onErrorMouseClose);
+      }
+    });
+
+    const onErrorEscClose = (evt) => {
+      if (evt.key === `Escape`) {
+        evt.preventDefault();
+        errorDialogContainer.remove();
+        document.removeEventListener(`keydown`, onErrorEscClose);
+      }
+    };
+
+    document.addEventListener(`keydown`, onErrorEscClose);
   };
+
+  // onErrorUploadDialog
+  // const onErrorUploadDialog = () => {
+  //   window.console.log(`ошибка при отправки формы`);
+  // };
 
   window.dialog = {
     onErrorDownloadDialog,
