@@ -33,8 +33,25 @@
 
     mainBlock.insertBefore(successDialogTemplate, window.map.mapBlock);
 
-    // window.console.log(`форма отправлено`);
-    // window.console.log(successDialogTemplate);
+    const successDialogContainer = document.querySelector(`.success`);
+    const successDialog = document.querySelector(`.success__message`);
+
+    const onSuccessMouseClose = successDialogContainer.addEventListener(`click`, (evt) => {
+      if (evt.target === successDialogContainer || evt.target === successDialog) {
+        successDialogContainer.remove();
+        document.removeEventListener(`mousedown`, onSuccessMouseClose);
+      }
+    });
+
+    const onSuccessEscClose = (evt) => {
+      if (evt.key === `Escape`) {
+        evt.preventDefault();
+        successDialogContainer.remove();
+        document.removeEventListener(`keydown`, onSuccessEscClose);
+      }
+    };
+
+    document.addEventListener(`keydown`, onSuccessEscClose);
   };
 
   // onErrorUploadDialog
