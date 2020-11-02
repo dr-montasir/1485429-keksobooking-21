@@ -32,14 +32,6 @@
 
       const mapPinMainX = mapPinMain.offsetLeft + halfWidthMainPinButton - shift.x;
 
-      // if (mapPinMainX < 0) {
-      //   mapPinMain.style.left = (0 - halfWidthMainPinButton) + `px`;
-      // } else if (mapPinMainX > mapBlock.clientWidth) {
-      //   mapPinMain.style.left = (mapBlock.clientWidth - halfWidthMainPinButton) + `px`;
-      // } else {
-      //   mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + `px`;
-      // }
-
       mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + `px`;
       if (mapPinMainX < 0) {
         mapPinMain.style.left = (0 - halfWidthMainPinButton) + `px`;
@@ -62,6 +54,9 @@
       const pointY = mapPinMain.offsetTop + window.map.halfMainPin.height;
 
       window.form.adFormAddressField.value = `${pointX}, ${pointY}`;
+
+      // Удалите карту, если она открыта
+      window.popup.removeCard();
     };
 
     const onMainPinMouseup = (upEvt) => {

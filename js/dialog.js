@@ -5,7 +5,12 @@
   const onErrorDownloadDialog = (errorMessage) => {
     const node = document.createElement(`div`);
 
-    node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
+    // node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
+
+    node.style.zIndex = 100;
+    node.style.margin = `0 auto`;
+    node.style.textAlign = `center`;
+    node.style.backgroundColor = `red`;
     node.style.position = `absolute`;
     node.style.left = 0;
     node.style.right = 0;
@@ -52,6 +57,14 @@
     };
 
     document.addEventListener(`keydown`, onSuccessEscClose);
+
+    // Задача module6-task2
+    // 2. После успешной передачи данных на сервер верните страницу в неактивное состояние и сбросьте форму.
+
+    // document.querySelector(`.ad-form`).reset();
+    // window.main.deactivateBookingPage();
+    // Или
+    window.form.resetAdForm();
   };
 
   // onSuccessUploadDialog
@@ -93,11 +106,6 @@
 
     document.addEventListener(`keydown`, onErrorEscClose);
   };
-
-  // onErrorUploadDialog
-  // const onErrorUploadDialog = () => {
-  //   window.console.log(`ошибка при отправки формы`);
-  // };
 
   window.dialog = {
     onErrorDownloadDialog,

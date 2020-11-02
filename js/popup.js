@@ -97,11 +97,21 @@
     document.addEventListener(`keydown`, window.popup.onPopupEscClose);
   };
 
+  // Удалите карту, если она открыта
+  // эта функция нужно для удаления карту при:
+  // 1- перемещении главного штифта
+  // 2- при деактивации страницы
+  // 3- при сбросе формы
+  const removeCard = () => {
+    if (document.querySelector(`.map__card`)) {
+      onPopupClose();
+    }
+  };
+
   window.popup = {
     onPopupEscClose,
     onPopupClose,
-    // renderOfferFeatures,
-    // renderOfferPhotos,
-    createOfferCard
+    createOfferCard,
+    removeCard
   };
 })();

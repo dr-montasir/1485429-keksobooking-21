@@ -47,13 +47,11 @@
     mapPinMain.removeEventListener(`mousedown`, onMainPinMousedown);
     mapPinMain.removeEventListener(`keydown`, onMainPinKeydown);
 
-    mapPinMain.style.left = startPointX + `px`;
-    mapPinMain.style.top = startPointY + `px`;
-
     window.form.setAddressField();
   };
 
   const deactivateBookingPage = () => {
+    const mapPins = mapBlock.querySelectorAll(`.map__pin:not(.map__pin--main)`);
     mapBlock.classList.add(`map--faded`);
     adForm.classList.add(`ad-form--disabled`);
 
@@ -68,6 +66,16 @@
     adFormAllFieldset.forEach((element) => {
       element.disabled = true;
     });
+
+    mapPins.forEach((element) => {
+      element.remove();
+    });
+
+    // Удалите карту, если она открыта
+    window.popup.removeCard();
+
+    mapPinMain.style.left = startPointX + `px`;
+    mapPinMain.style.top = startPointY + `px`;
 
     mapPinMain.addEventListener(`mousedown`, onMainPinMousedown);
     mapPinMain.addEventListener(`keydown`, onMainPinKeydown);
@@ -91,10 +99,7 @@
 
   deactivateBookingPage();
 
-  // window.status = {
-  //   // activateBookingPage,
-  //   // deactivateBookingPage,
-  //   // onMainPinMousedown,
-  //   // onMainPinKeydown
-  // };
+  window.main = {
+    deactivateBookingPage
+  };
 })();

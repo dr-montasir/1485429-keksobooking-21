@@ -13,36 +13,36 @@
   const mapPinMain = document.querySelector(`.map__pin--main`);
 
   // Устанавливать цвет поля в случае неуспеха
-  const setUnsuccessColor = (field) => {
-    field.style = `border-color: orange; box-shadow: 0 0 2px 2px orange;`;
-  };
+  // const setUnsuccessColor = (field) => {
+  //   field.style = `border-color: red; box-shadow: 0 0 2px 2px red;`;
+  // };
 
-  // Устанавливать цвет поля в случае успеха
-  const setSuccessColor = (field) => {
-    field.style = `border-color: #ffaa99; box-shadow: 0 0 2px 2px #ff6547;`;
-  };
+  // // Устанавливать цвет поля в случае успеха
+  // const setSuccessColor = (field) => {
+  //   field.style = `border-color: none; box-shadow: none`;
+  // };
 
   // Валидация заголовка объявления
   const validateTitleField = () => {
     const titleValue = adFormTitleField.value;
 
     if (titleValue.length >= window.constants.FORM_TITLE_LENGTH.min && titleValue.length <= window.constants.FORM_TITLE_LENGTH.max) {
-      setSuccessColor(adFormTitleField);
+      // setSuccessColor(adFormTitleField);
       adFormTitleField.setCustomValidity(``);
     } else if (titleValue.length === 0) {
-      setUnsuccessColor(adFormTitleField);
+      // setUnsuccessColor(adFormTitleField);
       adFormTitleField.setCustomValidity(`Пожалуйста, заполните это поле`);
     } else {
-      setUnsuccessColor(adFormTitleField);
+      // setUnsuccessColor(adFormTitleField);
       adFormTitleField.setCustomValidity(`должно быть от ${window.constants.FORM_TITLE_LENGTH.min} до ${window.constants.FORM_TITLE_LENGTH.max} символов`);
     }
   };
 
   // Устанавливать адрес объявления
-  const setAddressField = (pointX, pointY) => {
-    pointX = mapPinMain.offsetLeft + window.map.halfMainPin.width - window.map.shiftRightPinImg;
+  const setAddressField = () => {
+    const pointX = mapPinMain.offsetLeft + window.map.halfMainPin.width - window.map.shiftRightPinImg;
 
-    pointY = mapPinMain.offsetTop + window.map.halfMainPin.height;
+    const pointY = mapPinMain.offsetTop + window.map.halfMainPin.height;
 
     adFormAddressField.value = `${pointX}, ${pointY}`;
   };
@@ -70,16 +70,16 @@
 
     const priceValue = adFormPriceField.value;
     if (priceValue >= minValue && priceValue <= maxValue) {
-      setSuccessColor(adFormPriceField);
+      // setSuccessColor(adFormPriceField);
       adFormPriceField.setCustomValidity(``);
     } else if (priceValue.length === 0) {
-      setUnsuccessColor(adFormPriceField);
+      // setUnsuccessColor(adFormPriceField);
       adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
     } else if (priceValue > maxValue) {
-      setUnsuccessColor(adFormPriceField);
+      // setUnsuccessColor(adFormPriceField);
       adFormPriceField.setCustomValidity(`Цена данной тип жилья максимум до ${maxValue} руб.`);
     } else {
-      setUnsuccessColor(adFormPriceField);
+      // setUnsuccessColor(adFormPriceField);
       adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
     }
   };
@@ -95,18 +95,38 @@
   };
 
   // Валидация Guests And Rooms
+  // const validateGuestsAndRooms = (target) => {
+  //   const guestsValue = Number(adFormGuestsField.value);
+  //   const roomsValue = Number(adFormRoomsField.value);
+
+  //   if (guestsValue !== 0 && roomsValue === 100) {
+  //     target.setCustomValidity(`Не для гостей. Пожалуйста, выберите другой вариант.`);
+  //   } else if (guestsValue === 0 && roomsValue !== 100) {
+  //     target.setCustomValidity(`Для выбора (не для гостей). Пожалуйста, выберите максимальное количество комнат.`);
+  //   } else if (guestsValue > roomsValue) {
+  //     target.setCustomValidity(`Слишком много гостей для данного выбора комнат. Пожалуйста, выберите больше комнат.`);
+  //   } else {
+  //     target.setCustomValidity(``);
+  //   }
+  // };
+
+  // Валидация Guests And Rooms
   const validateGuestsAndRooms = (target) => {
     const guestsValue = Number(adFormGuestsField.value);
     const roomsValue = Number(adFormRoomsField.value);
 
+    target.setCustomValidity(``);
+
     if (guestsValue !== 0 && roomsValue === 100) {
       target.setCustomValidity(`Не для гостей. Пожалуйста, выберите другой вариант.`);
-    } else if (guestsValue === 0 && roomsValue !== 100) {
+    }
+
+    if (guestsValue === 0 && roomsValue !== 100) {
       target.setCustomValidity(`Для выбора (не для гостей). Пожалуйста, выберите максимальное количество комнат.`);
-    } else if (guestsValue > roomsValue) {
+    }
+
+    if (guestsValue > roomsValue) {
       target.setCustomValidity(`Слишком много гостей для данного выбора комнат. Пожалуйста, выберите больше комнат.`);
-    } else {
-      target.setCustomValidity(``);
     }
   };
 
@@ -137,7 +157,7 @@
   });
 
   adFormRoomsField.addEventListener(`change`, () => {
-    validateGuestsAndRooms(adFormRoomsField);
+    validateGuestsAndRooms(adFormGuestsField);
   });
 
   // отправка формы
@@ -152,17 +172,29 @@
 
   adForm.addEventListener(`submit`, submitAdForm);
 
-  // отправка формы
-  // adForm.addEventListener(`submit`, (evt) => {
-  //   window.load.uploadData(new FormData(adForm), (response) => {
-  //     // window.console.log(`форма отправлено`);
-  //     window.success.onSuccess
-  //   });
-  //   evt.preventDefault();
-  // });
+  // Сбросить форму
+  // Техническое задание
+  // 2.8. Нажатие на кнопку .ad-form__reset сбрасывает страницу в исходное неактивное состояние без перезагрузки, а также:
+  // все заполненные поля возвращаются в изначальное состояние, в том числе фильтры;
+  // метки похожих объявлений и карточка активного объявления удаляются;
+  // метка адреса возвращается в исходное положение;
+  // значение поля адреса корректируется соответственно положению метки;
+  const resetAdForm = () => {
+    // при вызове функции window.main.deactivateBookingPage(),
+    // помимо сбрасывания страницы в исходное неактивное состояние,
+    // так же удаляется карточку объявления.
+    // Следовательно, нет необходимости вызывать функцию window.popup.removeCard().
+
+    adForm.reset();
+    // document.querySelector(`.ad-form`).reset();
+    window.main.deactivateBookingPage();
+  };
+
+  adForm.addEventListener(`reset`, resetAdForm);
 
   window.form = {
     setAddressField,
-    adFormAddressField
+    adFormAddressField,
+    resetAdForm
   };
 })();
