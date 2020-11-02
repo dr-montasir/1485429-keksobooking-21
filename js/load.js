@@ -2,6 +2,7 @@
 
 (() => {
   const RECEIVER_URL = `https://21.javascript.pages.academy/keksobooking/data`;
+  const SENDER_URL = `https://21.javascript.pages.academy/keksobooking`;
 
   const StatusCode = {
     OK: 200
@@ -35,7 +36,34 @@
     xhr.send();
   };
 
+  const uploadData = (data, onSuccess, onError) => {
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = `json`;
+
+    xhr.addEventListener(`load`, () => {
+      if (xhr.status === StatusCode.OK) {
+        window.dialog.onSuccessUploadDialog();
+      } else {
+        window.dialog.onErrorUploadDialog();
+      }
+    });
+
+    xhr.addEventListener(`error`, () => {
+      onError(`Произошла ошибка соединения`);
+    });
+
+    xhr.addEventListener(`timeout`, () => {
+      onError(`Запрос не успел выполниться за ` + xhr.timeout + ` мс`);
+    });
+
+    xhr.timeout = TIMEOUT_IN_MS;
+
+    xhr.open(`POST`, SENDER_URL);
+    xhr.send(data);
+  };
+
   window.load = {
-    downloadData
+    downloadData,
+    uploadData
   };
 })();

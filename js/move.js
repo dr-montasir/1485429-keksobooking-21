@@ -1,6 +1,8 @@
 'use strict';
 
 (() => {
+  const STATIC_POINTS = Object.freeze({x1: 0, x2: 1200, y1: 130, y2: 630});
+
   const mapBlock = window.map.mapBlock;
   const mapPinMain = window.map.mapPinMain;
 
@@ -30,20 +32,20 @@
 
       const mapPinMainX = mapPinMain.offsetLeft + halfWidthMainPinButton - shift.x;
 
+      mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + `px`;
       if (mapPinMainX < 0) {
         mapPinMain.style.left = (0 - halfWidthMainPinButton) + `px`;
-      } else if (mapPinMainX > mapBlock.clientWidth) {
+      }
+      if (mapPinMainX > mapBlock.clientWidth) {
         mapPinMain.style.left = (mapBlock.clientWidth - halfWidthMainPinButton) + `px`;
-      } else {
-        mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + `px`;
       }
 
       const mapPinMainY = mapPinMain.offsetTop + halfHeightMainPinButton - shift.y;
 
-      if (mapPinMainY < window.constants.STATIC_POINTS.y1) {
-        mapPinMain.style.top = (window.constants.STATIC_POINTS.y1 - halfHeightMainPinButton) + `px`;
-      } else if (mapPinMainY > window.constants.STATIC_POINTS.y2) {
-        mapPinMain.style.top = (window.constants.STATIC_POINTS.y2 - halfHeightMainPinButton) + `px`;
+      if (mapPinMainY < STATIC_POINTS.y1) {
+        mapPinMain.style.top = (STATIC_POINTS.y1 - halfHeightMainPinButton) + `px`;
+      } else if (mapPinMainY > STATIC_POINTS.y2) {
+        mapPinMain.style.top = (STATIC_POINTS.y2 - halfHeightMainPinButton) + `px`;
       } else {
         mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + `px`;
       }
@@ -52,6 +54,9 @@
       const pointY = mapPinMain.offsetTop + window.map.halfMainPin.height;
 
       window.form.adFormAddressField.value = `${pointX}, ${pointY}`;
+
+      // Удалите карту, если она открыта
+      window.popup.removeCard();
     };
 
     const onMainPinMouseup = (upEvt) => {
