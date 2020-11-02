@@ -95,22 +95,6 @@
   };
 
   // Валидация Guests And Rooms
-  // const validateGuestsAndRooms = (target) => {
-  //   const guestsValue = Number(adFormGuestsField.value);
-  //   const roomsValue = Number(adFormRoomsField.value);
-
-  //   if (guestsValue !== 0 && roomsValue === 100) {
-  //     target.setCustomValidity(`Не для гостей. Пожалуйста, выберите другой вариант.`);
-  //   } else if (guestsValue === 0 && roomsValue !== 100) {
-  //     target.setCustomValidity(`Для выбора (не для гостей). Пожалуйста, выберите максимальное количество комнат.`);
-  //   } else if (guestsValue > roomsValue) {
-  //     target.setCustomValidity(`Слишком много гостей для данного выбора комнат. Пожалуйста, выберите больше комнат.`);
-  //   } else {
-  //     target.setCustomValidity(``);
-  //   }
-  // };
-
-  // Валидация Guests And Rooms
   const validateGuestsAndRooms = (target) => {
     const guestsValue = Number(adFormGuestsField.value);
     const roomsValue = Number(adFormRoomsField.value);
