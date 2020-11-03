@@ -81,7 +81,7 @@
     offerTitle.textContent = offer.offer.title;
     offerAddress.textContent = offer.offer.address;
     offerPrice.textContent = `${offer.offer.price} ₽/ночь`;
-    offerHouseType.textContent = offer.offer.type;
+    offerHouseType.textContent = window.constants.OFFER_TYPE_VALUE[offer.offer.type];
     offerRoomsAndGuests.textContent = `${offer.offer.rooms} комнаты для ${offer.offer.guests} гостей.`;
     offerTimes.textContent = `Заезд после ${offer.offer.checkin}, выезд до ${offer.offer.checkout}.`;
     renderOfferFeatures(offerCard, offer.offer.features);
