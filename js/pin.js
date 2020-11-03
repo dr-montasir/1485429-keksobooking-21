@@ -38,9 +38,16 @@
   const renderPins = (offers) => {
     const fragment = document.createDocumentFragment();
 
-    offers.forEach((offer) => {
-      fragment.appendChild(renderPin(offer));
-    });
+    // количество пинов
+    let numberOfPins = offers.length > window.constants.MAX_PINS_NUMBER ? window.constants.MAX_PINS_NUMBER : offers.length;
+
+    for (let i = 0; i < numberOfPins; i++) {
+      fragment.appendChild(renderPin(offers[i]));
+    }
+
+    // offers.forEach((offer) => {
+    //   fragment.appendChild(renderPin(offer));
+    // });
 
     pinBlock.appendChild(fragment);
   };

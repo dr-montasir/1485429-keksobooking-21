@@ -10,11 +10,13 @@
     palace: {min: 10000, max: 1000000}
   };
   const HIGHT_MAINPIN_TAIL = 15;
+  const MAX_PINS_NUMBER = 5;
 
   window.constants = {
     XY_OFFSET,
     FORM_TITLE_LENGTH,
     PRICE_BY_HOUSE_TYPE,
-    HIGHT_MAINPIN_TAIL
+    HIGHT_MAINPIN_TAIL,
+    MAX_PINS_NUMBER
   };
 })();
