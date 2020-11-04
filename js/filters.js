@@ -4,7 +4,7 @@
   const mapFilters = document.querySelector(`.map__filters`);
   // const mapFilter = mapFilters.querySelectorAll(`.map__filter`);
   const housingType = mapFilters.querySelector(`#housing-type`);
-  const housingPrice = mapFilters.querySelector(`#housing-price`);
+  // const housingPrice = mapFilters.querySelector(`#housing-price`);
 
   // offers
   const filterByOfferType = (oneOffer) => {

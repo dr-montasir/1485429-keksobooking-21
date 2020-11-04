@@ -17,7 +17,7 @@
   window.array = [];
 
   const onSuccessDownloadData = (response) => {
-    let offers = []; ////////////////////////////////
+    let offers = [];
 
     response.forEach((object) => {
       offers.push(object);
