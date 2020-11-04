@@ -12,28 +12,15 @@
   const adFormRoomsField = adForm.querySelector(`#room_number`);
   const mapPinMain = document.querySelector(`.map__pin--main`);
 
-  // Устанавливать цвет поля в случае неуспеха
-  // const setUnsuccessColor = (field) => {
-  //   field.style = `border-color: red; box-shadow: 0 0 2px 2px red;`;
-  // };
-
-  // // Устанавливать цвет поля в случае успеха
-  // const setSuccessColor = (field) => {
-  //   field.style = `border-color: none; box-shadow: none`;
-  // };
-
   // Валидация заголовка объявления
   const validateTitleField = () => {
     const titleValue = adFormTitleField.value;
 
     if (titleValue.length >= window.constants.FORM_TITLE_LENGTH.min && titleValue.length <= window.constants.FORM_TITLE_LENGTH.max) {
-      // setSuccessColor(adFormTitleField);
       adFormTitleField.setCustomValidity(``);
     } else if (titleValue.length === 0) {
-      // setUnsuccessColor(adFormTitleField);
       adFormTitleField.setCustomValidity(`Пожалуйста, заполните это поле`);
     } else {
-      // setUnsuccessColor(adFormTitleField);
       adFormTitleField.setCustomValidity(`должно быть от ${window.constants.FORM_TITLE_LENGTH.min} до ${window.constants.FORM_TITLE_LENGTH.max} символов`);
     }
   };
@@ -70,16 +57,12 @@
 
     const priceValue = adFormPriceField.value;
     if (priceValue >= minValue && priceValue <= maxValue) {
-      // setSuccessColor(adFormPriceField);
       adFormPriceField.setCustomValidity(``);
     } else if (priceValue.length === 0) {
-      // setUnsuccessColor(adFormPriceField);
       adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
     } else if (priceValue > maxValue) {
-      // setUnsuccessColor(adFormPriceField);
       adFormPriceField.setCustomValidity(`Цена данной тип жилья максимум до ${maxValue} руб.`);
     } else {
-      // setUnsuccessColor(adFormPriceField);
       adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
     }
   };
@@ -93,22 +76,6 @@
   const validateTimeCheckOut = () => {
     adFormCheckinField.value = adFormCheckoutField.value;
   };
-
-  // Валидация Guests And Rooms
-  // const validateGuestsAndRooms = (target) => {
-  //   const guestsValue = Number(adFormGuestsField.value);
-  //   const roomsValue = Number(adFormRoomsField.value);
-
-  //   if (guestsValue !== 0 && roomsValue === 100) {
-  //     target.setCustomValidity(`Не для гостей. Пожалуйста, выберите другой вариант.`);
-  //   } else if (guestsValue === 0 && roomsValue !== 100) {
-  //     target.setCustomValidity(`Для выбора (не для гостей). Пожалуйста, выберите максимальное количество комнат.`);
-  //   } else if (guestsValue > roomsValue) {
-  //     target.setCustomValidity(`Слишком много гостей для данного выбора комнат. Пожалуйста, выберите больше комнат.`);
-  //   } else {
-  //     target.setCustomValidity(``);
-  //   }
-  // };
 
   // Валидация Guests And Rooms
   const validateGuestsAndRooms = (target) => {
@@ -186,7 +153,7 @@
     // Следовательно, нет необходимости вызывать функцию window.popup.removeCard().
 
     adForm.reset();
-    // document.querySelector(`.ad-form`).reset();
+
     window.main.deactivateBookingPage();
   };
 

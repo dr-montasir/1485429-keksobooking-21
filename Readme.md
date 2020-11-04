@@ -1,6 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Монтасир  Миргхани](https://up.htmlacademy.ru/javascript/21/user/1485429).
+
 * Наставник: [Лариса Клец](https://htmlacademy.ru/profile/id336227).
 
 ---
