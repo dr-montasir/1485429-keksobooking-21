@@ -18,7 +18,7 @@
   const onFiltersChange = (offers) => {
     let results = [];
 
-    for (let i = 0; i < offers.lenght; i++) {
+    for (let i = 0; i < offers.length; i++) {
       let isOfferMatch = true;
 
       if (housingType.value !== `any`) {
