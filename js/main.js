@@ -14,14 +14,18 @@
   const startPointX = mapPinMain.offsetLeft;
   const startPointY = mapPinMain.offsetTop;
 
+  window.array = [];
+
   const onSuccessDownloadData = (response) => {
-    const offers = [];
+    let offers = []; ////////////////////////////////
 
     response.forEach((object) => {
       offers.push(object);
     });
 
     window.pin.renderPins(offers);
+
+    window.array = offers;
   };
 
   const onErrorDownloadData = window.dialog.onErrorDownloadDialog;
@@ -100,6 +104,7 @@
   deactivateBookingPage();
 
   window.main = {
+    onSuccessDownloadData,
     deactivateBookingPage
   };
 })();

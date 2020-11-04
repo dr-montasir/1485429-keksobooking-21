@@ -16,7 +16,7 @@
     bungalow: `Бунгало`
   };
   const HIGHT_MAINPIN_TAIL = 15;
-  const MAX_PINS_NUMBER = 5;
+  const PINS_NUMBER = 5;
 
   window.constants = {
     XY_OFFSET,
@@ -24,6 +24,6 @@
     PRICE_BY_HOUSE_TYPE,
     OFFER_TYPE_VALUE,
     HIGHT_MAINPIN_TAIL,
-    MAX_PINS_NUMBER
+    PINS_NUMBER
   };
 })();

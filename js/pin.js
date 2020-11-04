@@ -3,6 +3,7 @@
 (() => {
   const mapBlock = document.querySelector(`.map`);
   const pinBlock = mapBlock.querySelector(`.map__pins`);
+  const allPins = mapBlock.querySelectorAll(`.map__pin:not(.map__pin--main)`);
 
   const renderPin = (offer) => {
     const pinTemplate = document.querySelector(`#pin`).content;
@@ -36,10 +37,16 @@
   };
 
   const renderPins = (offers) => {
+    const allPins = mapBlock.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+
+    allPins.forEach((element) => {
+      element.remove();
+    });
+
     const fragment = document.createDocumentFragment();
 
     // количество пинов
-    let numberOfPins = offers.length > window.constants.MAX_PINS_NUMBER ? window.constants.MAX_PINS_NUMBER : offers.length;
+    let numberOfPins = offers.length > window.constants.PINS_NUMBER ? window.constants.PINS_NUMBER : offers.length;
 
     for (let i = 0; i < numberOfPins; i++) {
       fragment.appendChild(renderPin(offers[i]));

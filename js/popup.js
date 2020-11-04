@@ -103,7 +103,7 @@
   // 2- при деактивации страницы
   // 3- при сбросе формы
   const removeCard = () => {
-    if (document.querySelector(`.map__card`)) {
+    if (mapBlock.querySelector(`.map__card`)) {
       onPopupClose();
     }
   };
