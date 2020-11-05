@@ -15,6 +15,20 @@
     house: `Дом`,
     bungalow: `Бунгало`
   };
+  const PRICE_FILTER_RANGE = {
+    any: {
+      min: 0, max: 1000000
+    },
+    middle: {
+      min: 10000, max: 50000
+    },
+    low: {
+      min: 0, max: 10000
+    },
+    high: {
+      min: 50000, max: 1000000
+    }
+  };
   const HIGHT_MAINPIN_TAIL = 15;
   const PINS_NUMBER = 5;
 
@@ -24,6 +38,7 @@
     PRICE_BY_HOUSE_TYPE,
     OFFER_TYPE_VALUE,
     HIGHT_MAINPIN_TAIL,
-    PINS_NUMBER
+    PINS_NUMBER,
+    PRICE_FILTER_RANGE
   };
 })();

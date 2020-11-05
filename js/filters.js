@@ -6,6 +6,8 @@
   const housingType = mapFilters.querySelector(`#housing-type`);
   // const housingPrice = mapFilters.querySelector(`#housing-price`);
 
+  // let priceRange = window.constants.PRICE_FILTER_RANGE;
+
   // Фильтровать предложения (offers)
   // фильтр по типу (жилья) предложения
   const filterByOfferType = (oneOffer) => {
