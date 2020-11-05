@@ -5,6 +5,7 @@
   const housingType = mapFilters.querySelector(`#housing-type`);
   const housingPrice = mapFilters.querySelector(`#housing-price`);
   const housingRooms = mapFilters.querySelector(`#housing-rooms`);
+  const housingGuests = mapFilters.querySelector(`#housing-guests`);
 
   // сбросить фильтры
   const resetFilters = () => {
@@ -78,6 +79,25 @@
     return false;
   };
 
+  // фильтровать по количеству гостей
+  const filterByOfferGuests = (oneOffer) => {
+    const guestsQuantity = window.constants.GUESTS_QUANTITY_FILTER;
+
+    let offerGuestsQuantity = null;
+
+    for (let i = 0; i < guestsQuantity.length; i++) {
+      if (oneOffer.offer.guests === guestsQuantity[i]) {
+        offerGuestsQuantity = guestsQuantity[i].toString();
+      }
+    }
+
+    if (housingGuests.value === offerGuestsQuantity) {
+      return true;
+    }
+
+    return false;
+  };
+
   // при изменении параметров фильтрации
   const onFiltersChange = (offers) => {
     let results = [];
@@ -106,6 +126,15 @@
       // проверка по количеству комнат
       if (housingRooms.value !== `any`) {
         isOfferMatch = filterByOfferRooms(offers[i]);
+
+        if (isOfferMatch === false) {
+          continue;
+        }
+      }
+
+      // проверка по количеству гостей
+      if (housingGuests.value !== `any`) {
+        isOfferMatch = filterByOfferGuests(offers[i]);
 
         if (isOfferMatch === false) {
           continue;

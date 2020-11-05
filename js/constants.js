@@ -32,6 +32,7 @@
   //   three: 3
   // };
   const ROMS_QUANTITY_FILTER = [1, 2, 3];
+  const GUESTS_QUANTITY_FILTER = [2, 1, 0];
   const HIGHT_MAINPIN_TAIL = 15;
   const PINS_NUMBER = 5;
 
@@ -43,6 +44,7 @@
     HIGHT_MAINPIN_TAIL,
     PINS_NUMBER,
     PRICE_RANGE_FILTER,
-    ROMS_QUANTITY_FILTER
+    ROMS_QUANTITY_FILTER,
+    GUESTS_QUANTITY_FILTER
   };
 })();
