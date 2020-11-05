@@ -154,6 +154,8 @@
 
     adForm.reset();
 
+    window.filters.resetFilters();
+
     window.main.deactivateBookingPage();
   };
 
