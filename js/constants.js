@@ -15,7 +15,7 @@
     house: `Дом`,
     bungalow: `Бунгало`
   };
-  const PRICE_FILTER_RANGE = {
+  const PRICE_RANGE_FILTER = {
     middle: {
       min: 10000, max: 50000
     },
@@ -26,6 +26,12 @@
       min: 50000, max: Infinity
     }
   };
+  // const ROMS_QUANTITY_FILTER  = {
+  //   one: 1,
+  //   two: 2,
+  //   three: 3
+  // };
+  const ROMS_QUANTITY_FILTER = [1, 2, 3];
   const HIGHT_MAINPIN_TAIL = 15;
   const PINS_NUMBER = 5;
 
@@ -36,6 +42,7 @@
     OFFER_TYPE_VALUE,
     HIGHT_MAINPIN_TAIL,
     PINS_NUMBER,
-    PRICE_FILTER_RANGE
+    PRICE_RANGE_FILTER,
+    ROMS_QUANTITY_FILTER
   };
 })();
