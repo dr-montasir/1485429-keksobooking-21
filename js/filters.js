@@ -4,7 +4,7 @@
   const mapFilters = document.querySelector(`.map__filters`);
   // const mapFilter = mapFilters.querySelectorAll(`.map__filter`);
   const housingType = mapFilters.querySelector(`#housing-type`);
-  // const housingPrice = mapFilters.querySelector(`#housing-price`);
+  const housingPrice = mapFilters.querySelector(`#housing-price`);
 
   // Диапазон ценового фильтра
   let priceRange = window.constants.PRICE_FILTER_RANGE;
@@ -21,26 +21,26 @@
 
   // Фильтр по цене предложения
   const filterByOfferPrice = (oneOffer) => {
-    if (oneOffer.offer.price >= priceRange.any.min && oneOffer.offer.price <= priceRange.any.max) {
-      return `any`;
-    }
+    let offerPriceRange = null;
 
     if (oneOffer.offer.price >= priceRange.middle.min && oneOffer.offer.price <= priceRange.middle.max) {
-      return `middle`;
+      offerPriceRange = `middle`;
     }
 
     if (oneOffer.offer.price >= priceRange.low.min && oneOffer.offer.price <= priceRange.low.max) {
-      return `low`;
+      offerPriceRange = `low`;
     }
 
-    if (oneOffer.offer.price >= priceRange.high.min && oneOffer.offer.price <= priceRange.high.max) {
-      return `high`;
+    if (oneOffer.offer.price >= priceRange.high.min && oneOffer.offer.price < priceRange.high.max) {
+      offerPriceRange = `high`;
+    }
+
+    if (housingPrice.value === offerPriceRange) {
+      return true;
     }
 
     return false;
   };
-
-  filterByOfferPrice();
 
   const onFiltersChange = (offers) => {
     let results = [];
@@ -58,9 +58,13 @@
       }
 
       // проверка по цене предложения
-      // if (housingPrice.value !== `any`) {
+      if (housingPrice.value !== `any`) {
+        isOfferMatch = filterByOfferPrice(offers[i]);
 
-      // }
+        if (isOfferMatch === false) {
+          continue;
+        }
+      }
 
       // применяем все филтеры к offers[i]
       results.push(offers[i]);

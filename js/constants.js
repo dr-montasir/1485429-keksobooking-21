@@ -16,9 +16,6 @@
     bungalow: `Бунгало`
   };
   const PRICE_FILTER_RANGE = {
-    any: {
-      min: 0, max: 1000000
-    },
     middle: {
       min: 10000, max: 50000
     },
@@ -26,7 +23,7 @@
       min: 0, max: 10000
     },
     high: {
-      min: 50000, max: 1000000
+      min: 50000, max: Infinity
     }
   };
   const HIGHT_MAINPIN_TAIL = 15;
