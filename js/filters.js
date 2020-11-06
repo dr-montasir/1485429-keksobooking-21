@@ -6,6 +6,7 @@
   const housingPrice = mapFilters.querySelector(`#housing-price`);
   const housingRooms = mapFilters.querySelector(`#housing-rooms`);
   const housingGuests = mapFilters.querySelector(`#housing-guests`);
+  // const housingFeatures = Array.from(mapFilters.querySelectorAll(`.map__checkbox`).values());
 
   // сбросить фильтры
   const resetFilters = () => {
@@ -98,6 +99,22 @@
     return false;
   };
 
+  // фильтровать по удобствам предложения
+  // const filterByOfferFeatures = (oneOffer) => {
+  //   const filterSelectedFeatures = housingFeatures.filter((item) => {
+  //     return item.checked;
+  //   });
+
+  //   if (filterSelectedFeatures.length > 0) {
+  //     const offerFeatures = oneOffer.offer.features;
+  //     return filterSelectedFeatures.every((item) => {
+  //       return offerFeatures.indexOf(item.value) !== -1;
+  //     });
+  //   }
+
+  //   return true;
+  // };
+
   // при изменении параметров фильтрации
   const onFiltersChange = (offers) => {
     let results = [];
@@ -140,6 +157,8 @@
           continue;
         }
       }
+
+      // проверка по удобствам предложения
 
       // применяем все филтеры к offers[i]
       results.push(offers[i]);
