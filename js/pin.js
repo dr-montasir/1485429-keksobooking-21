@@ -3,7 +3,6 @@
 (() => {
   const mapBlock = document.querySelector(`.map`);
   const pinBlock = mapBlock.querySelector(`.map__pins`);
-  // const allPins = mapBlock.querySelectorAll(`.map__pin:not(.map__pin--main)`);
 
   const renderPin = (offer) => {
     const pinTemplate = document.querySelector(`#pin`).content;
