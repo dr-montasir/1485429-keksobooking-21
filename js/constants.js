@@ -26,11 +26,6 @@
       min: 50000, max: Infinity
     }
   };
-  // const ROMS_QUANTITY_FILTER  = {
-  //   one: 1,
-  //   two: 2,
-  //   three: 3
-  // };
   const ROMS_QUANTITY_FILTER = [1, 2, 3];
   const GUESTS_QUANTITY_FILTER = [2, 1, 0];
   const HIGHT_MAINPIN_TAIL = 15;

@@ -7,6 +7,7 @@
   const housingRooms = mapFilters.querySelector(`#housing-rooms`);
   const housingGuests = mapFilters.querySelector(`#housing-guests`);
   // const housingFeatures = Array.from(mapFilters.querySelectorAll(`.map__checkbox`).values());
+  const housingFeatures = Array.from(mapFilters.querySelectorAll(`.map__checkbox`));
 
   // сбросить фильтры
   const resetFilters = () => {
@@ -55,18 +56,6 @@
 
     let offerRommsQuantity = null;
 
-    // if (oneOffer.offer.rooms === rommsQuantity.one) {
-    //   offerRommsQuantity = `1`;
-    // }
-
-    // if (oneOffer.offer.rooms === rommsQuantity.two) {
-    //   offerRommsQuantity = `2`;
-    // }
-
-    // if (oneOffer.offer.rooms === rommsQuantity.three) {
-    //   offerRommsQuantity = `3`;
-    // }
-
     for (let i = 0; i < rommsQuantity.length; i++) {
       if (oneOffer.offer.rooms === rommsQuantity[i]) {
         offerRommsQuantity = rommsQuantity[i].toString();
@@ -100,20 +89,20 @@
   };
 
   // фильтровать по удобствам предложения
-  // const filterByOfferFeatures = (oneOffer) => {
-  //   const filterSelectedFeatures = housingFeatures.filter((item) => {
-  //     return item.checked;
-  //   });
+  const filterByOfferFeatures = (oneOffer) => {
+    const filterSelectedFeatures = housingFeatures.filter((item) => {
+      return item.checked;
+    });
 
-  //   if (filterSelectedFeatures.length > 0) {
-  //     const offerFeatures = oneOffer.offer.features;
-  //     return filterSelectedFeatures.every((item) => {
-  //       return offerFeatures.indexOf(item.value) !== -1;
-  //     });
-  //   }
+    if (filterSelectedFeatures.length > 0) {
+      const offerFeatures = oneOffer.offer.features;
+      return filterSelectedFeatures.every((item) => {
+        return offerFeatures.indexOf(item.value) !== -1;
+      });
+    }
 
-  //   return true;
-  // };
+    return true;
+  };
 
   // при изменении параметров фильтрации
   const onFiltersChange = (offers) => {
@@ -159,6 +148,11 @@
       }
 
       // проверка по удобствам предложения
+      isOfferMatch = filterByOfferFeatures(offers[i]);
+
+      if (isOfferMatch === false) {
+        continue;
+      }
 
       // применяем все филтеры к offers[i]
       results.push(offers[i]);
