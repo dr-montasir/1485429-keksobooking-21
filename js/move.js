@@ -55,7 +55,7 @@
 
       window.form.adFormAddressField.value = `${pointX}, ${pointY}`;
 
-      // Удалите карту, если она открыта
+      // Удаляет карту, если она открыта
       window.popup.removeCard();
     };
 

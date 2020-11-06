@@ -93,8 +93,8 @@
 
     // popupButton для закрытия всплывающей карточки объявления
     const popupButton = offerCard.querySelector(`.popup__close`);
-    popupButton.addEventListener(`click`, window.popup.onPopupClose);
-    document.addEventListener(`keydown`, window.popup.onPopupEscClose);
+    popupButton.addEventListener(`click`, onPopupClose);
+    document.addEventListener(`keydown`, onPopupEscClose);
   };
 
   // Удаляет карту, если она открыта
@@ -109,8 +109,6 @@
   };
 
   window.popup = {
-    onPopupEscClose,
-    onPopupClose,
     createOfferCard,
     removeCard
   };

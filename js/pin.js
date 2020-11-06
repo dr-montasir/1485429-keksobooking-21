@@ -44,7 +44,6 @@
 
     const fragment = document.createDocumentFragment();
 
-    // количество пинов
     let numberOfPins = offers.length > window.constants.PINS_NUMBER ? window.constants.PINS_NUMBER : offers.length;
 
     for (let i = 0; i < numberOfPins; i++) {
