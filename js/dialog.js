@@ -1,6 +1,8 @@
 'use strict';
 
 (() => {
+  const mainBlock = document.querySelector(`main`);
+
   // onErrorDownloadDialog
   const onErrorDownloadDialog = (errorMessage) => {
     const node = document.createElement(`div`);
@@ -20,24 +22,14 @@
 
   // onSuccessUploadDialog
   const onSuccessUploadDialog = () => {
-    const mainBlock = document.querySelector(`main`);
+    const successDialogTemplate = document.querySelector(`#success`).content;
 
-    const createSuccessDialogTemplate = () => {
-      const successDialogTemplate = document.querySelector(`#success`).content;
-      const successDialogFragment = document.createDocumentFragment();
+    const clonedSuccessDialog = successDialogTemplate.cloneNode(true);
 
-      const clonedSuccessDialog = successDialogTemplate.cloneNode(true);
-      successDialogFragment.appendChild(clonedSuccessDialog);
+    mainBlock.insertBefore(clonedSuccessDialog, window.map.mapBlock);
 
-      return successDialogFragment;
-    };
-
-    const successDialogTemplate = createSuccessDialogTemplate();
-
-    mainBlock.insertBefore(successDialogTemplate, window.map.mapBlock);
-
-    const successDialogContainer = document.querySelector(`.success`);
-    const successDialog = document.querySelector(`.success__message`);
+    const successDialogContainer = mainBlock.querySelector(`.success`);
+    const successDialog = mainBlock.querySelector(`.success__message`);
 
     const onSuccessMouseClose = successDialogContainer.addEventListener(`click`, (evt) => {
       if (evt.target === successDialogContainer || evt.target === successDialog) {
@@ -56,19 +48,11 @@
 
     document.addEventListener(`keydown`, onSuccessEscClose);
 
-    // Задача module6-task2
-    // 2. После успешной передачи данных на сервер верните страницу в неактивное состояние и сбросьте форму.
-
-    // document.querySelector(`.ad-form`).reset();
-    // window.main.deactivateBookingPage();
-    // Или
     window.form.resetAdForm();
   };
 
   // onErrorUploadDialog
   const onErrorUploadDialog = () => {
-    const mainBlock = document.querySelector(`main`);
-
     const createErrorDialogTemplate = () => {
       const errorDialogTemplate = document.querySelector(`#error`).content;
       const errorDialogFragment = document.createDocumentFragment();

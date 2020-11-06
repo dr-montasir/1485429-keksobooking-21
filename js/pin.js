@@ -51,10 +51,6 @@
       fragment.appendChild(renderPin(offers[i]));
     }
 
-    // offers.forEach((offer) => {
-    //   fragment.appendChild(renderPin(offer));
-    // });
-
     pinBlock.appendChild(fragment);
   };
 
