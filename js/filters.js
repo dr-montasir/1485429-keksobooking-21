@@ -172,7 +172,8 @@
     // закрыть карту если она открыта
     window.popup.removeCard();
     // window.pin.renderPins(onFiltersChange(window.array));
-    window.pin.renderPins(window.debounce(onFiltersChange(window.array)));
+    // window.pin.renderPins(window.debounce(onFiltersChange(window.array)));
+    window.debounce(window.pin.renderPins(onFiltersChange(window.array)));
   });
 
   window.filters = {
