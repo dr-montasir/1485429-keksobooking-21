@@ -23,7 +23,6 @@
   // onSuccessUploadDialog
   const onSuccessUploadDialog = () => {
     const successDialogTemplate = document.querySelector(`#success`).content;
-
     const clonedSuccessDialog = successDialogTemplate.cloneNode(true);
 
     mainBlock.insertBefore(clonedSuccessDialog, window.map.mapBlock);
@@ -31,23 +30,25 @@
     const successDialogContainer = mainBlock.querySelector(`.success`);
     const successDialog = mainBlock.querySelector(`.success__message`);
 
-    const onSuccessMouseClose = successDialogContainer.addEventListener(`click`, (evt) => {
+    const onSuccessMouseClose = (evt) => {
       if (evt.target === successDialogContainer || evt.target === successDialog) {
         successDialogContainer.remove();
-        document.removeEventListener(`mousedown`, onSuccessMouseClose);
+        successDialogContainer.removeEventListener(`click`, onSuccessMouseClose);
+        document.removeEventListener(`keydown`, onSuccessEscClose);
       }
-    });
+    };
 
     const onSuccessEscClose = (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         successDialogContainer.remove();
+        successDialogContainer.removeEventListener(`click`, onSuccessMouseClose);
         document.removeEventListener(`keydown`, onSuccessEscClose);
       }
     };
 
+    successDialogContainer.addEventListener(`click`, onSuccessMouseClose);
     document.addEventListener(`keydown`, onSuccessEscClose);
-
     window.form.resetAdForm();
   };
 
