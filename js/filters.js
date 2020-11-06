@@ -105,8 +105,10 @@
   };
 
   // при изменении параметров фильтрации
-  const onFiltersChange = (offers) => {
+  const onFiltersChange = () => {
     let results = [];
+
+    let offers = window.array;
 
     for (let i = 0; i < offers.length; i++) {
       let isOfferMatch = true;
@@ -169,7 +171,8 @@
     // почистить карту от пинов
     // закрыть карту если она открыта
     window.popup.removeCard();
-    window.pin.renderPins(onFiltersChange(window.array));
+    // window.pin.renderPins(onFiltersChange(window.array));
+    window.pin.renderPins(window.debounce(onFiltersChange(window.array)));
   });
 
   window.filters = {
