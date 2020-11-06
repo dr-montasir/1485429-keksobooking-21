@@ -54,40 +54,44 @@
 
   // onErrorUploadDialog
   const onErrorUploadDialog = () => {
-    const createErrorDialogTemplate = () => {
-      const errorDialogTemplate = document.querySelector(`#error`).content;
-      const errorDialogFragment = document.createDocumentFragment();
+    const errorDialogTemplate = document.querySelector(`#error`).content;
+    const clonedErrorDialog = errorDialogTemplate.cloneNode(true);
 
-      const clonedErrorDialog = errorDialogTemplate.cloneNode(true);
-      errorDialogFragment.appendChild(clonedErrorDialog);
+    mainBlock.insertBefore(clonedErrorDialog, window.map.mapBlock);
 
-      return errorDialogFragment;
-    };
+    const errorDialogContainer = mainBlock.querySelector(`.error`);
+    const errorDialog = mainBlock.querySelector(`.error__message`);
+    const errorButton = mainBlock.querySelector(`.error__button`);
 
-    const errorDialogTemplate = createErrorDialogTemplate();
-
-    mainBlock.insertBefore(errorDialogTemplate, window.map.mapBlock);
-
-    const errorDialogContainer = document.querySelector(`.error`);
-    const errorDialog = document.querySelector(`.error__message`);
-    const errorButton = document.querySelector(`.error__button`);
-
-    const onErrorMouseClose = errorDialogContainer.addEventListener(`click`, (evt) => {
+    const onErrorMouseClose = (evt) => {
       if (evt.target === errorDialogContainer || evt.target === errorDialog || evt.target === errorButton) {
         errorDialogContainer.remove();
-        document.removeEventListener(`mousedown`, onErrorMouseClose);
+        errorDialogContainer.removeEventListener(`click`, onErrorMouseClose);
+        document.removeEventListener(`keydown`, onErrorEscClose);
       }
-    });
+    };
 
     const onErrorEscClose = (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         errorDialogContainer.remove();
+        errorDialogContainer.removeEventListener(`click`, onErrorMouseClose);
         document.removeEventListener(`keydown`, onErrorEscClose);
       }
     };
 
+    const onErrorEnterClose = (evt) => {
+      if (evt.key === `Enter`) {
+        evt.preventDefault();
+        errorDialogContainer.remove();
+        errorDialogContainer.removeEventListener(`click`, onErrorMouseClose);
+        document.removeEventListener(`keydown`, onErrorEnterClose);
+      }
+    };
+
+    errorDialogContainer.addEventListener(`click`, onErrorMouseClose);
     document.addEventListener(`keydown`, onErrorEscClose);
+    document.addEventListener(`keydown`, onErrorEnterClose);
   };
 
   window.dialog = {
