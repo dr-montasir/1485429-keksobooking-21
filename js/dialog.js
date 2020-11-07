@@ -1,6 +1,8 @@
 'use strict';
 
 (() => {
+  const mainBlock = document.querySelector(`main`);
+
   // onErrorDownloadDialog
   const onErrorDownloadDialog = (errorMessage) => {
     const node = document.createElement(`div`);
@@ -20,89 +22,76 @@
 
   // onSuccessUploadDialog
   const onSuccessUploadDialog = () => {
-    const mainBlock = document.querySelector(`main`);
+    const successDialogTemplate = document.querySelector(`#success`).content;
+    const clonedSuccessDialog = successDialogTemplate.cloneNode(true);
 
-    const createSuccessDialogTemplate = () => {
-      const successDialogTemplate = document.querySelector(`#success`).content;
-      const successDialogFragment = document.createDocumentFragment();
+    mainBlock.insertBefore(clonedSuccessDialog, window.map.mapBlock);
 
-      const clonedSuccessDialog = successDialogTemplate.cloneNode(true);
-      successDialogFragment.appendChild(clonedSuccessDialog);
+    const successDialogContainer = mainBlock.querySelector(`.success`);
+    const successDialog = mainBlock.querySelector(`.success__message`);
 
-      return successDialogFragment;
-    };
-
-    const successDialogTemplate = createSuccessDialogTemplate();
-
-    mainBlock.insertBefore(successDialogTemplate, window.map.mapBlock);
-
-    const successDialogContainer = document.querySelector(`.success`);
-    const successDialog = document.querySelector(`.success__message`);
-
-    const onSuccessMouseClose = successDialogContainer.addEventListener(`click`, (evt) => {
+    const onSuccessMouseClose = (evt) => {
       if (evt.target === successDialogContainer || evt.target === successDialog) {
         successDialogContainer.remove();
-        document.removeEventListener(`mousedown`, onSuccessMouseClose);
+        successDialogContainer.removeEventListener(`click`, onSuccessMouseClose);
+        document.removeEventListener(`keydown`, onSuccessEscClose);
       }
-    });
+    };
 
     const onSuccessEscClose = (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         successDialogContainer.remove();
+        successDialogContainer.removeEventListener(`click`, onSuccessMouseClose);
         document.removeEventListener(`keydown`, onSuccessEscClose);
       }
     };
 
+    successDialogContainer.addEventListener(`click`, onSuccessMouseClose);
     document.addEventListener(`keydown`, onSuccessEscClose);
-
-    // Задача module6-task2
-    // 2. После успешной передачи данных на сервер верните страницу в неактивное состояние и сбросьте форму.
-
-    // document.querySelector(`.ad-form`).reset();
-    // window.main.deactivateBookingPage();
-    // Или
     window.form.resetAdForm();
   };
 
   // onErrorUploadDialog
   const onErrorUploadDialog = () => {
-    const mainBlock = document.querySelector(`main`);
+    const errorDialogTemplate = document.querySelector(`#error`).content;
+    const clonedErrorDialog = errorDialogTemplate.cloneNode(true);
 
-    const createErrorDialogTemplate = () => {
-      const errorDialogTemplate = document.querySelector(`#error`).content;
-      const errorDialogFragment = document.createDocumentFragment();
+    mainBlock.insertBefore(clonedErrorDialog, window.map.mapBlock);
 
-      const clonedErrorDialog = errorDialogTemplate.cloneNode(true);
-      errorDialogFragment.appendChild(clonedErrorDialog);
+    const errorDialogContainer = mainBlock.querySelector(`.error`);
+    const errorDialog = mainBlock.querySelector(`.error__message`);
+    const errorButton = mainBlock.querySelector(`.error__button`);
 
-      return errorDialogFragment;
-    };
-
-    const errorDialogTemplate = createErrorDialogTemplate();
-
-    mainBlock.insertBefore(errorDialogTemplate, window.map.mapBlock);
-
-    const errorDialogContainer = document.querySelector(`.error`);
-    const errorDialog = document.querySelector(`.error__message`);
-    const errorButton = document.querySelector(`.error__button`);
-
-    const onErrorMouseClose = errorDialogContainer.addEventListener(`click`, (evt) => {
+    const onErrorMouseClose = (evt) => {
       if (evt.target === errorDialogContainer || evt.target === errorDialog || evt.target === errorButton) {
         errorDialogContainer.remove();
-        document.removeEventListener(`mousedown`, onErrorMouseClose);
+        errorDialogContainer.removeEventListener(`click`, onErrorMouseClose);
+        document.removeEventListener(`keydown`, onErrorEscClose);
       }
-    });
+    };
 
     const onErrorEscClose = (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         errorDialogContainer.remove();
+        errorDialogContainer.removeEventListener(`click`, onErrorMouseClose);
         document.removeEventListener(`keydown`, onErrorEscClose);
       }
     };
 
+    const onErrorEnterClose = (evt) => {
+      if (evt.key === `Enter`) {
+        evt.preventDefault();
+        errorDialogContainer.remove();
+        errorDialogContainer.removeEventListener(`click`, onErrorMouseClose);
+        document.removeEventListener(`keydown`, onErrorEnterClose);
+      }
+    };
+
+    errorDialogContainer.addEventListener(`click`, onErrorMouseClose);
     document.addEventListener(`keydown`, onErrorEscClose);
+    document.addEventListener(`keydown`, onErrorEnterClose);
   };
 
   window.dialog = {

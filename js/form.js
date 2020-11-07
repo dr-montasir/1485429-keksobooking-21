@@ -1,6 +1,11 @@
 'use strict';
 
 (() => {
+  const ROOMS_100 = 100;
+
+  const onSuccessDialog = window.dialog.onSuccessUploadDialog;
+  const onErrorDialog = window.dialog.onErrorUploadDialog;
+
   const adForm = document.querySelector(`.ad-form`);
   const adFormTitleField = adForm.querySelector(`#title`);
   const adFormAddressField = adForm.querySelector(`#address`);
@@ -84,11 +89,11 @@
 
     target.setCustomValidity(``);
 
-    if (guestsValue !== 0 && roomsValue === 100) {
+    if (guestsValue !== 0 && roomsValue === ROOMS_100) {
       target.setCustomValidity(`Не для гостей. Пожалуйста, выберите другой вариант.`);
     }
 
-    if (guestsValue === 0 && roomsValue !== 100) {
+    if (guestsValue === 0 && roomsValue !== ROOMS_100) {
       target.setCustomValidity(`Для выбора (не для гостей). Пожалуйста, выберите максимальное количество комнат.`);
     }
 
@@ -128,34 +133,18 @@
   });
 
   // отправка формы
-  const submitAdForm = (evt) => {
+  const onSubmitAdForm = (evt) => {
     evt.preventDefault();
-
-    const onSuccessDialog = window.dialog.onSuccessUploadDialog;
-    const onErrorDialog = window.dialog.onErrorUploadDialog;
 
     window.load.uploadData(new FormData(adForm), onSuccessDialog, onErrorDialog);
   };
 
-  adForm.addEventListener(`submit`, submitAdForm);
+  adForm.addEventListener(`submit`, onSubmitAdForm);
 
   // Сбросить форму
-  // Техническое задание
-  // 2.8. Нажатие на кнопку .ad-form__reset сбрасывает страницу в исходное неактивное состояние без перезагрузки, а также:
-  // все заполненные поля возвращаются в изначальное состояние, в том числе фильтры;
-  // метки похожих объявлений и карточка активного объявления удаляются;
-  // метка адреса возвращается в исходное положение;
-  // значение поля адреса корректируется соответственно положению метки;
   const resetAdForm = () => {
-    // при вызове функции window.main.deactivateBookingPage(),
-    // помимо сбрасывания страницы в исходное неактивное состояние,
-    // так же удаляется карточку объявления.
-    // Следовательно, нет необходимости вызывать функцию window.popup.removeCard().
-
     adForm.reset();
-
     window.filters.resetFilters();
-
     window.main.deactivateBookingPage();
   };
 

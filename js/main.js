@@ -75,7 +75,7 @@
       element.remove();
     });
 
-    // Удалите карту, если она открыта
+    // Удаляет карту, если она открыта
     window.popup.removeCard();
 
     mapPinMain.style.left = startPointX + `px`;

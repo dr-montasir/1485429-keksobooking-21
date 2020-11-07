@@ -1,12 +1,24 @@
 'use strict';
 
 (() => {
+  // диапазон ценового фильтра
+  const PRICE_RANGE = {
+    middle: {
+      min: 10000, max: 50000
+    },
+    low: {
+      min: 0, max: 10000
+    },
+    high: {
+      min: 50000, max: Infinity
+    }
+  };
+
   const mapFilters = document.querySelector(`.map__filters`);
   const housingType = mapFilters.querySelector(`#housing-type`);
   const housingPrice = mapFilters.querySelector(`#housing-price`);
   const housingRooms = mapFilters.querySelector(`#housing-rooms`);
   const housingGuests = mapFilters.querySelector(`#housing-guests`);
-  // const housingFeatures = Array.from(mapFilters.querySelectorAll(`.map__checkbox`).values());
   const housingFeatures = Array.from(mapFilters.querySelectorAll(`.map__checkbox`));
 
   // сбросить фильтры
@@ -26,20 +38,17 @@
 
   // фильтровать по цене предложения
   const filterByOfferPrice = (oneOffer) => {
-    // диапазон ценового фильтра
-    const priceRange = window.constants.PRICE_RANGE_FILTER;
-
     let offerPriceRange = null;
 
-    if (oneOffer.offer.price >= priceRange.middle.min && oneOffer.offer.price <= priceRange.middle.max) {
+    if (oneOffer.offer.price >= PRICE_RANGE.middle.min && oneOffer.offer.price <= PRICE_RANGE.middle.max) {
       offerPriceRange = `middle`;
     }
 
-    if (oneOffer.offer.price >= priceRange.low.min && oneOffer.offer.price <= priceRange.low.max) {
+    if (oneOffer.offer.price >= PRICE_RANGE.low.min && oneOffer.offer.price <= PRICE_RANGE.low.max) {
       offerPriceRange = `low`;
     }
 
-    if (oneOffer.offer.price >= priceRange.high.min && oneOffer.offer.price < priceRange.high.max) {
+    if (oneOffer.offer.price >= PRICE_RANGE.high.min && oneOffer.offer.price < PRICE_RANGE.high.max) {
       offerPriceRange = `high`;
     }
 
@@ -52,17 +61,7 @@
 
   // фильтровать по количеству комнат
   const filterByOfferRooms = (oneOffer) => {
-    const rommsQuantity = window.constants.ROMS_QUANTITY_FILTER;
-
-    let offerRommsQuantity = null;
-
-    for (let i = 0; i < rommsQuantity.length; i++) {
-      if (oneOffer.offer.rooms === rommsQuantity[i]) {
-        offerRommsQuantity = rommsQuantity[i].toString();
-      }
-    }
-
-    if (housingRooms.value === offerRommsQuantity) {
+    if (housingRooms.value === oneOffer.offer.rooms.toString()) {
       return true;
     }
 
@@ -71,17 +70,7 @@
 
   // фильтровать по количеству гостей
   const filterByOfferGuests = (oneOffer) => {
-    const guestsQuantity = window.constants.GUESTS_QUANTITY_FILTER;
-
-    let offerGuestsQuantity = null;
-
-    for (let i = 0; i < guestsQuantity.length; i++) {
-      if (oneOffer.offer.guests === guestsQuantity[i]) {
-        offerGuestsQuantity = guestsQuantity[i].toString();
-      }
-    }
-
-    if (housingGuests.value === offerGuestsQuantity) {
+    if (housingGuests.value === oneOffer.offer.guests.toString()) {
       return true;
     }
 
@@ -107,8 +96,6 @@
   // при изменении параметров фильтрации
   const onFiltersChange = (offers) => {
     let results = [];
-
-    // let offers = window.array;
 
     for (let i = 0; i < offers.length; i++) {
       let isOfferMatch = true;

@@ -44,16 +44,11 @@
 
     const fragment = document.createDocumentFragment();
 
-    // количество пинов
     let numberOfPins = offers.length > window.constants.PINS_NUMBER ? window.constants.PINS_NUMBER : offers.length;
 
     for (let i = 0; i < numberOfPins; i++) {
       fragment.appendChild(renderPin(offers[i]));
     }
-
-    // offers.forEach((offer) => {
-    //   fragment.appendChild(renderPin(offer));
-    // });
 
     pinBlock.appendChild(fragment);
   };
