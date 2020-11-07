@@ -80,18 +80,8 @@
       }
     };
 
-    const onErrorEnterClose = (evt) => {
-      if (evt.key === `Enter`) {
-        evt.preventDefault();
-        errorDialogContainer.remove();
-        errorDialogContainer.removeEventListener(`click`, onErrorMouseClose);
-        document.removeEventListener(`keydown`, onErrorEnterClose);
-      }
-    };
-
     errorDialogContainer.addEventListener(`click`, onErrorMouseClose);
     document.addEventListener(`keydown`, onErrorEscClose);
-    document.addEventListener(`keydown`, onErrorEnterClose);
   };
 
   window.dialog = {
