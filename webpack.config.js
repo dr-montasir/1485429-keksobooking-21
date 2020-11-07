@@ -11,5 +11,10 @@ module.exports = {
     "./js/popup.js",
     "./js/form.js",
     "./js/main.js"
-  ]
+  ],
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname),
+    iife: true
+  },
 };
