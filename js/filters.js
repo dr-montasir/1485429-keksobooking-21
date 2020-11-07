@@ -29,11 +29,7 @@
   // фильтровать предложения (offers)
   // фильтровать по типу (жилья) предложения
   const filterByOfferType = (oneOffer) => {
-    if (oneOffer.offer.type !== housingType.value) {
-      return false;
-    }
-
-    return true;
+    return oneOffer.offer.type === housingType.value;
   };
 
   // фильтровать по цене предложения
@@ -52,29 +48,17 @@
       offerPriceRange = `high`;
     }
 
-    if (housingPrice.value === offerPriceRange) {
-      return true;
-    }
-
-    return false;
+    return offerPriceRange === housingPrice.value;
   };
 
   // фильтровать по количеству комнат
   const filterByOfferRooms = (oneOffer) => {
-    if (housingRooms.value === oneOffer.offer.rooms.toString()) {
-      return true;
-    }
-
-    return false;
+    return oneOffer.offer.rooms.toString() === housingRooms.value;
   };
 
   // фильтровать по количеству гостей
   const filterByOfferGuests = (oneOffer) => {
-    if (housingGuests.value === oneOffer.offer.guests.toString()) {
-      return true;
-    }
-
-    return false;
+    return oneOffer.offer.guests.toString() === housingGuests.value;
   };
 
   // фильтровать по удобствам предложения
