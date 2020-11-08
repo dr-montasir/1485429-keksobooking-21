@@ -3,13 +3,13 @@
 const RECEIVER_URL = `https://21.javascript.pages.academy/keksobooking/data`;
 const SENDER_URL = `https://21.javascript.pages.academy/keksobooking`;
 
+const TIMEOUT_IN_MS = 10000;
+
 const StatusCode = {
   OK: 200
 };
 
-const TIMEOUT_IN_MS = 10000;
-
-const downloadData = (onSuccess, onError) => {
+const createXhr = (method, url, onSuccess, onError) => {
   const xhr = new XMLHttpRequest();
   xhr.responseType = `json`;
 
@@ -30,35 +30,16 @@ const downloadData = (onSuccess, onError) => {
   });
 
   xhr.timeout = TIMEOUT_IN_MS;
+  xhr.open(method, url);
+  return xhr;
+};
 
-  xhr.open(`GET`, RECEIVER_URL);
-  xhr.send();
+const downloadData = (onSuccess, onError) => {
+  createXhr(`GET`, RECEIVER_URL, onSuccess, onError).send();
 };
 
 const uploadData = (data, onSuccess, onError) => {
-  const xhr = new XMLHttpRequest();
-  xhr.responseType = `json`;
-
-  xhr.addEventListener(`load`, () => {
-    if (xhr.status === StatusCode.OK) {
-      window.dialog.onSuccessUploadDialog();
-    } else {
-      window.dialog.onErrorUploadDialog();
-    }
-  });
-
-  xhr.addEventListener(`error`, () => {
-    onError(`Произошла ошибка соединения`);
-  });
-
-  xhr.addEventListener(`timeout`, () => {
-    onError(`Запрос не успел выполниться за ` + xhr.timeout + ` мс`);
-  });
-
-  xhr.timeout = TIMEOUT_IN_MS;
-
-  xhr.open(`POST`, SENDER_URL);
-  xhr.send(data);
+  createXhr(`POST`, SENDER_URL, onSuccess, onError).send(data);
 };
 
 window.load = {
