@@ -1,158 +1,156 @@
 'use strict';
 
-(() => {
-  const ROOMS_100 = 100;
+const ROOMS_100 = 100;
 
-  const onSuccessDialog = window.dialog.onSuccessUploadDialog;
-  const onErrorDialog = window.dialog.onErrorUploadDialog;
+const onSuccessDialog = window.dialog.onSuccessUploadDialog;
+const onErrorDialog = window.dialog.onErrorUploadDialog;
 
-  const adForm = document.querySelector(`.ad-form`);
-  const adFormTitleField = adForm.querySelector(`#title`);
-  const adFormAddressField = adForm.querySelector(`#address`);
-  const adFormTypeField = adForm.querySelector(`#type`);
-  const adFormPriceField = adForm.querySelector(`#price`);
-  const adFormCheckinField = adForm.querySelector(`#timein`);
-  const adFormCheckoutField = adForm.querySelector(`#timeout`);
-  const adFormGuestsField = adForm.querySelector(`#capacity`);
-  const adFormRoomsField = adForm.querySelector(`#room_number`);
-  const mapPinMain = document.querySelector(`.map__pin--main`);
+const adForm = document.querySelector(`.ad-form`);
+const adFormTitleField = adForm.querySelector(`#title`);
+const adFormAddressField = adForm.querySelector(`#address`);
+const adFormTypeField = adForm.querySelector(`#type`);
+const adFormPriceField = adForm.querySelector(`#price`);
+const adFormCheckinField = adForm.querySelector(`#timein`);
+const adFormCheckoutField = adForm.querySelector(`#timeout`);
+const adFormGuestsField = adForm.querySelector(`#capacity`);
+const adFormRoomsField = adForm.querySelector(`#room_number`);
+const mapPinMain = document.querySelector(`.map__pin--main`);
 
-  // Валидация заголовка объявления
-  const validateTitleField = () => {
-    const titleValue = adFormTitleField.value;
+// Валидация заголовка объявления
+const validateTitleField = () => {
+  const titleValue = adFormTitleField.value;
 
-    if (titleValue.length >= window.constants.FORM_TITLE_LENGTH.min && titleValue.length <= window.constants.FORM_TITLE_LENGTH.max) {
-      adFormTitleField.setCustomValidity(``);
-    } else if (titleValue.length === 0) {
-      adFormTitleField.setCustomValidity(`Пожалуйста, заполните это поле`);
-    } else {
-      adFormTitleField.setCustomValidity(`должно быть от ${window.constants.FORM_TITLE_LENGTH.min} до ${window.constants.FORM_TITLE_LENGTH.max} символов`);
-    }
+  if (titleValue.length >= window.constants.FORM_TITLE_LENGTH.min && titleValue.length <= window.constants.FORM_TITLE_LENGTH.max) {
+    adFormTitleField.setCustomValidity(``);
+  } else if (titleValue.length === 0) {
+    adFormTitleField.setCustomValidity(`Пожалуйста, заполните это поле`);
+  } else {
+    adFormTitleField.setCustomValidity(`должно быть от ${window.constants.FORM_TITLE_LENGTH.min} до ${window.constants.FORM_TITLE_LENGTH.max} символов`);
+  }
+};
+
+// Устанавливать адрес объявления
+const setAddressField = () => {
+  const pointX = mapPinMain.offsetLeft + window.map.halfMainPin.width - window.map.shiftRightPinImg;
+
+  const pointY = mapPinMain.offsetTop + window.map.halfMainPin.height;
+
+  adFormAddressField.value = `${pointX}, ${pointY}`;
+};
+
+// Устанавливать минимальную и максимальную цену по типу жилья
+const setPriceByHouseType = (minPrice, maxPrice) => {
+  minPrice = window.constants.PRICE_BY_HOUSE_TYPE[adFormTypeField.value].min;
+  maxPrice = window.constants.PRICE_BY_HOUSE_TYPE[adFormTypeField.value].max;
+  adFormPriceField.placeholder = minPrice;
+  adFormPriceField.min = minPrice;
+  adFormPriceField.max = maxPrice;
+  return {
+    min: minPrice,
+    max: maxPrice
   };
+};
 
-  // Устанавливать адрес объявления
-  const setAddressField = () => {
-    const pointX = mapPinMain.offsetLeft + window.map.halfMainPin.width - window.map.shiftRightPinImg;
+// установить минимальное значение поля (price field), когда поле пустое
+adFormPriceField.min = setPriceByHouseType().min;
 
-    const pointY = mapPinMain.offsetTop + window.map.halfMainPin.height;
+// Валидация цены за ночь
+const validatePriceField = (minValue, maxValue) => {
+  minValue = setPriceByHouseType().min;
+  maxValue = setPriceByHouseType().max;
 
-    adFormAddressField.value = `${pointX}, ${pointY}`;
-  };
+  const priceValue = adFormPriceField.value;
+  if (priceValue >= minValue && priceValue <= maxValue) {
+    adFormPriceField.setCustomValidity(``);
+  } else if (priceValue.length === 0) {
+    adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
+  } else if (priceValue > maxValue) {
+    adFormPriceField.setCustomValidity(`Цена данной тип жилья максимум до ${maxValue} руб.`);
+  } else {
+    adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
+  }
+};
 
-  // Устанавливать минимальную и максимальную цену по типу жилья
-  const setPriceByHouseType = (minPrice, maxPrice) => {
-    minPrice = window.constants.PRICE_BY_HOUSE_TYPE[adFormTypeField.value].min;
-    maxPrice = window.constants.PRICE_BY_HOUSE_TYPE[adFormTypeField.value].max;
-    adFormPriceField.placeholder = minPrice;
-    adFormPriceField.min = minPrice;
-    adFormPriceField.max = maxPrice;
-    return {
-      min: minPrice,
-      max: maxPrice
-    };
-  };
+// Валидация Time CheckIn
+const validateTimeCheckIn = () => {
+  adFormCheckoutField.value = adFormCheckinField.value;
+};
 
-  // установить минимальное значение поля (price field), когда поле пустое
-  adFormPriceField.min = setPriceByHouseType().min;
+// Валидация Time CheckOut
+const validateTimeCheckOut = () => {
+  adFormCheckinField.value = adFormCheckoutField.value;
+};
 
-  // Валидация цены за ночь
-  const validatePriceField = (minValue, maxValue) => {
-    minValue = setPriceByHouseType().min;
-    maxValue = setPriceByHouseType().max;
+// Валидация Guests And Rooms
+const validateGuestsAndRooms = (target) => {
+  const guestsValue = Number(adFormGuestsField.value);
+  const roomsValue = Number(adFormRoomsField.value);
 
-    const priceValue = adFormPriceField.value;
-    if (priceValue >= minValue && priceValue <= maxValue) {
-      adFormPriceField.setCustomValidity(``);
-    } else if (priceValue.length === 0) {
-      adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
-    } else if (priceValue > maxValue) {
-      adFormPriceField.setCustomValidity(`Цена данной тип жилья максимум до ${maxValue} руб.`);
-    } else {
-      adFormPriceField.setCustomValidity(`введите значение от ${minValue} до ${maxValue}`);
-    }
-  };
+  target.setCustomValidity(``);
 
-  // Валидация Time CheckIn
-  const validateTimeCheckIn = () => {
-    adFormCheckoutField.value = adFormCheckinField.value;
-  };
+  if (guestsValue !== 0 && roomsValue === ROOMS_100) {
+    target.setCustomValidity(`Не для гостей. Пожалуйста, выберите другой вариант.`);
+  }
 
-  // Валидация Time CheckOut
-  const validateTimeCheckOut = () => {
-    adFormCheckinField.value = adFormCheckoutField.value;
-  };
+  if (guestsValue === 0 && roomsValue !== ROOMS_100) {
+    target.setCustomValidity(`Для выбора (не для гостей). Пожалуйста, выберите максимальное количество комнат.`);
+  }
 
-  // Валидация Guests And Rooms
-  const validateGuestsAndRooms = (target) => {
-    const guestsValue = Number(adFormGuestsField.value);
-    const roomsValue = Number(adFormRoomsField.value);
+  if (guestsValue > roomsValue) {
+    target.setCustomValidity(`Слишком много гостей для данного выбора комнат. Пожалуйста, выберите больше комнат.`);
+  }
+};
 
-    target.setCustomValidity(``);
+// Валидация формы
 
-    if (guestsValue !== 0 && roomsValue === ROOMS_100) {
-      target.setCustomValidity(`Не для гостей. Пожалуйста, выберите другой вариант.`);
-    }
+adFormTitleField.addEventListener(`input`, () => {
+  validateTitleField();
+});
 
-    if (guestsValue === 0 && roomsValue !== ROOMS_100) {
-      target.setCustomValidity(`Для выбора (не для гостей). Пожалуйста, выберите максимальное количество комнат.`);
-    }
+adFormTypeField.addEventListener(`input`, () => {
+  setPriceByHouseType();
+});
 
-    if (guestsValue > roomsValue) {
-      target.setCustomValidity(`Слишком много гостей для данного выбора комнат. Пожалуйста, выберите больше комнат.`);
-    }
-  };
+adFormPriceField.addEventListener(`input`, () => {
+  validatePriceField();
+});
 
-  // Валидация формы
+adFormCheckinField.addEventListener(`change`, () => {
+  validateTimeCheckIn();
+});
 
-  adFormTitleField.addEventListener(`input`, () => {
-    validateTitleField();
-  });
+adFormCheckoutField.addEventListener(`change`, () => {
+  validateTimeCheckOut();
+});
 
-  adFormTypeField.addEventListener(`input`, () => {
-    setPriceByHouseType();
-  });
+adFormGuestsField.addEventListener(`change`, () => {
+  validateGuestsAndRooms(adFormGuestsField);
+});
 
-  adFormPriceField.addEventListener(`input`, () => {
-    validatePriceField();
-  });
+adFormRoomsField.addEventListener(`change`, () => {
+  validateGuestsAndRooms(adFormGuestsField);
+});
 
-  adFormCheckinField.addEventListener(`change`, () => {
-    validateTimeCheckIn();
-  });
+// отправка формы
+const onSubmitAdForm = (evt) => {
+  evt.preventDefault();
 
-  adFormCheckoutField.addEventListener(`change`, () => {
-    validateTimeCheckOut();
-  });
+  window.load.uploadData(new FormData(adForm), onSuccessDialog, onErrorDialog);
+};
 
-  adFormGuestsField.addEventListener(`change`, () => {
-    validateGuestsAndRooms(adFormGuestsField);
-  });
+adForm.addEventListener(`submit`, onSubmitAdForm);
 
-  adFormRoomsField.addEventListener(`change`, () => {
-    validateGuestsAndRooms(adFormGuestsField);
-  });
+// Сбросить форму
+const resetAdForm = () => {
+  adForm.reset();
+  window.filters.resetFilters();
+  window.main.deactivateBookingPage();
+};
 
-  // отправка формы
-  const onSubmitAdForm = (evt) => {
-    evt.preventDefault();
+adForm.addEventListener(`reset`, resetAdForm);
 
-    window.load.uploadData(new FormData(adForm), onSuccessDialog, onErrorDialog);
-  };
-
-  adForm.addEventListener(`submit`, onSubmitAdForm);
-
-  // Сбросить форму
-  const resetAdForm = () => {
-    adForm.reset();
-    window.filters.resetFilters();
-    window.main.deactivateBookingPage();
-  };
-
-  adForm.addEventListener(`reset`, resetAdForm);
-
-  window.form = {
-    setAddressField,
-    adFormAddressField,
-    resetAdForm
-  };
-})();
+window.form = {
+  setAddressField,
+  adFormAddressField,
+  resetAdForm
+};
