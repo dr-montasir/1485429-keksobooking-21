@@ -143,6 +143,7 @@ adForm.addEventListener(`submit`, onSubmitAdForm);
 // Сбросить форму
 const resetAdForm = () => {
   adForm.reset();
+  window.photos.resetPhotosUpload();
   window.filters.resetFilters();
   window.main.deactivateBookingPage();
 };

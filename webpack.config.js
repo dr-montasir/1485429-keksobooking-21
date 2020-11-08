@@ -11,7 +11,7 @@ module.exports = {
     `./js/pin.js`,
     `./js/move.js`,
     `./js/popup.js`,
-    `./js/picture.js`,
+    `./js/photos.js`,
     `./js/form.js`,
     `./js/main.js`
   ],
